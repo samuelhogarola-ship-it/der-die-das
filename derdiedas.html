@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DerDieDas — Vokabel Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+
+:root{
+  --bg:#F7F7F5;
+  --white:#FFFFFF;
+  --border:#E8E8E6;
+  --border2:#D4D4D1;
+  --text:#111110;
+  --muted:#6B6B68;
+  --muted2:#A8A8A4;
+  --der:#C0392B;
+  --die:#2563A8;
+  --das:#1A6B41;
+  --gold:#B8860B;
+  --gold-bg:#FBF6E8;
+  --premium:#5B3FBB;
+  --premium-bg:#F4F0FC;
+  --r:12px;
+  --rl:16px;
+  --sh:0 1px 3px rgba(0,0,0,0.05),0 0 0 1px rgba(0,0,0,0.06);
+  --sh2:0 4px 16px rgba(0,0,0,0.08),0 0 0 1px rgba(0,0,0,0.06);
+}
+
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* ─── UTILITY ─── */
+.hidden{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ─── SCREENS ─── */
+.screen{display:none;min-height:100vh}
+.screen.on{display:flex;flex-direction:column}
+
+/* ══════════════════════════════════════════════
+   LANDING
+══════════════════════════════════════════════ */
+/* TOP NAV */
+.nav{
+  background:var(--white);border-bottom:1px solid var(--border);
+  height:56px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;position:sticky;top:0;z-index:100
+}
+.nav-brand{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;color:var(--text)}
+.nav-logo{
+  width:34px;height:34px;background:var(--text);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0
+}
+.nav-logo svg{width:18px;height:18px}
+.nav-brandname{font-size:15px;font-weight:700;letter-spacing:-.3px}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{
+  padding:7px 14px;border-radius:8px;font-size:14px;font-weight:500;
+  color:var(--muted);cursor:pointer;border:none;background:none;
+  font-family:'Inter',sans-serif;transition:all .14s
+}
+.nav-link:hover{background:var(--bg);color:var(--text)}
+.nav-link.active{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.btn-sm{
+  padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;
+  cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s;white-space:nowrap
+}
+.btn-outline-sm{background:none;border:1px solid var(--border2);color:var(--text)}
+.btn-outline-sm:hover{background:var(--bg)}
+.btn-dark-sm{background:var(--text);color:var(--white)}
+.btn-dark-sm:hover{opacity:.82}
+
+/* HERO */
+.hero{
+  flex:1;display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;gap:48px;
+  max-width:1100px;margin:0 auto;padding:80px 32px;width:100%
+}
+.hero-text h1{
+  font-size:52px;font-weight:900;line-height:1.08;
+  letter-spacing:-1.5px;margin-bottom:20px
+}
+.hero-text p{font-size:17px;color:var(--muted);line-height:1.6;max-width:440px;margin-bottom:32px}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn-hero{
+  padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;
+  cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s
+}
+.btn-hero-primary{background:var(--text);color:var(--white)}
+.btn-hero-primary:hover{opacity:.82}
+.btn-hero-ghost{background:none;border:1px solid var(--border2);color:var(--text)}
+.btn-hero-ghost:hover{background:var(--white)}
+.hero-note{font-size:13px;color:var(--muted2);margin-top:14px}
+
+/* HERO VISUAL */
+.hero-visual{
+  background:var(--white);border:1px solid var(--border);border-radius:20px;
+  padding:32px;box-shadow:var(--sh2);
+}
+.hero-art-row{display:flex;gap:10px;margin-bottom:20px}
+.hero-art{
+  flex:1;padding:18px 12px;border-radius:12px;text-align:center;
+  font-size:28px;font-weight:900;letter-spacing:-.5px;border:2px solid
+}
+.hero-art.der{background:#FFF2F2;color:var(--der);border-color:#F0CECE}
+.hero-art.die{background:#EEF4FC;color:var(--die);border-color:#C5D9F2}
+.hero-art.das{background:#EEF7F2;color:var(--das);border-color:#B8D9C8}
+.hero-word-demo{text-align:center}
+.hero-word-demo .big{font-size:38px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+.hero-word-demo .small{font-size:14px;color:var(--muted)}
+.hero-article-reveal{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:14px;padding:10px 18px;border-radius:10px;
+  background:var(--das);color:var(--white);font-weight:700;font-size:16px
+}
+
+/* FEATURES */
+.features{background:var(--white);border-top:1px solid var(--border);padding:80px 32px}
+.features-inner{max-width:1100px;margin:0 auto}
+.features h2{font-size:30px;font-weight:800;text-align:center;margin-bottom:8px;letter-spacing:-.5px}
+.features-sub{text-align:center;color:var(--muted);font-size:16px;margin-bottom:52px}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feat-card{padding:28px;border-radius:var(--rl);background:var(--bg);border:1px solid var(--border)}
+.feat-icon{
+  width:44px;height:44px;border-radius:10px;background:var(--white);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px
+}
+.feat-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.feat-card p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* PRICING */
+.pricing{padding:80px 32px;background:var(--bg)}
+.pricing-inner{max-width:860px;margin:0 auto}
+.pricing h2{font-size:30px;font-weight:800;text-align:center;margin-bottom:8px;letter-spacing:-.5px}
+.pricing-sub{text-align:center;color:var(--muted);font-size:16px;margin-bottom:48px}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.plan-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--rl);
+  padding:32px;box-shadow:var(--sh)
+}
+.plan-card.featured{border:2px solid var(--text);box-shadow:var(--sh2)}
+.plan-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.plan-name{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.plan-badge{
+  font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;
+  background:var(--text);color:var(--white);letter-spacing:.3px
+}
+.plan-price{margin-bottom:24px}
+.plan-price .amount{font-size:42px;font-weight:900;letter-spacing:-1.5px}
+.plan-price .per{font-size:14px;color:var(--muted);margin-left:4px}
+.plan-price .free-label{font-size:28px;font-weight:900}
+.plan-features{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:10px}
+.plan-features li{display:flex;align-items:flex-start;gap:10px;font-size:14px}
+.plan-features li::before{
+  content:'';width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:1px;
+  background:url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23111110'/%3E%3Cpath d='M4.5 8L6.5 10L11.5 5.5' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/cover
+}
+.plan-features li.dim{color:var(--muted2)}
+.plan-features li.dim::before{
+  background:url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23E8E8E6'/%3E%3Cpath d='M5 11L11 5M5 5L11 11' stroke='%23A8A8A4' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") center/cover
+}
+.plan-cta{
+  width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;
+  cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s
+}
+.plan-cta-outline{background:none;border:1px solid var(--border2);color:var(--text)}
+.plan-cta-outline:hover{background:var(--bg)}
+.plan-cta-dark{background:var(--text);color:var(--white)}
+.plan-cta-dark:hover{opacity:.82}
+
+/* HOW IT WORKS */
+.how{background:var(--white);border-top:1px solid var(--border);padding:80px 32px}
+.how-inner{max-width:900px;margin:0 auto}
+.how h2{font-size:30px;font-weight:800;text-align:center;margin-bottom:8px;letter-spacing:-.5px}
+.how-sub{text-align:center;color:var(--muted);font-size:16px;margin-bottom:52px}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.how-step{text-align:center}
+.step-num{
+  width:48px;height:48px;border-radius:50%;background:var(--text);color:var(--white);
+  display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;
+  margin:0 auto 16px
+}
+.how-step h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.how-step p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* CTA BANNER */
+.cta-banner{
+  background:var(--text);padding:64px 32px;text-align:center
+}
+.cta-banner h2{font-size:32px;font-weight:900;color:var(--white);margin-bottom:10px;letter-spacing:-.5px}
+.cta-banner p{font-size:16px;color:rgba(255,255,255,.6);margin-bottom:28px}
+.btn-cta-white{
+  padding:14px 32px;border-radius:10px;background:var(--white);color:var(--text);
+  font-size:15px;font-weight:700;cursor:pointer;border:none;
+  font-family:'Inter',sans-serif;transition:opacity .14s
+}
+.btn-cta-white:hover{opacity:.88}
+
+/* FOOTER */
+footer{
+  background:var(--white);border-top:1px solid var(--border);
+  padding:24px 32px;display:flex;align-items:center;justify-content:space-between;
+  font-size:13px;color:var(--muted)
+}
+.footer-brand{font-weight:600;color:var(--text)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{color:var(--muted);text-decoration:none}
+.footer-links a:hover{color:var(--text)}
+
+/* ══════════════════════════════════════════════
+   AUTH MODAL
+══════════════════════════════════════════════ */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.45);
+  z-index:500;display:none;align-items:center;justify-content:center;padding:20px
+}
+.overlay.on{display:flex}
+.modal{
+  background:var(--white);border-radius:20px;width:100%;max-width:420px;
+  padding:36px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.18)
+}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:8px;
+  background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:background .13s
+}
+.modal-close:hover{background:var(--bg)}
+.modal-logo{
+  width:42px;height:42px;background:var(--text);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 20px
+}
+.modal-logo svg{width:22px;height:22px}
+.modal h2{font-size:22px;font-weight:800;text-align:center;margin-bottom:6px;letter-spacing:-.3px}
+.modal-sub{font-size:14px;color:var(--muted);text-align:center;margin-bottom:28px}
+.modal-tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:28px;
+  background:var(--bg);border-radius:10px;padding:3px}
+.mtab{
+  padding:8px;border-radius:8px;font-size:14px;font-weight:600;
+  cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;
+  color:var(--muted);transition:all .14s
+}
+.mtab.on{background:var(--white);color:var(--text);box-shadow:var(--sh)}
+
+/* AUTH FORMS */
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.auth-form.hidden{display:none}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.2px}
+.field input{
+  padding:10px 13px;border:1px solid var(--border2);border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
+  background:var(--white);outline:none;transition:border-color .14s
+}
+.field input:focus{border-color:var(--text)}
+.field input::placeholder{color:var(--muted2)}
+.btn-auth{
+  padding:12px;border-radius:9px;background:var(--text);color:var(--white);
+  font-size:14px;font-weight:700;cursor:pointer;border:none;
+  font-family:'Inter',sans-serif;transition:opacity .14s;margin-top:4px
+}
+.btn-auth:hover{opacity:.82}
+.auth-divider{text-align:center;font-size:12px;color:var(--muted2);position:relative;margin:4px 0}
+.auth-divider::before,.auth-divider::after{
+  content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border)
+}
+.auth-divider::before{left:0}
+.auth-divider::after{right:0}
+.btn-google{
+  padding:11px;border-radius:9px;background:var(--white);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;
+  transition:background .14s
+}
+.btn-google:hover{background:var(--bg)}
+.forgot-link{text-align:right;font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;margin-top:-6px}
+.forgot-link:hover{color:var(--text)}
+.auth-switch{text-align:center;font-size:13px;color:var(--muted);margin-top:8px}
+.auth-switch span{color:var(--text);font-weight:600;cursor:pointer}
+.auth-switch span:hover{text-decoration:underline}
+.auth-msg{font-size:13px;padding:10px 13px;border-radius:8px;margin-top:4px;display:none}
+.auth-msg.ok{background:#EEF7F2;color:var(--das);border:1px solid #B8D9C8}
+.auth-msg.err{background:#FFF2F2;color:var(--der);border:1px solid #F0CECE}
+.auth-msg.show{display:block}
+
+/* Forgot password sub-view */
+.forgot-view{display:none;flex-direction:column;gap:12px}
+.forgot-view.on{display:flex}
+.back-link{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);
+  cursor:pointer;width:fit-content;margin-bottom:4px}
+.back-link:hover{color:var(--text)}
+
+/* ══════════════════════════════════════════════
+   APP SHELL (post-login or demo)
+══════════════════════════════════════════════ */
+.app{flex:1;display:flex;flex-direction:column}
+
+/* APP NAV */
+.app-nav{
+  background:var(--white);border-bottom:1px solid var(--border);
+  height:54px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;position:sticky;top:0;z-index:100;flex-shrink:0
+}
+.app-brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
+.app-logo{
+  width:30px;height:30px;background:var(--text);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0
+}
+.app-logo svg{width:16px;height:16px}
+.app-brandname{font-size:14px;font-weight:700}
+.app-nav-right{display:flex;align-items:center;gap:8px}
+.streak-pill{
+  display:flex;align-items:center;gap:5px;padding:5px 12px;
+  border-radius:99px;background:var(--gold-bg);border:1px solid #E8D8A0;
+  font-size:13px;font-weight:600;color:var(--gold)
+}
+.user-btn{
+  display:flex;align-items:center;gap:7px;padding:5px 10px;border-radius:8px;
+  cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:500;color:var(--muted);transition:background .13s
+}
+.user-btn:hover{background:var(--bg)}
+.user-av{
+  width:26px;height:26px;border-radius:50%;background:var(--bg);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;
+  color:var(--text);flex-shrink:0
+}
+.plan-chip{
+  font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;
+  background:var(--bg);border:1px solid var(--border2);color:var(--muted);letter-spacing:.2px
+}
+.plan-chip.pro{background:var(--text);color:var(--white);border-color:var(--text)}
+
+/* ── VIEWS ── */
+.view{display:none;flex:1}
+.view.on{display:flex;flex-direction:column}
+
+/* ══════════════════════════════════════════════
+   VIEW: NIVELES
+══════════════════════════════════════════════ */
+.levels-view{
+  max-width:960px;margin:0 auto;padding:48px 28px;width:100%
+}
+.view-header{margin-bottom:32px}
+.view-header h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.view-header p{font-size:15px;color:var(--muted)}
+
+.levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.level-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--rl);
+  padding:22px;cursor:pointer;transition:all .16s;position:relative;overflow:hidden
+}
+.level-card:hover:not(.locked){border-color:var(--border2);box-shadow:var(--sh2);transform:translateY(-1px)}
+.level-card.locked{opacity:.6;cursor:not-allowed}
+.lc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.lc-badge-wrap{display:flex;align-items:center;gap:10px}
+.lc-lvl{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;flex-shrink:0
+}
+.lc-lvl.a1{background:#EEF4FC;color:var(--die)}
+.lc-lvl.a2{background:#EEF7F2;color:var(--das)}
+.lc-lvl.b1{background:#FBF6E8;color:var(--gold)}
+.lc-lvl.b2{background:#FFF7EE;color:#C06020}
+.lc-lvl.c1{background:var(--premium-bg);color:var(--premium)}
+.lc-lvl.c2{background:#FFF2F2;color:var(--der)}
+.lc-name{font-size:15px;font-weight:700}
+.lc-desc{font-size:12px;color:var(--muted)}
+.lc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.lc-count{font-size:12px;color:var(--muted2)}
+.lc-pro{
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;
+  background:var(--premium-bg);color:var(--premium);border:1px solid #D4C8F5;letter-spacing:.2px
+}
+.lc-arrow{color:var(--muted2)}
+
+/* ══════════════════════════════════════════════
+   VIEW: CATEGORÍAS
+══════════════════════════════════════════════ */
+.cats-view{
+  max-width:960px;margin:0 auto;padding:48px 28px;width:100%
+}
+.back-btn{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;
+  border-radius:9px;background:var(--white);border:1px solid var(--border);
+  font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .14s;margin-bottom:24px;
+  box-shadow:var(--sh)
+}
+.back-btn:hover{background:var(--bg);color:var(--text)}
+
+.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cat-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--rl);
+  padding:18px 20px;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:14px;position:relative
+}
+.cat-card:hover:not(.locked){border-color:var(--border2);box-shadow:var(--sh2)}
+.cat-card.locked{opacity:.55;cursor:not-allowed}
+.cat-icon-box{
+  width:36px;height:36px;border-radius:9px;background:var(--bg);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0
+}
+.cat-info{flex:1}
+.cat-name-text{font-size:15px;font-weight:600;margin-bottom:1px}
+.cat-count-text{font-size:12px;color:var(--muted2)}
+.cat-pro-tag{
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;
+  background:var(--premium-bg);color:var(--premium);flex-shrink:0
+}
+.cat-arrow{color:var(--muted2);flex-shrink:0}
+
+/* ══════════════════════════════════════════════
+   VIEW: QUIZ
+══════════════════════════════════════════════ */
+.quiz-view{
+  max-width:560px;margin:0 auto;padding:40px 24px;width:100%
+}
+.quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.qbar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.qbar-fill{height:100%;background:var(--text);border-radius:2px;transition:width .3s ease}
+.qcount{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
+.q-exit{
+  background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;
+  border-radius:7px;display:flex;align-items:center;transition:all .13s
+}
+.q-exit:hover{background:var(--border);color:var(--text)}
+
+.q-card{
+  background:var(--white);border:1.5px solid var(--border);border-radius:20px;
+  padding:52px 36px 40px;text-align:center;margin-bottom:16px;
+  box-shadow:var(--sh2);min-height:240px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  transition:border-color .2s
+}
+.q-card.ok{border-color:var(--das)}
+.q-card.ko{border-color:var(--der)}
+.q-prompt{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
+.q-word{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1}
+.q-trans{font-size:15px;color:var(--muted)}
+.q-fb{font-size:13px;line-height:1.5;padding:9px 16px;border-radius:9px;display:none;max-width:300px}
+.q-fb.show{display:block}
+.q-fb.ok{background:#EEF7F2;color:var(--das);border:1px solid #B8D9C8}
+.q-fb.ko{background:#FFF2F2;color:var(--der);border:1px solid #F0CECE}
+
+.art-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.a-btn{
+  padding:17px 8px;border-radius:12px;border:1.5px solid;
+  font-size:26px;font-weight:900;cursor:pointer;background:var(--white);
+  transition:all .15s;letter-spacing:-.5px;font-family:'Inter',sans-serif
+}
+.a-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:var(--sh2)}
+.a-btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
+.a-btn.der{border-color:#F0CECE;color:var(--der)}
+.a-btn.die{border-color:#C5D9F2;color:var(--die)}
+.a-btn.das{border-color:#B8D9C8;color:var(--das)}
+.a-btn.der:hover:not(:disabled){background:#FFF2F2}
+.a-btn.die:hover:not(:disabled){background:#EEF4FC}
+.a-btn.das:hover:not(:disabled){background:#EEF7F2}
+.a-btn.v-ok{background:#EEF7F2!important;border-color:var(--das)!important;color:var(--das)!important}
+.a-btn.v-ko{background:#FFF2F2!important;border-color:var(--der)!important;color:var(--der)!important}
+
+.btn-next-q{
+  width:100%;padding:11px;border-radius:10px;background:none;
+  border:1px solid var(--border2);font-size:14px;color:var(--muted);
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .14s
+}
+.btn-next-q:hover{background:var(--white);color:var(--text)}
+
+/* Limit screen */
+.limit-box{
+  text-align:center;padding:48px 32px;
+  background:var(--white);border:1px solid var(--border);border-radius:20px;
+  box-shadow:var(--sh2)
+}
+.limit-icon{font-size:40px;margin-bottom:16px}
+.limit-box h2{font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.limit-box p{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6;max-width:340px;margin-left:auto;margin-right:auto}
+
+/* Result */
+.result-box{
+  background:var(--white);border:1px solid var(--border);border-radius:20px;
+  padding:48px 36px;text-align:center;box-shadow:var(--sh2)
+}
+.r-pct{font-size:80px;font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:6px}
+.r-lbl{font-size:15px;color:var(--muted);margin-bottom:28px}
+.r-arts{display:flex;justify-content:center;gap:28px;margin-bottom:28px}
+.r-art{text-align:center}
+.r-art .n{font-size:26px;font-weight:800}
+.r-art .l{font-size:12px;color:var(--muted);margin-top:2px}
+.r-art.rd .n{color:var(--der)}
+.r-art.ri .n{color:var(--die)}
+.r-art.rn .n{color:var(--das)}
+.r-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* ══════════════════════════════════════════════
+   VIEW: ESTADÍSTICAS
+══════════════════════════════════════════════ */
+.stats-view{max-width:960px;margin:0 auto;padding:48px 28px;width:100%}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.s-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh)}
+.s-lbl{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500}
+.s-val{font-size:28px;font-weight:800;letter-spacing:-1px}
+.s-note{font-size:12px;color:var(--muted2);margin-top:3px}
+
+/* ══════════════════════════════════════════════
+   UPSELL INLINE
+══════════════════════════════════════════════ */
+.upsell-bar{
+  background:var(--premium-bg);border:1px solid #D4C8F5;border-radius:12px;
+  padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px
+}
+.upsell-bar .ub-text{flex:1}
+.upsell-bar .ub-title{font-size:13px;font-weight:700;color:var(--premium);margin-bottom:2px}
+.upsell-bar .ub-sub{font-size:12px;color:var(--muted)}
+.ub-btn{
+  padding:8px 14px;border-radius:9px;background:var(--premium);color:var(--white);
+  font-size:12px;font-weight:700;cursor:pointer;border:none;
+  font-family:'Inter',sans-serif;white-space:nowrap;transition:opacity .14s;flex-shrink:0
+}
+.ub-btn:hover{opacity:.82}
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(8px);
+  background:var(--text);color:var(--white);padding:10px 20px;border-radius:99px;
+  font-size:13px;font-weight:600;opacity:0;transition:all .22s;
+  pointer-events:none;z-index:999;white-space:nowrap
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding:60px 24px;gap:40px}
+  .hero-text h1{font-size:38px}
+  .hero-visual{max-width:480px;margin:0 auto;width:100%}
+  .feat-grid,.how-steps{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .levels-grid{grid-template-columns:1fr 1fr}
+  .cats-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media(max-width:600px){
+  .nav{padding:0 16px;height:50px}
+  .levels-grid,.cats-grid{grid-template-columns:1fr}
+  .levels-view,.cats-view,.quiz-view,.stats-view{padding:24px 16px}
+  .q-word{font-size:44px}
+  .q-card{padding:36px 20px 28px}
+  .art-row{gap:7px}
+  .a-btn{font-size:22px;padding:14px 4px}
+  .feat-grid{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .hero-text h1{font-size:32px}
+  footer{flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SCREEN: LANDING ══ -->
+<div class="screen on" id="s-landing">
+
+  <nav class="nav">
+    <a class="nav-brand" href="#" onclick="return false">
+      <div class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <span class="nav-brandname">DerDieDas</span>
+    </a>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="scrollTo(0,0)">Inicio</button>
+      <button class="nav-link" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Funciones</button>
+      <button class="nav-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
+    </div>
+    <div class="nav-right">
+      <button class="btn-sm btn-outline-sm" onclick="openAuth('login')">Iniciar sesión</button>
+      <button class="btn-sm btn-dark-sm" onclick="openAuth('register')">Empezar gratis</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>No más dolores de cabeza con los artículos.</h1>
+      <p>Aprende der, die y das de forma intuitiva. Vocabulario categorizado de A1 a C2, adaptado al Marco Común Europeo.</p>
+      <div class="hero-actions">
+        <button class="btn-hero btn-hero-primary" onclick="openAuth('register')">Empezar gratis →</button>
+        <button class="btn-hero btn-hero-ghost" onclick="enterDemo()">Probar sin cuenta</button>
+      </div>
+      <div class="hero-note">Sin tarjeta de crédito · 3 rondas gratuitas al día</div>
+    </div>
+    <div class="hero-visual">
+      <div style="text-align:center;margin-bottom:20px">
+        <!-- Logo placeholder — reemplaza con tu imagen -->
+        <div style="width:80px;height:80px;background:var(--text);border-radius:18px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div style="font-size:11px;color:var(--muted2);font-weight:500">← Tu logo aquí</div>
+      </div>
+      <div class="hero-art-row">
+        <div class="hero-art der">der</div>
+        <div class="hero-art die">die</div>
+        <div class="hero-art das">das</div>
+      </div>
+      <div class="hero-word-demo">
+        <div class="big">Haus</div>
+        <div class="small">¿Cuál es el artículo correcto?</div>
+        <div class="hero-article-reveal">das ✓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="features">
+    <div class="how-inner">
+      <h2>Así funciona</h2>
+      <p class="how-sub">Tres pasos para dominar los artículos alemanes</p>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="step-num">1</div>
+          <h3>Elige tu nivel</h3>
+          <p>Selecciona entre A1 y C2 según el Marco Común Europeo. No pierdas tiempo con vocabulario que no necesitas.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">2</div>
+          <h3>Escoge una categoría</h3>
+          <p>Animales, hogar, trabajo, salud… Aprende en contexto. Las palabras relacionadas se aprenden juntas.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">3</div>
+          <h3>Practica y progresa</h3>
+          <p>Adivina el artículo. Recibe feedback inmediato con la regla gramatical. Construye intuición real.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="features-inner">
+      <h2>Ruta de aprendizaje estructurada</h2>
+      <p class="features-sub">Progresa desde palabras cotidianas hasta vocabulario académico avanzado.</p>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="16" height="16" rx="4"/><path d="M6 10h8M6 7h5M6 13h3" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Contenido separado por niveles</h3>
+          <p>Niveles A1 a C2 adaptados al MCER. Elige tu nivel, no aprendas palabras que no necesitas ahora.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 3" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Aprende por categorías</h3>
+          <p>Aprende en contexto. Palabras agrupadas por tema. Opción de ver cada palabra en una frase completa.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 14l4-4 4 4 6-8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Acceso a estadísticas</h3>
+          <p>Lleva un control exacto de tu progreso. ¿Qué palabra se te atraganta más? ¿Qué terminación no has interiorizado?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="pricing-inner">
+      <h2>Planes simples y claros</h2>
+      <p class="pricing-sub">Empieza gratis. Desbloquea todo cuando lo necesites.</p>
+      <div class="pricing-grid">
+        <div class="plan-card">
+          <div class="plan-top">
+            <div class="plan-name">Gratuito</div>
+          </div>
+          <div class="plan-price">
+            <span class="free-label">Gratis</span>
+          </div>
+          <ul class="plan-features">
+            <li>Niveles A1 y A2</li>
+            <li>5 categorías básicas</li>
+            <li>3 rondas de práctica al día</li>
+            <li>Estadísticas básicas</li>
+            <li class="dim">Niveles B1, B2, C1, C2</li>
+            <li class="dim">Todas las categorías</li>
+            <li class="dim">Rondas ilimitadas</li>
+            <li class="dim">Estadísticas avanzadas</li>
+          </ul>
+          <button class="plan-cta plan-cta-outline" onclick="enterDemo()">Probar gratis</button>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-top">
+            <div class="plan-name">Premium</div>
+            <div class="plan-badge">Más popular</div>
+          </div>
+          <div class="plan-price">
+            <span class="amount">4,99€</span>
+            <span class="per">/ mes</span>
+          </div>
+          <ul class="plan-features">
+            <li>Todos los niveles A1–C2</li>
+            <li>Todas las categorías</li>
+            <li>Rondas ilimitadas cada día</li>
+            <li>Estadísticas avanzadas</li>
+            <li>Sin publicidad</li>
+            <li>Acceso a nuevas categorías</li>
+            <li>Soporte prioritario</li>
+          </ul>
+          <button class="plan-cta plan-cta-dark" onclick="openAuth('register')">Empezar con Premium →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>Empieza a practicar hoy</h2>
+    <p>Únete y deja de adivinar. Construye intuición real con los artículos alemanes.</p>
+    <button class="btn-cta-white" onclick="openAuth('register')">Crear cuenta gratis →</button>
+  </section>
+
+  <footer>
+    <div class="footer-brand">DerDieDas · Vokabel Lab</div>
+    <div class="footer-links">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="#">Contacto</a>
+    </div>
+    <div>© 2026 Vokabel Lab</div>
+  </footer>
+
+</div><!-- /landing -->
+
+<!-- ══ AUTH OVERLAY ══ -->
+<div class="overlay" id="authOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuth()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+    </button>
+    <div class="modal-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    </div>
+    <h2 id="modalTitle">Bienvenido</h2>
+    <p class="modal-sub" id="modalSub">Continúa con tu cuenta</p>
+
+    <div class="modal-tabs">
+      <button class="mtab on" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
+      <button class="mtab" id="tab-register" onclick="switchTab('register')">Crear cuenta</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-form" id="form-login">
+      <button class="btn-google" onclick="handleGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2a10.3 10.3 0 00-.16-1.8H9v3.4h4.84a4.14 4.14 0 01-1.8 2.72v2.26h2.92A8.78 8.78 0 0017.64 9.2z" fill="#4285F4"/><path d="M9 18a8.6 8.6 0 005.96-2.18l-2.91-2.26a5.43 5.43 0 01-8.09-2.85H.96v2.33A9 9 0 009 18z" fill="#34A853"/><path d="M3.96 10.71A5.41 5.41 0 013.68 9c0-.59.1-1.17.28-1.71V4.96H.96A9 9 0 000 9c0 1.45.35 2.82.96 4.04l3-2.33z" fill="#FBBC05"/><path d="M9 3.58a4.86 4.86 0 013.44 1.35l2.58-2.58A8.64 8.64 0 009 0 9 9 0 00.96 4.96l3 2.33A5.36 5.36 0 019 3.58z" fill="#EA4335"/></svg>
+        Continuar con Google
+      </button>
+      <div class="auth-divider">o</div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="li-email" placeholder="tu@email.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="forgot-link" onclick="showForgot()">¿Olvidaste tu contraseña?</div>
+      <button class="btn-auth" onclick="handleLogin()">Iniciar sesión →</button>
+      <div class="auth-msg" id="li-msg"></div>
+      <div class="auth-switch">¿No tienes cuenta? <span onclick="switchTab('register')">Crear cuenta gratis</span></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-form hidden" id="form-register">
+      <button class="btn-google" onclick="handleGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2a10.3 10.3 0 00-.16-1.8H9v3.4h4.84a4.14 4.14 0 01-1.8 2.72v2.26h2.92A8.78 8.78 0 0017.64 9.2z" fill="#4285F4"/><path d="M9 18a8.6 8.6 0 005.96-2.18l-2.91-2.26a5.43 5.43 0 01-8.09-2.85H.96v2.33A9 9 0 009 18z" fill="#34A853"/><path d="M3.96 10.71A5.41 5.41 0 013.68 9c0-.59.1-1.17.28-1.71V4.96H.96A9 9 0 000 9c0 1.45.35 2.82.96 4.04l3-2.33z" fill="#FBBC05"/><path d="M9 3.58a4.86 4.86 0 013.44 1.35l2.58-2.58A8.64 8.64 0 009 0 9 9 0 00.96 4.96l3 2.33A5.36 5.36 0 019 3.58z" fill="#EA4335"/></svg>
+        Registrarse con Google
+      </button>
+      <div class="auth-divider">o</div>
+      <div class="field">
+        <label>Nombre</label>
+        <input type="text" id="rg-name" placeholder="Tu nombre" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="rg-email" placeholder="tu@email.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="rg-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+      </div>
+      <button class="btn-auth" onclick="handleRegister()">Crear cuenta gratis →</button>
+      <div class="auth-msg" id="rg-msg"></div>
+      <div class="auth-switch">¿Ya tienes cuenta? <span onclick="switchTab('login')">Iniciar sesión</span></div>
+    </div>
+
+    <!-- FORGOT PASSWORD -->
+    <div class="forgot-view" id="forgot-view">
+      <div class="back-link" onclick="hideForgot()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1L3 7l6 6"/></svg>
+        Volver
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:4px">Introduce tu email y te enviaremos un enlace para restablecer tu contraseña.</p>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="fp-email" placeholder="tu@email.com">
+      </div>
+      <button class="btn-auth" onclick="handleForgot()">Enviar enlace →</button>
+      <div class="auth-msg" id="fp-msg"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SCREEN: APP ══ -->
+<div class="screen" id="s-app">
+  <!-- APP NAV -->
+  <nav class="app-nav">
+    <a class="app-brand" href="#" onclick="goView('levels');return false">
+      <div class="app-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <span class="app-brandname">DerDieDas</span>
+    </a>
+
+    <div style="display:flex;align-items:center;gap:4px">
+      <button class="nav-link" onclick="goView('levels')" id="anav-niveles">Niveles</button>
+      <button class="nav-link" onclick="goView('stats')" id="anav-stats">Estadísticas</button>
+      <button class="nav-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" onclick="showToast('Redirigiendo a planes…')">Planes</button>
+    </div>
+
+    <div class="app-nav-right">
+      <div class="streak-pill">🔥 <span id="appStreak">0</span> días</div>
+      <button class="user-btn" onclick="showToast('Perfil próximamente')">
+        <div class="user-av" id="appAv">?</div>
+        <span id="appName">Demo</span>
+        <span class="plan-chip" id="planChip">Free</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="app" id="appShell">
+
+    <!-- VIEW: LEVELS -->
+    <div class="view on" id="v-levels">
+      <div class="levels-view">
+        <div class="view-header">
+          <h1>Niveles</h1>
+          <p>Elige tu nivel MCER para empezar a practicar</p>
+        </div>
+        <div class="levels-grid" id="levelsGrid"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: CATS -->
+    <div class="view" id="v-cats">
+      <div class="cats-view">
+        <button class="back-btn" onclick="goView('levels')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1L3 7l6 6"/></svg>
+          Volver a niveles
+        </button>
+        <div class="view-header">
+          <h1 id="catsTitle">Categorías de A1</h1>
+          <p>Elige un tema para practicar</p>
+        </div>
+        <div class="cats-grid" id="catsGrid"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: QUIZ -->
+    <div class="view" id="v-quiz">
+      <div class="quiz-view">
+        <div id="quizInner"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: STATS -->
+    <div class="view" id="v-stats">
+      <div class="stats-view">
+        <div class="view-header">
+          <h1>Estadísticas</h1>
+          <p>Tu progreso de hoy</p>
+        </div>
+        <div class="stats-grid">
+          <div class="s-card"><div class="s-lbl">Rondas hoy</div><div class="s-val" id="stRounds">0</div><div class="s-note">de 3 gratuitas</div></div>
+          <div class="s-card"><div class="s-lbl">Palabras practicadas</div><div class="s-val" id="stWords">0</div><div class="s-note">en esta sesión</div></div>
+          <div class="s-card"><div class="s-lbl">Precisión</div><div class="s-val" id="stAcc">—</div><div class="s-note">respuestas correctas</div></div>
+        </div>
+        <div class="upsell-bar">
+          <div class="ub-text">
+            <div class="ub-title">Estadísticas avanzadas con Premium</div>
+            <div class="ub-sub">Descubre qué terminaciones te cuestan más, historial completo y mucho más</div>
+          </div>
+          <button class="ub-btn" onclick="showToast('Redirigiendo a planes…')">Ver planes →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /app screen -->
+
+<!-- TOAST -->
+<div class="toast" id="toastEl"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// SUPABASE CONFIG — replace with your keys
+// ═══════════════════════════════════════════
+const SB_URL = 'https://YOUR_PROJECT.supabase.co';
+const SB_KEY = 'YOUR_ANON_KEY';
+
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const LEVELS = [
+  {id:'a1',label:'A1',name:'Principiante',desc:'Primeras palabras del día a día',count:180,free:true},
+  {id:'a2',label:'A2',name:'Elemental',desc:'Conversaciones básicas y cotidianas',count:240,free:true},
+  {id:'b1',label:'B1',name:'Intermedio',desc:'Independencia comunicativa',count:320,free:false},
+  {id:'b2',label:'B2',name:'Intermedio alto',desc:'Textos complejos y debate',count:410,free:false},
+  {id:'c1',label:'C1',name:'Avanzado',desc:'Expresión fluida y matizada',count:380,free:false},
+  {id:'c2',label:'C2',name:'Maestría',desc:'Dominio a nivel nativo',count:290,free:false},
+];
+
+const CATS_BY_LEVEL = {
+  a1:[
+    {id:'animals',name:'Animals',icon:'🐾',count:28,free:true},
+    {id:'clothes',name:'Clothes',icon:'👕',count:22,free:true},
+    {id:'family',name:'Family',icon:'👨‍👩‍👧',count:18,free:true},
+    {id:'food',name:'Food',icon:'🍎',count:34,free:true},
+    {id:'house',name:'House',icon:'🏠',count:26,free:true},
+    {id:'kitchen',name:'Kitchen',icon:'🍳',count:20,free:false},
+    {id:'numbers',name:'Numbers',icon:'🔢',count:15,free:false},
+    {id:'colors',name:'Colors',icon:'🎨',count:14,free:false},
+    {id:'body',name:'Body',icon:'🫀',count:24,free:false},
+  ],
+  a2:[
+    {id:'health',name:'Health',icon:'🏥',count:30,free:true},
+    {id:'hobbies',name:'Hobbies',icon:'🎯',count:26,free:true},
+    {id:'school',name:'School',icon:'📚',count:28,free:true},
+    {id:'shopping',name:'Shopping',icon:'🛍',count:24,free:false},
+    {id:'sports',name:'Sports',icon:'⚽',count:22,free:false},
+    {id:'travel',name:'Travel',icon:'✈️',count:32,free:false},
+    {id:'work',name:'Work',icon:'💼',count:28,free:false},
+    {id:'weather',name:'Weather',icon:'☀️',count:18,free:false},
+  ],
+  b1:[
+    {id:'politics',name:'Politics',icon:'🏛',count:40,free:false},
+    {id:'technology',name:'Technology',icon:'💻',count:44,free:false},
+    {id:'culture',name:'Culture',icon:'🎭',count:36,free:false},
+    {id:'environment',name:'Environment',icon:'🌿',count:32,free:false},
+    {id:'media',name:'Media',icon:'📰',count:28,free:false},
+    {id:'finance',name:'Finance',icon:'💰',count:38,free:false},
+  ],
+  b2:[
+    {id:'law',name:'Law',icon:'⚖️',count:42,free:false},
+    {id:'medicine',name:'Medicine',icon:'💊',count:46,free:false},
+    {id:'philosophy',name:'Philosophy',icon:'🧠',count:34,free:false},
+    {id:'history',name:'History',icon:'📜',count:38,free:false},
+  ],
+  c1:[
+    {id:'literature',name:'Literature',icon:'📖',count:44,free:false},
+    {id:'science',name:'Science',icon:'🔬',count:50,free:false},
+    {id:'economics',name:'Economics',icon:'📊',count:46,free:false},
+  ],
+  c2:[
+    {id:'academic',name:'Academic',icon:'🎓',count:60,free:false},
+    {id:'idioms',name:'Idioms',icon:'💬',count:48,free:false},
+    {id:'specialized',name:'Specialized',icon:'🔭',count:52,free:false},
+  ],
+};
+
+const WORD_POOL = {
+  animals:[
+    {a:'der',w:'Hund',t:'el perro'},{a:'die',w:'Katze',t:'la gata'},
+    {a:'das',w:'Pferd',t:'el caballo'},{a:'der',w:'Vogel',t:'el pájaro'},
+    {a:'die',w:'Maus',t:'el ratón'},{a:'das',w:'Tier',t:'el animal'},
+    {a:'der',w:'Fisch',t:'el pez'},{a:'die',w:'Ente',t:'el pato'},
+    {a:'der',w:'Bär',t:'el oso'},{a:'die',w:'Kuh',t:'la vaca'},
+  ],
+  clothes:[
+    {a:'das',w:'Hemd',t:'la camisa'},{a:'die',w:'Hose',t:'el pantalón'},
+    {a:'der',w:'Mantel',t:'el abrigo'},{a:'die',w:'Jacke',t:'la chaqueta'},
+    {a:'der',w:'Schuh',t:'el zapato'},{a:'das',w:'Kleid',t:'el vestido'},
+    {a:'die',w:'Mütze',t:'el gorro'},{a:'der',w:'Schal',t:'la bufanda'},
+  ],
+  family:[
+    {a:'der',w:'Vater',t:'el padre'},{a:'die',w:'Mutter',t:'la madre'},
+    {a:'der',w:'Bruder',t:'el hermano'},{a:'die',w:'Schwester',t:'la hermana'},
+    {a:'die',w:'Tochter',t:'la hija'},{a:'der',w:'Sohn',t:'el hijo'},
+    {a:'die',w:'Oma',t:'la abuela'},{a:'der',w:'Opa',t:'el abuelo'},
+  ],
+  food:[
+    {a:'der',w:'Apfel',t:'la manzana'},{a:'die',w:'Banane',t:'el plátano'},
+    {a:'das',w:'Brot',t:'el pan'},{a:'die',w:'Milch',t:'la leche'},
+    {a:'der',w:'Käse',t:'el queso'},{a:'das',w:'Ei',t:'el huevo'},
+    {a:'der',w:'Kuchen',t:'el pastel'},{a:'der',w:'Kaffee',t:'el café'},
+    {a:'das',w:'Fleisch',t:'la carne'},{a:'die',w:'Suppe',t:'la sopa'},
+  ],
+  house:[
+    {a:'das',w:'Haus',t:'la casa'},{a:'der',w:'Tisch',t:'la mesa'},
+    {a:'der',w:'Stuhl',t:'la silla'},{a:'das',w:'Bett',t:'la cama'},
+    {a:'das',w:'Fenster',t:'la ventana'},{a:'die',w:'Tür',t:'la puerta'},
+    {a:'das',w:'Zimmer',t:'la habitación'},{a:'die',w:'Lampe',t:'la lámpara'},
+  ],
+  health:[
+    {a:'der',w:'Arzt',t:'el médico'},{a:'die',w:'Ärztin',t:'la médica'},
+    {a:'das',w:'Krankenhaus',t:'el hospital'},{a:'die',w:'Apotheke',t:'la farmacia'},
+    {a:'das',w:'Medikament',t:'el medicamento'},{a:'der',w:'Schmerz',t:'el dolor'},
+    {a:'die',w:'Krankheit',t:'la enfermedad'},{a:'der',w:'Arm',t:'el brazo'},
+  ],
+  hobbies:[
+    {a:'die',w:'Musik',t:'la música'},{a:'das',w:'Buch',t:'el libro'},
+    {a:'das',w:'Spiel',t:'el juego'},{a:'der',w:'Sport',t:'el deporte'},
+    {a:'die',w:'Kunst',t:'el arte'},{a:'das',w:'Kino',t:'el cine'},
+    {a:'der',w:'Film',t:'la película'},{a:'die',w:'Gitarre',t:'la guitarra'},
+  ],
+  school:[
+    {a:'die',w:'Schule',t:'la escuela'},{a:'das',w:'Buch',t:'el libro'},
+    {a:'der',w:'Lehrer',t:'el profesor'},{a:'die',w:'Lehrerin',t:'la profesora'},
+    {a:'der',w:'Stift',t:'el bolígrafo'},{a:'das',w:'Heft',t:'el cuaderno'},
+    {a:'die',w:'Tafel',t:'la pizarra'},{a:'der',w:'Rucksack',t:'la mochila'},
+  ],
+};
+
+const RULES = {
+  der:'Sustantivos que designan hombres y muchos en <strong>-er, -el</strong> suelen ser <em>der</em>.',
+  die:'Terminaciones <strong>-ung, -heit, -keit, -schaft, -ion</strong> → siempre <em>die</em>.',
+  das:'Diminutivos <strong>-chen, -lein</strong> y terminaciones <strong>-ment, -um</strong> → siempre <em>das</em>.',
+};
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
+let SESSION = {rounds:0, words:0, correct:0, total:0};
+let currentLevel = null;
+let quiz = {words:[],idx:0,correct:0,answered:false};
+
+// ═══════════════════════════════════════════
+// SCREENS
+// ═══════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function enterDemo() {
+  USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
+  startApp();
+}
+
+function startApp() {
+  document.getElementById('appAv').textContent = USER.name.slice(0,2).toUpperCase();
+  document.getElementById('appName').textContent = USER.name;
+  document.getElementById('appStreak').textContent = USER.streak;
+  const chip = document.getElementById('planChip');
+  chip.textContent = USER.isPremium ? 'Pro' : 'Free';
+  chip.className = 'plan-chip' + (USER.isPremium ? ' pro' : '');
+  renderLevels();
+  showScreen('s-app');
+  goView('levels');
+}
+
+// ═══════════════════════════════════════════
+// AUTH MODAL
+// ═══════════════════════════════════════════
+function openAuth(tab) {
+  document.getElementById('authOverlay').classList.add('on');
+  switchTab(tab);
+  hideForgot();
+}
+function closeAuth() { document.getElementById('authOverlay').classList.remove('on'); }
+document.getElementById('authOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeAuth(); });
+
+function switchTab(t) {
+  document.getElementById('tab-login').classList.toggle('on', t==='login');
+  document.getElementById('tab-register').classList.toggle('on', t==='register');
+  document.getElementById('form-login').classList.toggle('hidden', t!=='login');
+  document.getElementById('form-register').classList.toggle('hidden', t!=='register');
+}
+
+function showForgot() {
+  document.getElementById('form-login').classList.add('hidden');
+  document.querySelector('.modal-tabs').style.display='none';
+  document.getElementById('forgot-view').classList.add('on');
+}
+function hideForgot() {
+  document.getElementById('forgot-view').classList.remove('on');
+  document.querySelector('.modal-tabs').style.display='';
+  document.getElementById('form-login').classList.remove('hidden');
+}
+
+function authMsg(id, text, type) {
+  const el = document.getElementById(id);
+  el.textContent = text; el.className = 'auth-msg '+type+' show';
+}
+function clearMsg(id) { document.getElementById(id).className = 'auth-msg'; }
+
+function handleLogin() {
+  const email = document.getElementById('li-email').value.trim();
+  const pass = document.getElementById('li-pass').value;
+  clearMsg('li-msg');
+  if (!email || !pass) { authMsg('li-msg','Completa todos los campos','err'); return; }
+  if (!email.includes('@')) { authMsg('li-msg','Email no válido','err'); return; }
+  // TODO: connect to Supabase auth
+  USER = {name: email.split('@')[0], isLoggedIn:true, isPremium:false, streak:5};
+  closeAuth(); startApp();
+}
+
+function handleRegister() {
+  const name = document.getElementById('rg-name').value.trim();
+  const email = document.getElementById('rg-email').value.trim();
+  const pass = document.getElementById('rg-pass').value;
+  clearMsg('rg-msg');
+  if (!name||!email||!pass) { authMsg('rg-msg','Completa todos los campos','err'); return; }
+  if (!email.includes('@')) { authMsg('rg-msg','Email no válido','err'); return; }
+  if (pass.length < 8) { authMsg('rg-msg','La contraseña debe tener al menos 8 caracteres','err'); return; }
+  // TODO: connect to Supabase auth
+  USER = {name, isLoggedIn:true, isPremium:false, streak:0};
+  closeAuth(); startApp();
+}
+
+function handleGoogle() {
+  // TODO: connect Supabase Google OAuth
+  USER = {name:'Usuario', isLoggedIn:true, isPremium:false, streak:0};
+  closeAuth(); startApp();
+}
+
+function handleForgot() {
+  const email = document.getElementById('fp-email').value.trim();
+  clearMsg('fp-msg');
+  if (!email.includes('@')) { authMsg('fp-msg','Introduce un email válido','err'); return; }
+  // TODO: Supabase resetPasswordForEmail
+  authMsg('fp-msg','✓ Enlace enviado a '+email,'ok');
+}
+
+// ═══════════════════════════════════════════
+// APP VIEWS
+// ═══════════════════════════════════════════
+function goView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.getElementById('v-'+id).classList.add('on');
+  window.scrollTo(0,0);
+  updateStatsDisplay();
+}
+
+// ═══════════════════════════════════════════
+// LEVELS
+// ═══════════════════════════════════════════
+function renderLevels() {
+  document.getElementById('levelsGrid').innerHTML = LEVELS.map(l => {
+    const locked = !l.free && !USER.isPremium;
+    return `
+    <div class="level-card${locked?' locked':''}" onclick="${locked?`showUpsell()`:``}" 
+         ${!locked?`onclick="selectLevel('${l.id}')" role="button" tabindex="0"`:''}>
+      <div class="lc-top">
+        <div class="lc-badge-wrap">
+          <div class="lc-lvl ${l.id}">${l.label}</div>
+          <div>
+            <div class="lc-name">${l.name}</div>
+            <div class="lc-desc">${l.desc}</div>
+          </div>
+        </div>
+        ${locked ? '<div class="lc-pro">Pro</div>' : 
+          `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lc-arrow"><path d="M5 3l5 5-5 5"/></svg>`}
+      </div>
+      <div class="lc-foot">
+        <span class="lc-count">${l.count} palabras</span>
+        ${!locked ? `<span style="font-size:12px;color:var(--muted2)">${(CATS_BY_LEVEL[l.id]||[]).length} categorías</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Add click handlers separately to avoid inline onclick issues with locked
+  LEVELS.forEach(l => {
+    const locked = !l.free && !USER.isPremium;
+    const el = document.getElementById('levelsGrid').querySelectorAll('.level-card')[LEVELS.indexOf(l)];
+    if (!locked) el.onclick = () => selectLevel(l.id);
+    else el.onclick = () => showUpsell();
+  });
+}
+
+function selectLevel(levelId) {
+  currentLevel = levelId;
+  const lvl = LEVELS.find(l=>l.id===levelId);
+  document.getElementById('catsTitle').textContent = `Categorías de ${lvl.label}`;
+  renderCats(levelId);
+  goView('cats');
+}
+
+// ═══════════════════════════════════════════
+// CATS
+// ═══════════════════════════════════════════
+function renderCats(levelId) {
+  const cats = CATS_BY_LEVEL[levelId] || [];
+  document.getElementById('catsGrid').innerHTML = cats.map(c => {
+    const locked = !c.free && !USER.isPremium;
+    return `
+    <div class="cat-card${locked?' locked':''}" data-cat="${c.id}" data-locked="${locked}">
+      <div class="cat-icon-box">${c.icon}</div>
+      <div class="cat-info">
+        <div class="cat-name-text">${c.name}</div>
+        <div class="cat-count-text">${c.count} palabras</div>
+      </div>
+      ${locked
+        ? '<div class="cat-pro-tag">Pro</div>'
+        : `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cat-arrow"><path d="M4 2l6 5-6 5"/></svg>`}
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.cat-card').forEach(el => {
+    const catId = el.dataset.cat;
+    const locked = el.dataset.locked === 'true';
+    el.onclick = locked ? () => showUpsell() : () => startQuiz(catId);
+  });
+}
+
+// ═══════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════
+function startQuiz(catId) {
+  if (!USER.isPremium && SESSION.rounds >= 3) {
+    goView('quiz');
+    renderLimit(); return;
+  }
+  const pool = WORD_POOL[catId] || WORD_POOL['food'];
+  const words = [...pool].sort(()=>Math.random()-.5);
+  quiz = {words, idx:0, correct:0, answered:false};
+  SESSION.words += words.length;
+  goView('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const {words,idx} = quiz;
+  if (idx >= words.length) { endQuiz(); return; }
+  const w = words[idx];
+  const pct = (idx/words.length)*100;
+  document.getElementById('quizInner').innerHTML = `
+    <div class="quiz-header">
+      <button class="q-exit" onclick="goView('cats')" title="Salir">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l11 11M12 1L1 12"/></svg>
+      </button>
+      <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
+      <span class="qcount">${idx+1} / ${words.length}</span>
+    </div>
+    <div class="q-card" id="qc">
+      <div class="q-prompt">¿Cuál es el artículo?</div>
+      <div class="q-word">${w.w}</div>
+      <div class="q-trans">${w.t}</div>
+      <div class="q-fb" id="qfb"></div>
+    </div>
+    <div class="art-row">
+      <button class="a-btn der" id="b-der" onclick="answer('der')">der</button>
+      <button class="a-btn die" id="b-die" onclick="answer('die')">die</button>
+      <button class="a-btn das" id="b-das" onclick="answer('das')">das</button>
+    </div>
+    <button class="btn-next-q" onclick="nextQ()">Siguiente →</button>`;
+}
+
+function answer(chosen) {
+  if (quiz.answered) return;
+  quiz.answered = true;
+  const w = quiz.words[quiz.idx];
+  const ok = chosen === w.a;
+  if (ok) { quiz.correct++; SESSION.correct++; }
+  SESSION.total++;
+
+  ['der','die','das'].forEach(a => {
+    const btn = document.getElementById('b-'+a);
+    btn.disabled = true;
+    if (a===w.a) btn.classList.add('v-ok');
+    else if (a===chosen&&!ok) btn.classList.add('v-ko');
+  });
+  const fb = document.getElementById('qfb');
+  fb.classList.add('show', ok?'ok':'ko');
+  fb.innerHTML = ok
+    ? `✓ <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`
+    : `✗ Era <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`;
+  document.getElementById('qc').classList.add(ok?'ok':'ko');
+  setTimeout(nextQ, 1800);
+}
+
+function nextQ() {
+  quiz.idx++;
+  quiz.answered = false;
+  renderQuestion();
+}
+
+function endQuiz() {
+  SESSION.rounds++;
+  const pct = Math.round((quiz.correct/quiz.words.length)*100);
+  const d = quiz.words.filter(w=>w.a==='der').length;
+  const i = quiz.words.filter(w=>w.a==='die').length;
+  const n = quiz.words.filter(w=>w.a==='das').length;
+  const nearLimit = !USER.isPremium && SESSION.rounds >= 3;
+  document.getElementById('quizInner').innerHTML = `
+    ${nearLimit ? `<div class="upsell-bar">
+      <div class="ub-text">
+        <div class="ub-title">Has usado tus ${SESSION.rounds} rondas gratuitas de hoy</div>
+        <div class="ub-sub">Premium: rondas ilimitadas + todos los niveles</div>
+      </div>
+      <button class="ub-btn" onclick="showToast('Redirigiendo a planes…')">Ver planes →</button>
+    </div>` : ''}
+    <div class="result-box">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px">Ronda completada</div>
+      <div class="r-pct">${pct}%</div>
+      <div class="r-lbl">${quiz.correct} de ${quiz.words.length} correctas</div>
+      <div class="r-arts">
+        <div class="r-art rd"><div class="n">${d}</div><div class="l">der</div></div>
+        <div class="r-art ri"><div class="n">${i}</div><div class="l">die</div></div>
+        <div class="r-art rn"><div class="n">${n}</div><div class="l">das</div></div>
+      </div>
+      <div class="r-actions">
+        <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('levels')">← Cambiar nivel</button>
+        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('cats')">Otra categoría →</button>` : ''}
+      </div>
+    </div>`;
+}
+
+function renderLimit() {
+  document.getElementById('quizInner').innerHTML = `
+    <div class="limit-box">
+      <div class="limit-icon">⏱</div>
+      <h2>Rondas de hoy agotadas</h2>
+      <p>Has completado tus 3 rondas gratuitas de hoy. Con Premium practicas sin límite y desbloqueas todos los niveles y categorías.</p>
+      <button style="padding:13px 28px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;width:100%" onclick="showToast('Redirigiendo a planes…')">Ver planes Premium →</button>
+      <button style="padding:11px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;width:100%" onclick="goView('levels')">Volver a niveles</button>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════
+function updateStatsDisplay() {
+  document.getElementById('stRounds').textContent = SESSION.rounds;
+  document.getElementById('stWords').textContent = SESSION.words;
+  const acc = SESSION.total > 0 ? Math.round((SESSION.correct/SESSION.total)*100)+'%' : '—';
+  document.getElementById('stAcc').textContent = acc;
+}
+
+// ═══════════════════════════════════════════
+// UPSELL
+// ═══════════════════════════════════════════
+function showUpsell() {
+  showToast('Contenido Premium — actualiza tu plan');
+}
+
+// ═══════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toastEl');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2400);
+}
+</script>
+</body>
+</html>
