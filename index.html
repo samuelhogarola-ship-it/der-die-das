@@ -37,6 +37,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* ─── UTILITY ─── */
 .hidden{display:none!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.lang-switch{display:flex;align-items:center;gap:6px}
+.lang-btn{
+  min-width:42px;padding:7px 10px;border-radius:8px;border:1px solid var(--border2);
+  background:var(--white);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .14s
+}
+.lang-btn:hover{background:var(--bg);color:var(--text)}
+.lang-btn.active{background:var(--text);border-color:var(--text);color:var(--white)}
 
 /* ─── SCREENS ─── */
 .screen{display:none;min-height:100vh}
@@ -584,8 +592,12 @@ footer{
       <button class="nav-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
     </div>
     <div class="nav-right">
-      <button class="btn-sm btn-outline-sm" onclick="openAuth('login')">Iniciar sesión</button>
-      <button class="btn-sm btn-dark-sm" onclick="openAuth('register')">Empezar gratis</button>
+      <div class="lang-switch">
+        <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+      </div>
+      <button class="btn-sm btn-dark-sm" onclick="enterDemo()">Empezar gratis</button>
     </div>
   </nav>
 
@@ -595,7 +607,7 @@ footer{
       <h1>No más dolores de cabeza con los artículos.</h1>
       <p>Aprende der, die y das de forma intuitiva. Vocabulario categorizado de A1 a C2, adaptado al Marco Común Europeo.</p>
       <div class="hero-actions">
-        <button class="btn-hero btn-hero-primary" onclick="openAuth('register')">Empezar gratis →</button>
+        <button class="btn-hero btn-hero-primary" onclick="enterDemo()">Empezar gratis →</button>
         <button class="btn-hero btn-hero-ghost" onclick="enterDemo()">Probar sin cuenta</button>
       </div>
       <div class="hero-note">Sin tarjeta de crédito · 3 rondas gratuitas al día</div>
@@ -720,7 +732,7 @@ footer{
             <li>Acceso a nuevas categorías</li>
             <li>Soporte prioritario</li>
           </ul>
-          <button class="plan-cta plan-cta-dark" onclick="openAuth('register')">Empezar con Premium →</button>
+          <button class="plan-cta plan-cta-dark" onclick="showToast(t('toastPremiumSoon'))">Empezar con Premium →</button>
         </div>
       </div>
     </div>
@@ -730,7 +742,7 @@ footer{
   <section class="cta-banner">
     <h2>Empieza a practicar hoy</h2>
     <p>Únete y deja de adivinar. Construye intuición real con los artículos alemanes.</p>
-    <button class="btn-cta-white" onclick="openAuth('register')">Crear cuenta gratis →</button>
+    <button class="btn-cta-white" onclick="enterDemo()">Crear cuenta gratis →</button>
   </section>
 
   <footer>
@@ -839,12 +851,17 @@ footer{
     <div style="display:flex;align-items:center;gap:4px">
       <button class="nav-link" onclick="goView('levels')" id="anav-niveles">Niveles</button>
       <button class="nav-link" onclick="goView('stats')" id="anav-stats">Estadísticas</button>
-      <button class="nav-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" onclick="showToast('Redirigiendo a planes…')">Planes</button>
+      <button class="nav-link" onclick="showToast(t('toastPlans'));document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
     </div>
 
     <div class="app-nav-right">
+      <div class="lang-switch">
+        <button class="lang-btn" id="app-lang-es" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" id="app-lang-de" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" id="app-lang-en" onclick="setLang('en')">EN</button>
+      </div>
       <div class="streak-pill">🔥 <span id="appStreak">0</span> días</div>
-      <button class="user-btn" onclick="showToast('Perfil próximamente')">
+      <button class="user-btn" onclick="showToast(t('appProfileSoon') || 'Perfil próximamente')">
         <div class="user-av" id="appAv">?</div>
         <span id="appName">Demo</span>
         <span class="plan-chip" id="planChip">Free</span>
@@ -904,7 +921,7 @@ footer{
             <div class="ub-title">Estadísticas avanzadas con Premium</div>
             <div class="ub-sub">Descubre qué terminaciones te cuestan más, historial completo y mucho más</div>
           </div>
-          <button class="ub-btn" onclick="showToast('Redirigiendo a planes…')">Ver planes →</button>
+          <button class="ub-btn" onclick="showToast(t('toastPlans'))">Ver planes →</button>
         </div>
       </div>
     </div>
@@ -922,6 +939,118 @@ footer{
 const SB_URL = 'https://YOUR_PROJECT.supabase.co';
 const SB_KEY = 'YOUR_ANON_KEY';
 
+let CURRENT_LANG = localStorage.getItem('derdiedas_lang') || 'de';
+
+const UI = {
+  de: {
+    navHome:'Start', navFeatures:'Funktionen', navPricing:'Preise', heroTitle:'Schluss mit dem Artikel-Chaos.',
+    heroSubtitle:'Lerne der, die und das intuitiv. Wortschatz von A1 bis C2, geordnet nach Niveau und Thema.',
+    heroStart:'Kostenlos starten →', heroDemo:'Ohne Login testen', heroNote:'Keine Kreditkarte · 3 kostenlose Runden pro Tag',
+    heroQuestion:'Welcher Artikel ist richtig?', howTitle:'So funktioniert es', howSub:'Drei Schritte zu sicheren Artikeln',
+    how1Title:'Niveau wählen', how1Text:'Wähle A1 bis C2 nach GER. Lerne genau den Wortschatz, den du jetzt brauchst.',
+    how2Title:'Thema auswählen', how2Text:'Tiere, Wohnen, Arbeit, Gesundheit... Lerne im Kontext und verknüpfe passende Wörter.',
+    how3Title:'Üben und Fortschritt sehen', how3Text:'Rate den Artikel, bekomme direktes Feedback und entwickle echte Sprachintuition.',
+    featuresTitle:'Strukturierter Lernweg', featuresSub:'Von Alltagswortschatz bis zu akademischen Themen.',
+    feature1Title:'Nach Niveaus aufgebaut', feature1Text:'A1 bis C2 nach GER. Wähle genau das, was zu dir passt.',
+    feature2Title:'Nach Themen lernen', feature2Text:'Wortschatz im Kontext. Thematische Gruppen helfen dir, Zusammenhänge schneller zu behalten.',
+    feature3Title:'Statistiken im Blick', feature3Text:'Behalte deinen Fortschritt im Auge und erkenne, welche Muster dir schwerfallen.',
+    pricingTitle:'Einfache, klare Pläne', pricingSub:'Starte kostenlos und schalte alles frei, wenn du mehr willst.',
+    freePlanName:'Kostenlos', freePlanPrice:'Gratis', freePlanCta:'Kostenlos testen', premiumBadge:'Am beliebtesten',
+    premiumPer:'/ Monat', premiumPlanCta:'Mit Premium starten →', ctaTitle:'Starte noch heute', ctaText:'Hör auf zu raten. Entwickle ein echtes Gefühl für deutsche Artikel.',
+    ctaButton:'Kostenlos loslegen →', footerPrivacy:'Datenschutz', footerTerms:'AGB', footerContact:'Kontakt',
+    appLevels:'Niveaus', appStats:'Statistiken', appPlans:'Preise', levelsTitle:'Niveaus', levelsSubtitle:'Wähle dein GER-Niveau für die nächste Übungsrunde',
+    catsTitle:'Themen für {level}',
+    catsSubtitle:'Wähle ein Thema zum Üben', statsTitle:'Statistiken', statsSubtitle:'Dein Fortschritt heute',
+    statsRoundsLabel:'Runden heute', statsRoundsNote:'von 3 kostenlosen', statsWordsLabel:'Geübte Wörter', statsWordsNote:'in dieser Sitzung',
+    statsAccuracyLabel:'Trefferquote', statsAccuracyNote:'richtige Antworten', statsUpsellTitle:'Erweiterte Statistiken mit Premium',
+    statsUpsellText:'Sieh, welche Endungen dir schwerfallen, nutze Verlauf und mehr.', statsUpsellButton:'Preise ansehen →',
+    quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
+    quizOtherCategory:'Anderes Thema →', limitTitle:'Deine kostenlosen Runden sind aufgebraucht', limitText:'Du hast heute schon 3 kostenlose Runden abgeschlossen. Mit Premium übst du unbegrenzt und schaltest alle Niveaus und Themen frei.',
+    limitButton:'Premium ansehen →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Premium-Inhalt — Upgrade nötig',
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Premium kommt bald', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute deine {rounds} kostenlosen Runden genutzt', premiumRounds:'Premium: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Free', proChip:'Pro'
+    ,appProfileSoon:'Profil bald verfügbar'
+  },
+  es: {
+    navHome:'Inicio', navFeatures:'Funciones', navPricing:'Planes', heroTitle:'No más dolores de cabeza con los artículos.',
+    heroSubtitle:'Aprende der, die y das de forma intuitiva. Vocabulario categorizado de A1 a C2, adaptado al Marco Común Europeo.',
+    heroStart:'Empezar gratis →', heroDemo:'Probar sin cuenta', heroNote:'Sin tarjeta de crédito · 3 rondas gratuitas al día',
+    heroQuestion:'¿Cuál es el artículo correcto?', howTitle:'Así funciona', howSub:'Tres pasos para dominar los artículos alemanes',
+    how1Title:'Elige tu nivel', how1Text:'Selecciona entre A1 y C2 según el Marco Común Europeo. No pierdas tiempo con vocabulario que no necesitas.',
+    how2Title:'Escoge una categoría', how2Text:'Animales, hogar, trabajo, salud… Aprende en contexto. Las palabras relacionadas se aprenden juntas.',
+    how3Title:'Practica y progresa', how3Text:'Adivina el artículo. Recibe feedback inmediato con la regla gramatical. Construye intuición real.',
+    featuresTitle:'Ruta de aprendizaje estructurada', featuresSub:'Progresa desde palabras cotidianas hasta vocabulario académico avanzado.',
+    feature1Title:'Contenido separado por niveles', feature1Text:'Niveles A1 a C2 adaptados al MCER. Elige tu nivel, no aprendas palabras que no necesitas ahora.',
+    feature2Title:'Aprende por categorías', feature2Text:'Aprende en contexto. Palabras agrupadas por tema. Opción de ver cada palabra en una frase completa.',
+    feature3Title:'Acceso a estadísticas', feature3Text:'Lleva un control exacto de tu progreso. ¿Qué palabra se te atraganta más? ¿Qué terminación no has interiorizado?',
+    pricingTitle:'Planes simples y claros', pricingSub:'Empieza gratis. Desbloquea todo cuando lo necesites.',
+    freePlanName:'Gratuito', freePlanPrice:'Gratis', freePlanCta:'Probar gratis', premiumBadge:'Más popular',
+    premiumPer:'/ mes', premiumPlanCta:'Empezar con Premium →', ctaTitle:'Empieza a practicar hoy', ctaText:'Únete y deja de adivinar. Construye intuición real con los artículos alemanes.',
+    ctaButton:'Crear cuenta gratis →', footerPrivacy:'Privacidad', footerTerms:'Términos', footerContact:'Contacto',
+    appLevels:'Niveles', appStats:'Estadísticas', appPlans:'Planes', levelsTitle:'Niveles', levelsSubtitle:'Elige tu nivel MCER para empezar a practicar',
+    catsTitle:'Categorías de {level}',
+    catsSubtitle:'Elige un tema para practicar', statsTitle:'Estadísticas', statsSubtitle:'Tu progreso de hoy',
+    statsRoundsLabel:'Rondas hoy', statsRoundsNote:'de 3 gratuitas', statsWordsLabel:'Palabras practicadas', statsWordsNote:'en esta sesión',
+    statsAccuracyLabel:'Precisión', statsAccuracyNote:'respuestas correctas', statsUpsellTitle:'Estadísticas avanzadas con Premium',
+    statsUpsellText:'Descubre qué terminaciones te cuestan más, historial completo y mucho más', statsUpsellButton:'Ver planes →',
+    quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
+    quizOtherCategory:'Otra categoría →', limitTitle:'Rondas de hoy agotadas', limitText:'Has completado tus 3 rondas gratuitas de hoy. Con Premium practicas sin límite y desbloqueas todos los niveles y categorías.',
+    limitButton:'Ver planes Premium →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Contenido Premium — actualiza tu plan',
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Premium próximamente', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Has usado tus {rounds} rondas gratuitas de hoy', premiumRounds:'Premium: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Free', proChip:'Pro'
+    ,appProfileSoon:'Perfil próximamente'
+  },
+  en: {
+    navHome:'Home', navFeatures:'Features', navPricing:'Pricing', heroTitle:'No more guessing German articles.',
+    heroSubtitle:'Learn der, die and das intuitively. Vocabulary organized from A1 to C2 and grouped by topic.',
+    heroStart:'Start free →', heroDemo:'Try without login', heroNote:'No credit card · 3 free rounds per day',
+    heroQuestion:'Which article is correct?', howTitle:'How it works', howSub:'Three steps to master German articles',
+    how1Title:'Choose your level', how1Text:'Pick from A1 to C2 based on the CEFR. Skip vocabulary you do not need yet.',
+    how2Title:'Choose a topic', how2Text:'Animals, home, work, health... Learn in context and keep related words together.',
+    how3Title:'Practice and improve', how3Text:'Guess the article, get instant feedback and build real intuition.',
+    featuresTitle:'A structured learning path', featuresSub:'Progress from everyday vocabulary to advanced academic language.',
+    feature1Title:'Level-based content', feature1Text:'A1 to C2 aligned with the CEFR. Study exactly what fits your stage.',
+    feature2Title:'Learn by topic', feature2Text:'Vocabulary in context. Topic clusters help you remember faster.',
+    feature3Title:'Track your stats', feature3Text:'See your progress clearly and spot which patterns still slow you down.',
+    pricingTitle:'Simple, clear plans', pricingSub:'Start for free and unlock everything when you need more.',
+    freePlanName:'Free', freePlanPrice:'Free', freePlanCta:'Try free', premiumBadge:'Most popular',
+    premiumPer:'/ month', premiumPlanCta:'Go Premium →', ctaTitle:'Start practicing today', ctaText:'Stop guessing and build real intuition for German articles.',
+    ctaButton:'Create free account →', footerPrivacy:'Privacy', footerTerms:'Terms', footerContact:'Contact',
+    appLevels:'Levels', appStats:'Stats', appPlans:'Plans', levelsTitle:'Levels', levelsSubtitle:'Choose your CEFR level to start practicing',
+    catsTitle:'Topics for {level}',
+    catsSubtitle:'Choose a topic to practice', statsTitle:'Stats', statsSubtitle:'Your progress today',
+    statsRoundsLabel:'Rounds today', statsRoundsNote:'out of 3 free', statsWordsLabel:'Words practiced', statsWordsNote:'in this session',
+    statsAccuracyLabel:'Accuracy', statsAccuracyNote:'correct answers', statsUpsellTitle:'Advanced stats with Premium',
+    statsUpsellText:'See which endings are hardest for you, review history and more.', statsUpsellButton:'See plans →',
+    quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
+    quizOtherCategory:'Another topic →', limitTitle:'Today’s free rounds are used up', limitText:'You have completed your 3 free rounds for today. With Premium you can practice without limits and unlock all levels and topics.',
+    limitButton:'See Premium plans →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Premium content — upgrade your plan',
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Premium coming soon', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You used your {rounds} free rounds today', premiumRounds:'Premium: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Pro'
+    ,appProfileSoon:'Profile coming soon'
+  }
+};
+
+const LEVEL_TEXT = {
+  a1:{de:{name:'Anfänger',desc:'Erste Wörter aus dem Alltag'},es:{name:'Principiante',desc:'Primeras palabras del día a día'},en:{name:'Beginner',desc:'Your first everyday words'}},
+  a2:{de:{name:'Grundstufe',desc:'Einfache Gespräche im Alltag'},es:{name:'Elemental',desc:'Conversaciones básicas y cotidianas'},en:{name:'Elementary',desc:'Basic everyday conversations'}},
+  b1:{de:{name:'Mittelstufe',desc:'Selbstständig kommunizieren'},es:{name:'Intermedio',desc:'Independencia comunicativa'},en:{name:'Intermediate',desc:'Independent communication'}},
+  b2:{de:{name:'Gute Mittelstufe',desc:'Komplexe Texte und Diskussionen'},es:{name:'Intermedio alto',desc:'Textos complejos y debate'},en:{name:'Upper intermediate',desc:'Complex texts and debate'}},
+  c1:{de:{name:'Fortgeschritten',desc:'Flüssig und präzise ausdrücken'},es:{name:'Avanzado',desc:'Expresión fluida y matizada'},en:{name:'Advanced',desc:'Fluent and nuanced expression'}},
+  c2:{de:{name:'Nahezu muttersprachlich',desc:'Sicher auf höchstem Niveau'},es:{name:'Maestría',desc:'Dominio a nivel nativo'},en:{name:'Mastery',desc:'Near-native command'}}
+};
+
+const CAT_TEXT = {
+  animals:{de:'Tiere',es:'Animales',en:'Animals'}, clothes:{de:'Kleidung',es:'Ropa',en:'Clothes'}, family:{de:'Familie',es:'Familia',en:'Family'},
+  food:{de:'Essen',es:'Comida',en:'Food'}, house:{de:'Wohnen',es:'Hogar',en:'Home'}, kitchen:{de:'Küche',es:'Cocina',en:'Kitchen'},
+  numbers:{de:'Zahlen',es:'Números',en:'Numbers'}, colors:{de:'Farben',es:'Colores',en:'Colors'}, body:{de:'Körper',es:'Cuerpo',en:'Body'},
+  health:{de:'Gesundheit',es:'Salud',en:'Health'}, hobbies:{de:'Hobbys',es:'Hobbies',en:'Hobbies'}, school:{de:'Schule',es:'Escuela',en:'School'},
+  shopping:{de:'Einkaufen',es:'Compras',en:'Shopping'}, sports:{de:'Sport',es:'Deporte',en:'Sports'}, travel:{de:'Reisen',es:'Viajes',en:'Travel'},
+  work:{de:'Arbeit',es:'Trabajo',en:'Work'}, weather:{de:'Wetter',es:'Tiempo',en:'Weather'}, politics:{de:'Politik',es:'Política',en:'Politics'},
+  technology:{de:'Technologie',es:'Tecnología',en:'Technology'}, culture:{de:'Kultur',es:'Cultura',en:'Culture'}, environment:{de:'Umwelt',es:'Medio ambiente',en:'Environment'},
+  media:{de:'Medien',es:'Medios',en:'Media'}, finance:{de:'Finanzen',es:'Finanzas',en:'Finance'}, law:{de:'Recht',es:'Derecho',en:'Law'},
+  medicine:{de:'Medizin',es:'Medicina',en:'Medicine'}, philosophy:{de:'Philosophie',es:'Filosofía',en:'Philosophy'}, history:{de:'Geschichte',es:'Historia',en:'History'},
+  literature:{de:'Literatur',es:'Literatura',en:'Literature'}, science:{de:'Wissenschaft',es:'Ciencia',en:'Science'}, economics:{de:'Wirtschaft',es:'Economía',en:'Economics'},
+  academic:{de:'Akademisch',es:'Académico',en:'Academic'}, idioms:{de:'Redewendungen',es:'Expresiones',en:'Idioms'}, specialized:{de:'Fachsprache',es:'Especializado',en:'Specialized'}
+};
+
 // ═══════════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════════
@@ -936,49 +1065,49 @@ const LEVELS = [
 
 const CATS_BY_LEVEL = {
   a1:[
-    {id:'animals',name:'Animals',icon:'🐾',count:28,free:true},
-    {id:'clothes',name:'Clothes',icon:'👕',count:22,free:true},
-    {id:'family',name:'Family',icon:'👨‍👩‍👧',count:18,free:true},
-    {id:'food',name:'Food',icon:'🍎',count:34,free:true},
-    {id:'house',name:'House',icon:'🏠',count:26,free:true},
-    {id:'kitchen',name:'Kitchen',icon:'🍳',count:20,free:false},
-    {id:'numbers',name:'Numbers',icon:'🔢',count:15,free:false},
-    {id:'colors',name:'Colors',icon:'🎨',count:14,free:false},
-    {id:'body',name:'Body',icon:'🫀',count:24,free:false},
+    {id:'animals',icon:'🐾',count:28,free:true},
+    {id:'clothes',icon:'👕',count:22,free:true},
+    {id:'family',icon:'👨‍👩‍👧',count:18,free:true},
+    {id:'food',icon:'🍎',count:34,free:true},
+    {id:'house',icon:'🏠',count:26,free:true},
+    {id:'kitchen',icon:'🍳',count:20,free:false},
+    {id:'numbers',icon:'🔢',count:15,free:false},
+    {id:'colors',icon:'🎨',count:14,free:false},
+    {id:'body',icon:'🫀',count:24,free:false},
   ],
   a2:[
-    {id:'health',name:'Health',icon:'🏥',count:30,free:true},
-    {id:'hobbies',name:'Hobbies',icon:'🎯',count:26,free:true},
-    {id:'school',name:'School',icon:'📚',count:28,free:true},
-    {id:'shopping',name:'Shopping',icon:'🛍',count:24,free:false},
-    {id:'sports',name:'Sports',icon:'⚽',count:22,free:false},
-    {id:'travel',name:'Travel',icon:'✈️',count:32,free:false},
-    {id:'work',name:'Work',icon:'💼',count:28,free:false},
-    {id:'weather',name:'Weather',icon:'☀️',count:18,free:false},
+    {id:'health',icon:'🏥',count:30,free:true},
+    {id:'hobbies',icon:'🎯',count:26,free:true},
+    {id:'school',icon:'📚',count:28,free:true},
+    {id:'shopping',icon:'🛍',count:24,free:false},
+    {id:'sports',icon:'⚽',count:22,free:false},
+    {id:'travel',icon:'✈️',count:32,free:false},
+    {id:'work',icon:'💼',count:28,free:false},
+    {id:'weather',icon:'☀️',count:18,free:false},
   ],
   b1:[
-    {id:'politics',name:'Politics',icon:'🏛',count:40,free:false},
-    {id:'technology',name:'Technology',icon:'💻',count:44,free:false},
-    {id:'culture',name:'Culture',icon:'🎭',count:36,free:false},
-    {id:'environment',name:'Environment',icon:'🌿',count:32,free:false},
-    {id:'media',name:'Media',icon:'📰',count:28,free:false},
-    {id:'finance',name:'Finance',icon:'💰',count:38,free:false},
+    {id:'politics',icon:'🏛',count:40,free:false},
+    {id:'technology',icon:'💻',count:44,free:false},
+    {id:'culture',icon:'🎭',count:36,free:false},
+    {id:'environment',icon:'🌿',count:32,free:false},
+    {id:'media',icon:'📰',count:28,free:false},
+    {id:'finance',icon:'💰',count:38,free:false},
   ],
   b2:[
-    {id:'law',name:'Law',icon:'⚖️',count:42,free:false},
-    {id:'medicine',name:'Medicine',icon:'💊',count:46,free:false},
-    {id:'philosophy',name:'Philosophy',icon:'🧠',count:34,free:false},
-    {id:'history',name:'History',icon:'📜',count:38,free:false},
+    {id:'law',icon:'⚖️',count:42,free:false},
+    {id:'medicine',icon:'💊',count:46,free:false},
+    {id:'philosophy',icon:'🧠',count:34,free:false},
+    {id:'history',icon:'📜',count:38,free:false},
   ],
   c1:[
-    {id:'literature',name:'Literature',icon:'📖',count:44,free:false},
-    {id:'science',name:'Science',icon:'🔬',count:50,free:false},
-    {id:'economics',name:'Economics',icon:'📊',count:46,free:false},
+    {id:'literature',icon:'📖',count:44,free:false},
+    {id:'science',icon:'🔬',count:50,free:false},
+    {id:'economics',icon:'📊',count:46,free:false},
   ],
   c2:[
-    {id:'academic',name:'Academic',icon:'🎓',count:60,free:false},
-    {id:'idioms',name:'Idioms',icon:'💬',count:48,free:false},
-    {id:'specialized',name:'Specialized',icon:'🔭',count:52,free:false},
+    {id:'academic',icon:'🎓',count:60,free:false},
+    {id:'idioms',icon:'💬',count:48,free:false},
+    {id:'specialized',icon:'🔭',count:52,free:false},
   ],
 };
 
@@ -1059,7 +1188,7 @@ function showScreen(id) {
 }
 
 function enterDemo() {
-  USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
+  USER = {name:t('demoName'), isLoggedIn:false, isPremium:false, streak:0};
   startApp();
 }
 
@@ -1068,8 +1197,9 @@ function startApp() {
   document.getElementById('appName').textContent = USER.name;
   document.getElementById('appStreak').textContent = USER.streak;
   const chip = document.getElementById('planChip');
-  chip.textContent = USER.isPremium ? 'Pro' : 'Free';
+  chip.textContent = USER.isPremium ? t('proChip') : t('freeChip');
   chip.className = 'plan-chip' + (USER.isPremium ? ' pro' : '');
+  applyTranslations();
   renderLevels();
   showScreen('s-app');
   goView('levels');
@@ -1155,7 +1285,173 @@ function goView(id) {
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   document.getElementById('v-'+id).classList.add('on');
   window.scrollTo(0,0);
+  applyTranslations();
   updateStatsDisplay();
+}
+
+function t(key, vars = {}) {
+  const value = UI[CURRENT_LANG]?.[key] ?? UI.es[key] ?? key;
+  return Object.keys(vars).reduce((acc, name) => acc.replaceAll(`{${name}}`, vars[name]), value);
+}
+
+function levelName(levelId) {
+  return LEVEL_TEXT[levelId]?.[CURRENT_LANG]?.name || levelId.toUpperCase();
+}
+
+function levelDesc(levelId) {
+  return LEVEL_TEXT[levelId]?.[CURRENT_LANG]?.desc || "";
+}
+
+function catName(catId) {
+  return CAT_TEXT[catId]?.[CURRENT_LANG] || catId;
+}
+
+function updateLangButtons() {
+  ['es', 'de', 'en'].forEach((lang) => {
+    ['lang-', 'app-lang-'].forEach((prefix) => {
+      const button = document.getElementById(prefix + lang);
+      if (button) button.classList.toggle('active', lang === CURRENT_LANG);
+    });
+  });
+}
+
+function applyTranslations() {
+  document.documentElement.lang = CURRENT_LANG;
+  updateLangButtons();
+
+  const landingNav = document.querySelectorAll('.nav-links .nav-link');
+  if (landingNav[0]) landingNav[0].textContent = t('navHome');
+  if (landingNav[1]) landingNav[1].textContent = t('navFeatures');
+  if (landingNav[2]) landingNav[2].textContent = t('navPricing');
+
+  const navRightButton = document.querySelector('.nav-right .btn-sm.btn-dark-sm');
+  if (navRightButton) navRightButton.textContent = t('navStartDemo');
+
+  const heroTitle = document.querySelector('.hero-text h1');
+  const heroSubtitle = document.querySelector('.hero-text p');
+  const heroButtons = document.querySelectorAll('.hero-actions button');
+  const heroNote = document.querySelector('.hero-note');
+  const heroSmall = document.querySelector('.hero-word-demo .small');
+  if (heroTitle) heroTitle.textContent = t('heroTitle');
+  if (heroSubtitle) heroSubtitle.textContent = t('heroSubtitle');
+  if (heroButtons[0]) heroButtons[0].textContent = t('heroStart');
+  if (heroButtons[1]) heroButtons[1].textContent = t('heroDemo');
+  if (heroNote) heroNote.textContent = t('heroNote');
+  if (heroSmall) heroSmall.textContent = t('heroQuestion');
+
+  const howHeaders = document.querySelectorAll('.how-step h3');
+  const howTexts = document.querySelectorAll('.how-step p');
+  const howTitle = document.querySelector('#features .how-inner h2');
+  const howSub = document.querySelector('#features .how-sub');
+  if (howTitle) howTitle.textContent = t('howTitle');
+  if (howSub) howSub.textContent = t('howSub');
+  if (howHeaders[0]) howHeaders[0].textContent = t('how1Title');
+  if (howHeaders[1]) howHeaders[1].textContent = t('how2Title');
+  if (howHeaders[2]) howHeaders[2].textContent = t('how3Title');
+  if (howTexts[0]) howTexts[0].textContent = t('how1Text');
+  if (howTexts[1]) howTexts[1].textContent = t('how2Text');
+  if (howTexts[2]) howTexts[2].textContent = t('how3Text');
+
+  const featuresTitle = document.querySelector('.features h2');
+  const featuresSub = document.querySelector('.features-sub');
+  const featHeaders = document.querySelectorAll('.feat-card h3');
+  const featTexts = document.querySelectorAll('.feat-card p');
+  if (featuresTitle) featuresTitle.textContent = t('featuresTitle');
+  if (featuresSub) featuresSub.textContent = t('featuresSub');
+  if (featHeaders[0]) featHeaders[0].textContent = t('feature1Title');
+  if (featHeaders[1]) featHeaders[1].textContent = t('feature2Title');
+  if (featHeaders[2]) featHeaders[2].textContent = t('feature3Title');
+  if (featTexts[0]) featTexts[0].textContent = t('feature1Text');
+  if (featTexts[1]) featTexts[1].textContent = t('feature2Text');
+  if (featTexts[2]) featTexts[2].textContent = t('feature3Text');
+
+  const pricingTitle = document.querySelector('.pricing h2');
+  const pricingSub = document.querySelector('.pricing-sub');
+  if (pricingTitle) pricingTitle.textContent = t('pricingTitle');
+  if (pricingSub) pricingSub.textContent = t('pricingSub');
+
+  const freeCard = document.querySelectorAll('.plan-card')[0];
+  const premiumCard = document.querySelectorAll('.plan-card')[1];
+  if (freeCard) {
+    freeCard.querySelector('.plan-name').textContent = t('freePlanName');
+    freeCard.querySelector('.free-label').textContent = t('freePlanPrice');
+    const items = freeCard.querySelectorAll('.plan-features li');
+    const keys = ['freeFeature1','freeFeature2','freeFeature3','freeFeature4','freeFeature5','freeFeature6','freeFeature7','freeFeature8'];
+    items.forEach((item, index) => item.textContent = t(keys[index]));
+    freeCard.querySelector('.plan-cta').textContent = t('freePlanCta');
+  }
+  if (premiumCard) {
+    premiumCard.querySelector('.plan-badge').textContent = t('premiumBadge');
+    premiumCard.querySelector('.per').textContent = t('premiumPer');
+    const premiumItems = premiumCard.querySelectorAll('.plan-features li');
+    const premiumKeys = ['premiumFeature1','premiumFeature2','premiumFeature3','premiumFeature4','premiumFeature5','premiumFeature6','premiumFeature7'];
+    premiumItems.forEach((item, index) => item.textContent = t(premiumKeys[index]));
+    premiumCard.querySelector('.plan-cta').textContent = t('premiumPlanCta');
+  }
+
+  const ctaTitle = document.querySelector('.cta-banner h2');
+  const ctaText = document.querySelector('.cta-banner p');
+  const ctaButton = document.querySelector('.btn-cta-white');
+  if (ctaTitle) ctaTitle.textContent = t('ctaTitle');
+  if (ctaText) ctaText.textContent = t('ctaText');
+  if (ctaButton) ctaButton.textContent = t('ctaButton');
+
+  const footerLinks = document.querySelectorAll('.footer-links a');
+  if (footerLinks[0]) footerLinks[0].textContent = t('footerPrivacy');
+  if (footerLinks[1]) footerLinks[1].textContent = t('footerTerms');
+  if (footerLinks[2]) footerLinks[2].textContent = t('footerContact');
+
+  const appNav = document.querySelectorAll('#s-app .nav-link');
+  if (appNav[0]) appNav[0].textContent = t('appLevels');
+  if (appNav[1]) appNav[1].textContent = t('appStats');
+  if (appNav[2]) appNav[2].textContent = t('appPlans');
+
+  const levelsHeader = document.querySelector('#v-levels .view-header h1');
+  const levelsText = document.querySelector('#v-levels .view-header p');
+  if (levelsHeader) levelsHeader.textContent = t('levelsTitle');
+  if (levelsText) levelsText.textContent = t('levelsSubtitle');
+
+  const catsHeader = document.querySelector('#v-cats .view-header h1');
+  const catsText = document.querySelector('#v-cats .view-header p');
+  const backButton = document.querySelector('#v-cats .back-btn');
+  if (catsHeader) catsHeader.textContent = t('catsTitle', { level: currentLevel ? LEVELS.find((level) => level.id === currentLevel)?.label || 'A1' : 'A1' });
+  if (catsText) catsText.textContent = t('catsSubtitle');
+  if (backButton) backButton.lastChild.textContent = ` ${t('limitBack')}`;
+
+  const statsHeader = document.querySelector('#v-stats .view-header h1');
+  const statsText = document.querySelector('#v-stats .view-header p');
+  const statsLabels = document.querySelectorAll('#v-stats .s-lbl');
+  const statsNotes = document.querySelectorAll('#v-stats .s-note');
+  const statsUpsell = document.querySelector('#v-stats .ub-title');
+  const statsUpsellText = document.querySelector('#v-stats .ub-sub');
+  const statsUpsellButton = document.querySelector('#v-stats .ub-btn');
+  if (statsHeader) statsHeader.textContent = t('statsTitle');
+  if (statsText) statsText.textContent = t('statsSubtitle');
+  if (statsLabels[0]) statsLabels[0].textContent = t('statsRoundsLabel');
+  if (statsLabels[1]) statsLabels[1].textContent = t('statsWordsLabel');
+  if (statsLabels[2]) statsLabels[2].textContent = t('statsAccuracyLabel');
+  if (statsNotes[0]) statsNotes[0].textContent = t('statsRoundsNote');
+  if (statsNotes[1]) statsNotes[1].textContent = t('statsWordsNote');
+  if (statsNotes[2]) statsNotes[2].textContent = t('statsAccuracyNote');
+  if (statsUpsell) statsUpsell.textContent = t('statsUpsellTitle');
+  if (statsUpsellText) statsUpsellText.textContent = t('statsUpsellText');
+  if (statsUpsellButton) statsUpsellButton.textContent = t('statsUpsellButton');
+
+  document.querySelector('.streak-pill').lastChild.textContent = ` ${t('streak')}`;
+  document.getElementById('planChip').textContent = USER.isPremium ? t('proChip') : t('freeChip');
+}
+
+function setLang(lang) {
+  CURRENT_LANG = lang;
+  localStorage.setItem('derdiedas_lang', lang);
+  if (!USER.isLoggedIn) USER.name = t('demoName');
+  applyTranslations();
+  renderLevels();
+  if (currentLevel) renderCats(currentLevel);
+  if (document.getElementById('v-quiz').classList.contains('on')) {
+    if (quiz.words.length && quiz.idx < quiz.words.length) renderQuestion();
+    else if (quiz.words.length) endQuiz();
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -1171,16 +1467,16 @@ function renderLevels() {
         <div class="lc-badge-wrap">
           <div class="lc-lvl ${l.id}">${l.label}</div>
           <div>
-            <div class="lc-name">${l.name}</div>
-            <div class="lc-desc">${l.desc}</div>
+            <div class="lc-name">${levelName(l.id)}</div>
+            <div class="lc-desc">${levelDesc(l.id)}</div>
           </div>
         </div>
         ${locked ? '<div class="lc-pro">Pro</div>' : 
           `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lc-arrow"><path d="M5 3l5 5-5 5"/></svg>`}
       </div>
       <div class="lc-foot">
-        <span class="lc-count">${l.count} palabras</span>
-        ${!locked ? `<span style="font-size:12px;color:var(--muted2)">${(CATS_BY_LEVEL[l.id]||[]).length} categorías</span>` : ''}
+        <span class="lc-count">${l.count} ${t('words')}</span>
+        ${!locked ? `<span style="font-size:12px;color:var(--muted2)">${(CATS_BY_LEVEL[l.id]||[]).length} ${t('categories')}</span>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -1197,7 +1493,7 @@ function renderLevels() {
 function selectLevel(levelId) {
   currentLevel = levelId;
   const lvl = LEVELS.find(l=>l.id===levelId);
-  document.getElementById('catsTitle').textContent = `Categorías de ${lvl.label}`;
+  document.getElementById('catsTitle').textContent = t('catsTitle', { level: lvl.label });
   renderCats(levelId);
   goView('cats');
 }
@@ -1213,8 +1509,8 @@ function renderCats(levelId) {
     <div class="cat-card${locked?' locked':''}" data-cat="${c.id}" data-locked="${locked}">
       <div class="cat-icon-box">${c.icon}</div>
       <div class="cat-info">
-        <div class="cat-name-text">${c.name}</div>
-        <div class="cat-count-text">${c.count} palabras</div>
+        <div class="cat-name-text">${catName(c.id)}</div>
+        <div class="cat-count-text">${c.count} ${t('words')}</div>
       </div>
       ${locked
         ? '<div class="cat-pro-tag">Pro</div>'
@@ -1259,7 +1555,7 @@ function renderQuestion() {
       <span class="qcount">${idx+1} / ${words.length}</span>
     </div>
     <div class="q-card" id="qc">
-      <div class="q-prompt">¿Cuál es el artículo?</div>
+      <div class="q-prompt">${t('quizPrompt')}</div>
       <div class="q-word">${w.w}</div>
       <div class="q-trans">${w.t}</div>
       <div class="q-fb" id="qfb"></div>
@@ -1269,7 +1565,7 @@ function renderQuestion() {
       <button class="a-btn die" id="b-die" onclick="answer('die')">die</button>
       <button class="a-btn das" id="b-das" onclick="answer('das')">das</button>
     </div>
-    <button class="btn-next-q" onclick="nextQ()">Siguiente →</button>`;
+    <button class="btn-next-q" onclick="nextQ()">${t('quizNext')}</button>`;
 }
 
 function answer(chosen) {
@@ -1311,23 +1607,23 @@ function endQuiz() {
   document.getElementById('quizInner').innerHTML = `
     ${nearLimit ? `<div class="upsell-bar">
       <div class="ub-text">
-        <div class="ub-title">Has usado tus ${SESSION.rounds} rondas gratuitas de hoy</div>
-        <div class="ub-sub">Premium: rondas ilimitadas + todos los niveles</div>
+        <div class="ub-title">${t('roundsUsed', { rounds: SESSION.rounds })}</div>
+        <div class="ub-sub">${t('premiumRounds')}</div>
       </div>
-      <button class="ub-btn" onclick="showToast('Redirigiendo a planes…')">Ver planes →</button>
+      <button class="ub-btn" onclick="showToast(t('toastPlans'))">${t('statsUpsellButton')}</button>
     </div>` : ''}
     <div class="result-box">
-      <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px">Ronda completada</div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px">${t('quizCompleted')}</div>
       <div class="r-pct">${pct}%</div>
-      <div class="r-lbl">${quiz.correct} de ${quiz.words.length} correctas</div>
+      <div class="r-lbl">${t('resultLabel', { correct: quiz.correct, total: quiz.words.length })}</div>
       <div class="r-arts">
         <div class="r-art rd"><div class="n">${d}</div><div class="l">der</div></div>
         <div class="r-art ri"><div class="n">${i}</div><div class="l">die</div></div>
         <div class="r-art rn"><div class="n">${n}</div><div class="l">das</div></div>
       </div>
       <div class="r-actions">
-        <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('levels')">← Cambiar nivel</button>
-        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('cats')">Otra categoría →</button>` : ''}
+        <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('levels')">${t('quizChangeLevel')}</button>
+        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
       </div>
     </div>`;
 }
@@ -1336,10 +1632,10 @@ function renderLimit() {
   document.getElementById('quizInner').innerHTML = `
     <div class="limit-box">
       <div class="limit-icon">⏱</div>
-      <h2>Rondas de hoy agotadas</h2>
-      <p>Has completado tus 3 rondas gratuitas de hoy. Con Premium practicas sin límite y desbloqueas todos los niveles y categorías.</p>
-      <button style="padding:13px 28px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;width:100%" onclick="showToast('Redirigiendo a planes…')">Ver planes Premium →</button>
-      <button style="padding:11px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;width:100%" onclick="goView('levels')">Volver a niveles</button>
+      <h2>${t('limitTitle')}</h2>
+      <p>${t('limitText')}</p>
+      <button style="padding:13px 28px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;width:100%" onclick="showToast(t('toastPlans'))">${t('limitButton')}</button>
+      <button style="padding:11px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;width:100%" onclick="goView('levels')">${t('limitBack')}</button>
     </div>`;
 }
 
@@ -1357,7 +1653,7 @@ function updateStatsDisplay() {
 // UPSELL
 // ═══════════════════════════════════════════
 function showUpsell() {
-  showToast('Contenido Premium — actualiza tu plan');
+  showToast(t('toastPremium'));
 }
 
 // ═══════════════════════════════════════════
@@ -1368,6 +1664,8 @@ function showToast(msg) {
   t.textContent = msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 2400);
 }
+
+applyTranslations();
 </script>
 </body>
 </html>
