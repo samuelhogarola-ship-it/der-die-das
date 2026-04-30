@@ -932,6 +932,7 @@ footer{
 <!-- TOAST -->
 <div class="toast" id="toastEl"></div>
 
+<script src="shared/flashcard-core.js"></script>
 <script>
 // ═══════════════════════════════════════════
 // SUPABASE CONFIG — replace with your keys
@@ -1177,6 +1178,7 @@ let USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
 let SESSION = {rounds:0, words:0, correct:0, total:0};
 let currentLevel = null;
 let quiz = {words:[],idx:0,correct:0,answered:false};
+let flashcardState = null;
 
 // ═══════════════════════════════════════════
 // SCREENS
@@ -1534,17 +1536,28 @@ function startQuiz(catId) {
     renderLimit(); return;
   }
   const pool = WORD_POOL[catId] || WORD_POOL['food'];
-  const words = [...pool].sort(()=>Math.random()-.5);
-  quiz = {words, idx:0, correct:0, answered:false};
+  const words = [...pool]
+    .map((item, index) => normalizeFlashcardItem(item, catId, index))
+    .sort(()=>Math.random()-.5);
+
+  flashcardState = window.FlashcardCore.createFlashcardState(words, {
+    meta: { categoryId: catId }
+  });
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
 }
 
 function renderQuestion() {
-  const {words,idx} = quiz;
-  if (idx >= words.length) { endQuiz(); return; }
-  const w = words[idx];
+  const words = flashcardState ? flashcardState.session.items : quiz.words;
+  const idx = flashcardState ? flashcardState.session.currentIndex : quiz.idx;
+  if (!words.length || idx >= words.length || idx < 0) { endQuiz(); return; }
+  const currentItem = flashcardState
+    ? flashcardState.session.items[flashcardState.session.currentIndex]
+    : quiz.words[idx];
+  const w = currentItem.raw;
+  quiz.idx = idx;
   const pct = (idx/words.length)*100;
   document.getElementById('quizInner').innerHTML = `
     <div class="quiz-header">
@@ -1571,10 +1584,15 @@ function renderQuestion() {
 function answer(chosen) {
   if (quiz.answered) return;
   quiz.answered = true;
-  const w = quiz.words[quiz.idx];
-  const ok = chosen === w.a;
+  const currentItem = flashcardState
+    ? flashcardState.session.items[flashcardState.session.currentIndex]
+    : quiz.words[quiz.idx];
+  if (!currentItem) return;
+  const w = currentItem.raw;
+  const ok = chosen === currentItem.answer;
   if (ok) { quiz.correct++; SESSION.correct++; }
   SESSION.total++;
+  quiz.pendingOutcome = ok ? 'known' : 'unknown';
 
   ['der','die','das'].forEach(a => {
     const btn = document.getElementById('b-'+a);
@@ -1592,8 +1610,14 @@ function answer(chosen) {
 }
 
 function nextQ() {
-  quiz.idx++;
+  if (flashcardState && quiz.pendingOutcome) {
+    flashcardState = quiz.pendingOutcome === 'known'
+      ? window.FlashcardCore.markKnown(flashcardState)
+      : window.FlashcardCore.markUnknown(flashcardState);
+  }
+  quiz.idx = flashcardState ? flashcardState.session.currentIndex : quiz.idx + 1;
   quiz.answered = false;
+  quiz.pendingOutcome = null;
   renderQuestion();
 }
 
@@ -1666,6 +1690,21 @@ function showToast(msg) {
 }
 
 applyTranslations();
+
+function normalizeFlashcardItem(item, groupId, index) {
+  return {
+    id: `${groupId}-${index}-${item.w}`,
+    prompt: item.w,
+    answer: item.a,
+    alternatives: ['der', 'die', 'das'],
+    article: item.a,
+    type: 'article',
+    group: groupId,
+    example: item.t || '',
+    difficulty: null,
+    raw: item
+  };
+}
 </script>
 </body>
 </html>
