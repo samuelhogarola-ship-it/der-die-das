@@ -37,6 +37,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* ─── UTILITY ─── */
 .hidden{display:none!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.topbar{
+  background:#111110;color:rgba(255,255,255,.78);font-size:12px;line-height:1;
+  padding:10px 16px;text-align:center;letter-spacing:.2px
+}
 .lang-switch{display:flex;align-items:center;gap:6px}
 .lang-btn{
   min-width:42px;padding:7px 10px;border-radius:8px;border:1px solid var(--border2);
@@ -55,28 +59,33 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 ══════════════════════════════════════════════ */
 /* TOP NAV */
 .nav{
-  background:var(--white);border-bottom:1px solid var(--border);
-  height:56px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 32px;position:sticky;top:0;z-index:100
+  background:rgba(255,255,255,.94);border-bottom:1px solid rgba(17,17,16,.08);
+  backdrop-filter:blur(18px);position:sticky;top:0;z-index:100
 }
-.nav-brand{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;color:var(--text)}
+.nav-inner{
+  max-width:1180px;margin:0 auto;height:64px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px
+}
+.nav-brand{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;color:var(--text)}
 .nav-logo{
-  width:34px;height:34px;background:var(--text);border-radius:8px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0
+  width:42px;height:42px;border-radius:12px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 10px 30px rgba(37,99,168,.18),0 0 0 1px rgba(17,17,16,.06)
 }
-.nav-logo svg{width:18px;height:18px}
-.nav-brandname{font-size:15px;font-weight:700;letter-spacing:-.3px}
-.nav-links{display:flex;align-items:center;gap:4px}
+.nav-logo img{width:100%;height:100%;object-fit:cover;display:block}
+.nav-brandname{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.nav-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .nav-link{
-  padding:7px 14px;border-radius:8px;font-size:14px;font-weight:500;
+  padding:7px 14px;border-radius:999px;font-size:14px;font-weight:600;
   color:var(--muted);cursor:pointer;border:none;background:none;
   font-family:'Inter',sans-serif;transition:all .14s
 }
 .nav-link:hover{background:var(--bg);color:var(--text)}
-.nav-link.active{color:var(--text)}
+.nav-link.active{background:var(--text);color:var(--white)}
+.nav-sep{width:1px;height:18px;background:rgba(17,17,16,.12)}
 .nav-right{display:flex;align-items:center;gap:8px}
 .btn-sm{
-  padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;
+  padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;
   cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s;white-space:nowrap
 }
 .btn-outline-sm{background:none;border:1px solid var(--border2);color:var(--text)}
@@ -111,6 +120,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   background:var(--white);border:1px solid var(--border);border-radius:20px;
   padding:32px;box-shadow:var(--sh2);
 }
+.hero-logo-wrap{
+  text-align:center;margin-bottom:20px;padding:14px;border-radius:18px;
+  background:linear-gradient(180deg,#fbfcff 0%,#f4f7fb 100%);
+  border:1px solid var(--border)
+}
+.hero-logo-wrap img{
+  width:min(100%,320px);height:auto;display:block;margin:0 auto;
+  filter:drop-shadow(0 14px 26px rgba(37,99,168,.16))
+}
+.hero-logo-caption{font-size:12px;color:var(--muted2);font-weight:600;margin-top:8px}
 .hero-art-row{display:flex;gap:10px;margin-bottom:20px}
 .hero-art{
   flex:1;padding:18px 12px;border-radius:12px;text-align:center;
@@ -240,10 +259,11 @@ footer{
 }
 .modal-close:hover{background:var(--bg)}
 .modal-logo{
-  width:42px;height:42px;background:var(--text);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;margin:0 auto 20px
+  width:54px;height:54px;border-radius:14px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 20px;
+  box-shadow:0 10px 28px rgba(37,99,168,.18),0 0 0 1px rgba(17,17,16,.06)
 }
-.modal-logo svg{width:22px;height:22px}
+.modal-logo img{width:100%;height:100%;object-fit:cover;display:block}
 .modal h2{font-size:22px;font-weight:800;text-align:center;margin-bottom:6px;letter-spacing:-.3px}
 .modal-sub{font-size:14px;color:var(--muted);text-align:center;margin-bottom:28px}
 .modal-tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:28px;
@@ -316,10 +336,11 @@ footer{
 }
 .app-brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
 .app-logo{
-  width:30px;height:30px;background:var(--text);border-radius:7px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0
+  width:34px;height:34px;border-radius:10px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 8px 18px rgba(37,99,168,.14),0 0 0 1px rgba(17,17,16,.06)
 }
-.app-logo svg{width:16px;height:16px}
+.app-logo img{width:100%;height:100%;object-fit:cover;display:block}
 .app-brandname{font-size:14px;font-weight:700}
 .app-nav-right{display:flex;align-items:center;gap:8px}
 .streak-pill{
@@ -556,10 +577,16 @@ footer{
   .pricing-grid{grid-template-columns:1fr}
   .levels-grid{grid-template-columns:1fr 1fr}
   .cats-grid{grid-template-columns:1fr 1fr}
-  .nav-links{display:none}
+  .nav-inner{height:auto;min-height:64px;padding:14px 20px;flex-wrap:wrap}
+  .nav-links{order:3;width:100%;justify-content:center}
+  .nav-right{margin-left:auto}
 }
 @media(max-width:600px){
-  .nav{padding:0 16px;height:50px}
+  .topbar{font-size:11px;padding:8px 12px}
+  .nav-inner{padding:12px 16px}
+  .nav-brandname{font-size:14px}
+  .nav-links{gap:6px}
+  .nav-link{padding:6px 12px;font-size:13px}
   .levels-grid,.cats-grid{grid-template-columns:1fr}
   .levels-view,.cats-view,.quiz-view,.stats-view{padding:24px 16px}
   .q-word{font-size:44px}
@@ -579,25 +606,34 @@ footer{
 <!-- ══ SCREEN: LANDING ══ -->
 <div class="screen on" id="s-landing">
 
+  <div class="topbar">www.vokabellab.com | Laboratorio de vocabulario alemán</div>
+
   <nav class="nav">
-    <a class="nav-brand" href="#" onclick="return false">
-      <div class="nav-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <div class="nav-inner">
+      <a class="nav-brand" href="#" onclick="return false">
+        <div class="nav-logo">
+          <img src="./logo-small.png" alt="DerDieDas logo">
+        </div>
+        <span class="nav-brandname">DerDieDas</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="https://www.samuelcoachdealeman.com/">Samuel Coach de Alemán</a>
+        <a class="nav-link" href="https://www.vokabellab.com/">Vokabel Lab</a>
+        <a class="nav-link active" href="https://derdiedas.vokabellab.com/">DerDieDas</a>
+        <a class="nav-link" href="https://www.imkontext.vokabellab.com/">imKontext</a>
+        <span class="nav-sep" aria-hidden="true"></span>
+        <button class="nav-link" id="landing-home-link" onclick="scrollTo(0,0)">Inicio</button>
+        <button class="nav-link" id="landing-features-link" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Funciones</button>
+        <button class="nav-link" id="landing-pricing-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
       </div>
-      <span class="nav-brandname">DerDieDas</span>
-    </a>
-    <div class="nav-links">
-      <button class="nav-link active" onclick="scrollTo(0,0)">Inicio</button>
-      <button class="nav-link" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Funciones</button>
-      <button class="nav-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
-    </div>
-    <div class="nav-right">
-      <div class="lang-switch">
-        <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
-        <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
-        <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+      <div class="nav-right">
+        <div class="lang-switch">
+          <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
+          <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+        </div>
+        <button class="btn-sm btn-dark-sm" onclick="enterDemo()">Empezar gratis</button>
       </div>
-      <button class="btn-sm btn-dark-sm" onclick="enterDemo()">Empezar gratis</button>
     </div>
   </nav>
 
@@ -613,12 +649,9 @@ footer{
       <div class="hero-note">Sin tarjeta de crédito · 3 rondas gratuitas al día</div>
     </div>
     <div class="hero-visual">
-      <div style="text-align:center;margin-bottom:20px">
-        <!-- Logo placeholder — reemplaza con tu imagen -->
-        <div style="width:80px;height:80px;background:var(--text);border-radius:18px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center">
-          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        </div>
-        <div style="font-size:11px;color:var(--muted2);font-weight:500">← Tu logo aquí</div>
+      <div class="hero-logo-wrap">
+        <img src="./logo-hero.png" alt="DerDieDas zorro logo">
+        <div class="hero-logo-caption">La versión web del nuevo logo ya está integrada</div>
       </div>
       <div class="hero-art-row">
         <div class="hero-art der">der</div>
@@ -764,7 +797,7 @@ footer{
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
     </button>
     <div class="modal-logo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <img src="./logo-small.png" alt="DerDieDas logo">
     </div>
     <h2 id="modalTitle">Bienvenido</h2>
     <p class="modal-sub" id="modalSub">Continúa con tu cuenta</p>
@@ -843,7 +876,7 @@ footer{
   <nav class="app-nav">
     <a class="app-brand" href="#" onclick="goView('levels');return false">
       <div class="app-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <img src="./logo-small.png" alt="DerDieDas logo">
       </div>
       <span class="app-brandname">DerDieDas</span>
     </a>
@@ -1319,10 +1352,12 @@ function applyTranslations() {
   document.documentElement.lang = CURRENT_LANG;
   updateLangButtons();
 
-  const landingNav = document.querySelectorAll('.nav-links .nav-link');
-  if (landingNav[0]) landingNav[0].textContent = t('navHome');
-  if (landingNav[1]) landingNav[1].textContent = t('navFeatures');
-  if (landingNav[2]) landingNav[2].textContent = t('navPricing');
+  const landingHomeLink = document.getElementById('landing-home-link');
+  const landingFeaturesLink = document.getElementById('landing-features-link');
+  const landingPricingLink = document.getElementById('landing-pricing-link');
+  if (landingHomeLink) landingHomeLink.textContent = t('navHome');
+  if (landingFeaturesLink) landingFeaturesLink.textContent = t('navFeatures');
+  if (landingPricingLink) landingPricingLink.textContent = t('navPricing');
 
   const navRightButton = document.querySelector('.nav-right .btn-sm.btn-dark-sm');
   if (navRightButton) navRightButton.textContent = t('navStartDemo');
