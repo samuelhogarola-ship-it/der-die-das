@@ -34,7 +34,7 @@
     }
 
     return Object.assign({}, session, {
-      currentIndex: Math.min(session.currentIndex + 1, session.items.length - 1)
+      currentIndex: Math.min(session.currentIndex + 1, session.items.length)
     });
   }
 
