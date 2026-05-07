@@ -965,6 +965,7 @@ footer{
 <!-- TOAST -->
 <div class="toast" id="toastEl"></div>
 
+<script src="shared/flashcard-core.js"></script>
 <script>
 // ═══════════════════════════════════════════
 // SUPABASE CONFIG — replace with your keys
@@ -1210,6 +1211,8 @@ let USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
 let SESSION = {rounds:0, words:0, correct:0, total:0};
 let currentLevel = null;
 let quiz = {words:[],idx:0,correct:0,answered:false};
+let flashcardState = null;
+let nextQuestionTimer = null;
 
 // ═══════════════════════════════════════════
 // SCREENS
@@ -1570,24 +1573,45 @@ function startQuiz(catId) {
   }
   const pool = WORD_POOL[catId] || WORD_POOL['food'];
   const words = [...pool].sort(()=>Math.random()-.5);
-  quiz = {words, idx:0, correct:0, answered:false};
+  const flashcardItems = words.map((item, index) => normalizeFlashcardItem(item, catId, index));
+
+  clearNextQuestionTimer();
+  flashcardState = null;
+
+  if (hasFlashcardCore()) {
+    const nextState = window.FlashcardCore.createFlashcardState(flashcardItems, {
+      meta: { categoryId: catId }
+    });
+    if (hasValidFlashcardState(nextState)) {
+      flashcardState = nextState;
+    } else {
+      console.error("FlashcardCore returned invalid state");
+    }
+  } else {
+    console.error("FlashcardCore unavailable");
+  }
+
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
 }
 
 function renderQuestion() {
-  const {words,idx} = quiz;
-  if (idx >= words.length) { endQuiz(); return; }
-  const w = words[idx];
-  const pct = (idx/words.length)*100;
+  const currentQuestion = getCurrentQuestionState();
+  if (!currentQuestion || !currentQuestion.total || currentQuestion.idx >= currentQuestion.total || currentQuestion.idx < 0) {
+    endQuiz(); return;
+  }
+  const { idx, total, raw: w } = currentQuestion;
+  quiz.idx = idx;
+  const pct = (idx/total)*100;
   document.getElementById('quizInner').innerHTML = `
     <div class="quiz-header">
       <button class="q-exit" onclick="goView('cats')" title="Salir">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l11 11M12 1L1 12"/></svg>
       </button>
       <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
-      <span class="qcount">${idx+1} / ${words.length}</span>
+      <span class="qcount">${idx+1} / ${total}</span>
     </div>
     <div class="q-card" id="qc">
       <div class="q-prompt">${t('quizPrompt')}</div>
@@ -1605,11 +1629,14 @@ function renderQuestion() {
 
 function answer(chosen) {
   if (quiz.answered) return;
+  const currentQuestion = getCurrentQuestionState();
+  if (!currentQuestion) return;
   quiz.answered = true;
-  const w = quiz.words[quiz.idx];
-  const ok = chosen === w.a;
+  const w = currentQuestion.raw;
+  const ok = chosen === currentQuestion.answer;
   if (ok) { quiz.correct++; SESSION.correct++; }
   SESSION.total++;
+  quiz.pendingOutcome = ok ? 'known' : 'unknown';
 
   ['der','die','das'].forEach(a => {
     const btn = document.getElementById('b-'+a);
@@ -1623,18 +1650,35 @@ function answer(chosen) {
     ? `✓ <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`
     : `✗ Era <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`;
   document.getElementById('qc').classList.add(ok?'ok':'ko');
-  setTimeout(nextQ, 1800);
+  clearNextQuestionTimer();
+  nextQuestionTimer = setTimeout(nextQ, 1800);
 }
 
 function nextQ() {
-  quiz.idx++;
+  clearNextQuestionTimer();
+
+  if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
+    const nextState = quiz.pendingOutcome === 'known'
+      ? window.FlashcardCore.markKnown(flashcardState)
+      : window.FlashcardCore.markUnknown(flashcardState);
+    flashcardState = hasValidFlashcardState(nextState) ? nextState : advanceFlashcardState(flashcardState);
+    quiz.idx = flashcardState.session.currentIndex;
+  } else if (hasValidFlashcardState(flashcardState)) {
+    flashcardState = advanceFlashcardState(flashcardState);
+    quiz.idx = flashcardState.session.currentIndex;
+  } else {
+    quiz.idx++;
+  }
   quiz.answered = false;
+  quiz.pendingOutcome = null;
   renderQuestion();
 }
 
 function endQuiz() {
+  clearNextQuestionTimer();
   SESSION.rounds++;
-  const pct = Math.round((quiz.correct/quiz.words.length)*100);
+  const totalWords = quiz.words.length;
+  const pct = totalWords ? Math.round((quiz.correct/totalWords)*100) : 0;
   const d = quiz.words.filter(w=>w.a==='der').length;
   const i = quiz.words.filter(w=>w.a==='die').length;
   const n = quiz.words.filter(w=>w.a==='das').length;
@@ -1701,6 +1745,84 @@ function showToast(msg) {
 }
 
 applyTranslations();
+
+function clearNextQuestionTimer() {
+  if (nextQuestionTimer) {
+    clearTimeout(nextQuestionTimer);
+    nextQuestionTimer = null;
+  }
+}
+
+function hasFlashcardCore() {
+  return !!(
+    window.FlashcardCore &&
+    typeof window.FlashcardCore.createFlashcardState === 'function' &&
+    typeof window.FlashcardCore.markKnown === 'function' &&
+    typeof window.FlashcardCore.markUnknown === 'function'
+  );
+}
+
+function hasValidFlashcardState(state) {
+  return !!(
+    state &&
+    state.session &&
+    Array.isArray(state.session.items) &&
+    typeof state.session.currentIndex === 'number'
+  );
+}
+
+function advanceFlashcardState(state) {
+  if (!hasValidFlashcardState(state)) return null;
+  const items = state.session.items;
+  return {
+    ...state,
+    flipped: false,
+    session: {
+      ...state.session,
+      currentIndex: Math.min(state.session.currentIndex + 1, items.length)
+    }
+  };
+}
+
+function getCurrentQuestionState() {
+  if (hasValidFlashcardState(flashcardState)) {
+    const session = flashcardState.session;
+    const idx = session.currentIndex;
+    const item = session.items[idx];
+    if (!item || !item.raw) return null;
+    return {
+      idx,
+      total: session.items.length,
+      raw: item.raw,
+      answer: item.answer
+    };
+  }
+
+  const words = quiz.words || [];
+  const item = words[quiz.idx];
+  if (!item) return null;
+  return {
+    idx: quiz.idx,
+    total: words.length,
+    raw: item,
+    answer: item.a
+  };
+}
+
+function normalizeFlashcardItem(item, groupId, index) {
+  return {
+    id: `${groupId}-${index}-${item.w}`,
+    prompt: item.w,
+    answer: item.a,
+    alternatives: ['der', 'die', 'das'],
+    article: item.a,
+    type: 'article',
+    group: groupId,
+    example: item.t || '',
+    difficulty: null,
+    raw: item
+  };
+}
 </script>
 </body>
 </html>
