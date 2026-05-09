@@ -525,6 +525,11 @@ footer{
   font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all .13s
 }
 .q-menu:hover{background:var(--bg);color:var(--text)}
+.q-finish{
+  padding:8px 12px;border-radius:10px;border:1px solid #F0CECE;background:#FFF2F2;
+  font-size:13px;font-weight:700;color:var(--der);cursor:pointer;font-family:'Inter',sans-serif;transition:all .13s
+}
+.q-finish:hover{background:#FFE7E7}
 
 .q-card{
   background:var(--white);border:1.5px solid var(--border);border-radius:20px;
@@ -1197,7 +1202,7 @@ const UI = {
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
     quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie'
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
@@ -1228,7 +1233,7 @@ const UI = {
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
     quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha'
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
@@ -1259,7 +1264,7 @@ const UI = {
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
     quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak'
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1414,6 +1419,40 @@ let SESSION = {rounds:0, words:0, correct:0, total:0};
 let currentLevel = null;
 let currentCategory = null;
 let quiz = {words:[],idx:0,correct:0,answered:false};
+
+function cloneQuizState(value) {
+  return value ? JSON.parse(JSON.stringify(value)) : value;
+}
+
+function captureQuizSnapshot() {
+  return {
+    flashcardState: cloneQuizState(flashcardState),
+    quiz: {
+      idx: quiz.idx,
+      correct: quiz.correct,
+      answered: false,
+      pendingOutcome: null,
+      streak: quiz.streak || 0
+    },
+    session: {
+      correct: SESSION.correct,
+      total: SESSION.total
+    }
+  };
+}
+
+function restoreQuizSnapshot(snapshot) {
+  if (!snapshot) return;
+  flashcardState = cloneQuizState(snapshot.flashcardState);
+  quiz.idx = snapshot.quiz.idx;
+  quiz.correct = snapshot.quiz.correct;
+  quiz.answered = false;
+  quiz.pendingOutcome = null;
+  quiz.streak = snapshot.quiz.streak || 0;
+  SESSION.correct = snapshot.session.correct;
+  SESSION.total = snapshot.session.total;
+}
+
 let flashcardState = null;
 let nextQuestionTimer = null;
 
@@ -1805,7 +1844,7 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0};
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0, history:[], currentSnapshot:null};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -1821,6 +1860,7 @@ function renderQuestion() {
   const pct = (idx/total)*100;
   const levelLabel = LEVELS.find(level => level.id === currentLevel)?.label || currentLevel?.toUpperCase() || 'A1';
   const categoryLabel = currentCategory ? catName(currentCategory) : '';
+  quiz.currentSnapshot = captureQuizSnapshot();
   document.getElementById('quizInner').innerHTML = `
     <div class="quiz-context">
       <div class="quiz-path">${levelLabel}${categoryLabel ? ` · ${categoryLabel}` : ''}</div>
@@ -1828,10 +1868,11 @@ function renderQuestion() {
     </div>
     <div class="quiz-header">
       <div class="quiz-nav">
-        <button class="q-back" onclick="goView('cats')" title="${t('quizBack')}">
+        <button class="q-back" onclick="prevQ()" title="${t('quizBack')}">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
         </button>
         <button class="q-menu" onclick="goView('levels')">${t('quizMenu')}</button>
+        <button class="q-finish" onclick="finishQuiz()">${t('quizFinish')}</button>
       </div>
       <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
       <span class="qcount">${idx+1} / ${total}</span>
@@ -1886,6 +1927,10 @@ function answer(chosen) {
 function nextQ() {
   clearNextQuestionTimer();
 
+  if (quiz.currentSnapshot) {
+    quiz.history.push(cloneQuizState(quiz.currentSnapshot));
+  }
+
   if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
     const nextState = quiz.pendingOutcome === 'known'
       ? window.FlashcardCore.markKnown(flashcardState)
@@ -1903,14 +1948,41 @@ function nextQ() {
   renderQuestion();
 }
 
+function prevQ() {
+  clearNextQuestionTimer();
+  const snapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
+  if (!snapshot) {
+    goView('cats');
+    return;
+  }
+  restoreQuizSnapshot(snapshot);
+  renderQuestion();
+}
+
+function finishQuiz() {
+  clearNextQuestionTimer();
+  if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
+    const nextState = quiz.pendingOutcome === 'known'
+      ? window.FlashcardCore.markKnown(flashcardState)
+      : window.FlashcardCore.markUnknown(flashcardState);
+    flashcardState = hasValidFlashcardState(nextState) ? nextState : flashcardState;
+    quiz.pendingOutcome = null;
+    quiz.answered = false;
+  }
+  endQuiz();
+}
+
 function endQuiz() {
   clearNextQuestionTimer();
   SESSION.rounds++;
-  const totalWords = quiz.words.length;
+  const answeredItems = hasValidFlashcardState(flashcardState)
+    ? flashcardState.marks.map(mark => mark.item).filter(Boolean)
+    : quiz.words.slice(0, SESSION.total);
+  const totalWords = answeredItems.length;
   const pct = totalWords ? Math.round((quiz.correct/totalWords)*100) : 0;
-  const d = quiz.words.filter(w=>w.a==='der').length;
-  const i = quiz.words.filter(w=>w.a==='die').length;
-  const n = quiz.words.filter(w=>w.a==='das').length;
+  const d = answeredItems.filter(w=>w.a==='der').length;
+  const i = answeredItems.filter(w=>w.a==='die').length;
+  const n = answeredItems.filter(w=>w.a==='das').length;
   const nearLimit = !PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3;
   document.getElementById('quizInner').innerHTML = `
     ${nearLimit ? `<div class="upsell-bar">
@@ -1923,7 +1995,7 @@ function endQuiz() {
     <div class="result-box">
       <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px">${t('quizCompleted')}</div>
       <div class="r-pct">${pct}%</div>
-      <div class="r-lbl">${t('resultLabel', { correct: quiz.correct, total: quiz.words.length })}</div>
+      <div class="r-lbl">${t('resultLabel', { correct: quiz.correct, total: totalWords })}</div>
       <div class="r-arts">
         <div class="r-art rd"><div class="n">${d}</div><div class="l">der</div></div>
         <div class="r-art ri"><div class="n">${i}</div><div class="l">die</div></div>
