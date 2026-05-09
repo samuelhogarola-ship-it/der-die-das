@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>DerDieDas — Vokabel Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +42,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 .topbar{
   background:#111110;color:rgba(255,255,255,.78);font-size:12px;line-height:1;
-  padding:10px 16px;text-align:center;letter-spacing:.2px
+  padding:10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  text-align:center;letter-spacing:.2px
 }
 .lang-switch{display:flex;align-items:center;gap:6px}
 .lang-btn{
@@ -60,16 +64,26 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* TOP NAV */
 .nav{
   background:rgba(255,255,255,.94);border-bottom:1px solid rgba(17,17,16,.08);
-  backdrop-filter:blur(18px);position:sticky;top:0;z-index:100
+  backdrop-filter:blur(18px);position:sticky;top:0;z-index:100;transition:box-shadow .18s ease
 }
 .nav-inner{
-  max-width:1180px;margin:0 auto;padding:18px 24px 16px;
-  display:flex;flex-direction:column;gap:14px
+  max-width:1180px;margin:0 auto;
+  padding:12px max(20px, env(safe-area-inset-right)) 10px max(20px, env(safe-area-inset-left));
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  grid-template-areas:
+    "brand right"
+    "meta meta"
+    "bottom bottom";
+  column-gap:16px;row-gap:10px;transition:padding .18s ease,gap .18s ease
 }
-.nav-top,.nav-bottom{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;
+.nav-meta{
+  grid-area:meta;display:flex;justify-content:flex-start;align-items:center;
+  width:100%;min-width:0;transition:all .18s ease;
 }
-.nav-brand{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;color:var(--text)}
+.nav-brand{
+  grid-area:brand;display:flex;align-items:center;gap:12px;min-height:42px;min-width:0;
+  cursor:pointer;text-decoration:none;color:var(--text)
+}
 .nav-logo{
   width:42px;height:42px;border-radius:12px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -77,16 +91,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 }
 .nav-logo img{width:100%;height:100%;object-fit:cover;display:block}
 .nav-brandname{font-size:15px;font-weight:800;letter-spacing:-.3px}
-.nav-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-bottom{
+  grid-area:bottom;display:flex;align-items:center;justify-content:flex-start;
+  gap:16px;width:100%;transition:all .18s ease;
+}
+.nav-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .nav-link{
-  padding:7px 14px;border-radius:999px;font-size:14px;font-weight:600;
+  padding:6px 10px;border-radius:999px;font-size:13px;font-weight:600;
   color:var(--muted);cursor:pointer;border:none;background:none;
   font-family:'Inter',sans-serif;transition:all .14s
 }
 .nav-link:hover{background:var(--bg);color:var(--text)}
 .nav-link.active{background:var(--text);color:var(--white)}
 .nav-sep{width:1px;height:18px;background:rgba(17,17,16,.12)}
-.nav-right{display:flex;align-items:center;gap:8px}
+.nav-right{
+  grid-area:right;display:flex;align-items:center;justify-self:end;align-self:center;gap:8px;min-width:0
+}
 .nav-dashboard{
   display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
   border:1px solid var(--border2);background:var(--white);color:var(--text);
@@ -97,8 +117,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .nav-dashboard-soon{font-size:11px;font-weight:600;color:var(--muted)}
 
 @media(min-width:1200px){
-  .topbar{padding:16px 16px 22px}
-  .nav-inner{padding-top:22px;padding-bottom:18px}
+  .topbar{padding:12px 16px 14px}
+  .nav-inner{padding-top:14px;padding-bottom:12px}
 }
 
 .btn-sm{
@@ -135,8 +155,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* HERO VISUAL */
 .hero-visual{
   background:var(--white);border:1px solid var(--border);border-radius:20px;
-  padding:32px;box-shadow:var(--sh2);
+  padding:32px;box-shadow:var(--sh2);cursor:pointer;transition:transform .14s ease,box-shadow .14s ease
 }
+.hero-visual:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.06)}
 .hero-logo-wrap{
   text-align:center;margin-bottom:20px;padding:14px;border-radius:18px;
   background:linear-gradient(180deg,#fbfcff 0%,#f4f7fb 100%);
@@ -360,6 +381,10 @@ footer{
 .app-logo img{width:100%;height:100%;object-fit:cover;display:block}
 .app-brandname{font-size:14px;font-weight:700}
 .app-nav-right{display:flex;align-items:center;gap:8px}
+.app-lang-select{
+  display:none;padding:9px 12px;border:1px solid var(--border2);border-radius:10px;
+  background:var(--white);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:700
+}
 .streak-pill{
   display:flex;align-items:center;gap:5px;padding:5px 12px;
   border-radius:99px;background:var(--gold-bg);border:1px solid #E8D8A0;
@@ -587,10 +612,15 @@ footer{
    RESPONSIVE
 ══════════════════════════════════════════════ */
 @media(max-width:900px){
-  .nav-top,.nav-bottom{flex-direction:column;align-items:flex-start}
-  .nav-right{width:100%;justify-content:flex-end}
-  .nav-bottom{gap:12px}
-  .nav-dashboard{align-self:flex-end}
+  .nav-inner{
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:
+      "brand right"
+      "meta meta"
+      "bottom bottom";
+  }
+  .nav-bottom{gap:8px}
+  .nav-dashboard{align-self:flex-start}
   .hero{grid-template-columns:1fr;padding:60px 24px;gap:40px}
   .hero-text h1{font-size:38px}
   .hero-visual{max-width:480px;margin:0 auto;width:100%}
@@ -598,16 +628,51 @@ footer{
   .pricing-grid{grid-template-columns:1fr}
   .levels-grid{grid-template-columns:1fr 1fr}
   .cats-grid{grid-template-columns:1fr 1fr}
-  .nav-inner{padding:14px 20px}
-  .nav-links{width:100%;justify-content:flex-start}
+  .nav-inner{
+    padding:12px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left))
+  }
+  .nav-links{width:100%;justify-content:flex-start;gap:8px}
 }
 @media(max-width:600px){
-  .topbar{font-size:11px;padding:8px 12px}
-  .nav-inner{padding:12px 16px}
-  .nav-brandname{font-size:14px}
-  .nav-links{gap:6px}
-  .nav-link{padding:6px 12px;font-size:13px}
-  .nav-dashboard{align-self:stretch;justify-content:center}
+  .topbar{
+    font-size:9px;padding:3px max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left));line-height:1.05;
+    transition:all .18s ease
+  }
+  .nav{box-shadow:0 1px 0 rgba(17,17,16,.06)}
+  .nav-inner{
+    padding:6px max(12px, env(safe-area-inset-right)) 5px max(12px, env(safe-area-inset-left));
+    row-gap:6px;column-gap:10px;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:
+      "brand right"
+      "meta meta"
+      "bottom bottom";
+    align-items:center;
+  }
+  .nav-brandname{
+    font-size:13px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+  }
+  .nav-logo{width:30px;height:30px}
+  .nav-brand{min-height:30px}
+  .nav-right{justify-self:end;align-self:center}
+  .lang-switch{display:flex;align-items:center;gap:4px;height:30px}
+  .lang-btn{min-width:34px;padding:5px 7px;font-size:10px}
+  .nav-meta{justify-content:flex-start}
+  .nav-links{
+    width:100%;gap:10px;flex-wrap:nowrap;overflow-x:auto;
+    scrollbar-width:none;-ms-overflow-style:none
+  }
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-link{flex:0 0 auto;padding:3px 0;font-size:11px}
+  .nav-link.active{padding-inline:10px}
+  .nav-dashboard{
+    align-self:flex-start;justify-content:flex-start;padding:6px 12px;font-size:11px;min-width:0
+  }
+  .nav-dashboard-soon{font-size:10px}
+  .app-nav{padding:0 14px}
+  .app-nav-right{gap:0}
+  .app-nav-right .lang-switch{display:none}
+  .app-lang-select{display:block}
   .levels-grid,.cats-grid{grid-template-columns:1fr}
   .levels-view,.cats-view,.quiz-view,.stats-view{padding:24px 16px}
   .q-word{font-size:44px}
@@ -617,8 +682,89 @@ footer{
   .feat-grid{grid-template-columns:1fr}
   .how-steps{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr}
-  .hero-text h1{font-size:32px}
+  .hero{
+    padding:38px 16px 18px;gap:18px;align-items:start
+  }
+  .hero-text{order:2}
+  .hero-visual{order:1}
+  .hero-text h1{
+    font-size:24px;line-height:1.08;letter-spacing:-1px;margin-bottom:12px
+  }
+  .hero-text p{
+    font-size:14px;line-height:1.45;margin-bottom:16px;max-width:none
+  }
+  .hero-actions{gap:10px}
+  .btn-hero{
+    padding:11px 16px;font-size:14px;border-radius:9px
+  }
+  .hero-note{
+    font-size:11px;margin-top:10px;line-height:1.35
+  }
+  .hero-visual{
+    padding:18px;border-radius:16px
+  }
+  .hero-logo-wrap{
+    margin-bottom:14px;padding:10px;border-radius:14px
+  }
+  .hero-logo-wrap img{
+    width:min(100%,240px)
+  }
+  .hero-logo-caption{
+    font-size:10px;margin-top:6px
+  }
+  .hero-art-row{
+    gap:8px;margin-bottom:14px
+  }
+  .hero-art{
+    padding:12px 8px;font-size:20px;border-radius:10px
+  }
+  .hero-word-demo .big{
+    font-size:28px
+  }
+  .hero-word-demo .small{
+    font-size:12px
+  }
+  .hero-article-reveal{
+    margin-top:10px;padding:8px 14px;font-size:14px
+  }
   footer{flex-direction:column;gap:12px;text-align:center}
+
+  body.landing-header-compact .topbar{
+    opacity:0;max-height:0;padding-top:0;padding-bottom:0;overflow:hidden
+  }
+  body.landing-header-compact .nav{
+    background:rgba(255,255,255,.98);backdrop-filter:none;
+    -webkit-backdrop-filter:none;box-shadow:0 10px 24px rgba(17,17,16,.08)
+  }
+  body.landing-header-compact .nav-inner{
+    padding:6px max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
+    row-gap:0;column-gap:8px;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"meta right";
+    align-items:center;
+  }
+  body.landing-header-compact .nav-brand{
+    display:none
+  }
+  body.landing-header-compact .nav-meta{
+    width:100%;justify-content:flex-start
+  }
+  body.landing-header-compact .nav-dashboard{
+    width:auto;justify-content:center;padding:6px 10px;font-size:10px;gap:4px;min-width:0;
+    max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+  }
+  body.landing-header-compact .nav-dashboard-soon{
+    display:none
+  }
+  body.landing-header-compact .lang-switch{
+    height:28px
+  }
+  body.landing-header-compact .lang-btn{
+    min-width:34px;padding:5px 6px;font-size:10px
+  }
+  body.landing-header-compact .nav-bottom{
+    max-height:0;opacity:0;overflow:hidden;pointer-events:none
+  }
 }
 </style>
 </head>
@@ -631,20 +777,24 @@ footer{
 
   <nav class="nav">
     <div class="nav-inner">
-      <div class="nav-top">
-        <a class="nav-brand" href="#" onclick="return false">
-          <div class="nav-logo">
-            <img src="./logo-small.png" alt="DerDieDas logo">
-          </div>
-          <span class="nav-brandname">DerDieDas</span>
-        </a>
-        <div class="nav-right">
-          <div class="lang-switch">
-            <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
-            <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
-            <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
-          </div>
+      <a class="nav-brand" href="#" onclick="return false">
+        <div class="nav-logo">
+          <img src="./logo-small.png" alt="DerDieDas logo">
         </div>
+        <span class="nav-brandname">DerDieDas</span>
+      </a>
+      <div class="nav-right">
+        <div class="lang-switch">
+          <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
+          <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+      <div class="nav-meta">
+        <button class="nav-dashboard" onclick="enterDemo()">
+          <span id="landing-dashboard-label">Actividades</span>
+          <span class="nav-dashboard-soon" id="landing-dashboard-soon">Abrir menú</span>
+        </button>
       </div>
       <div class="nav-bottom">
         <div class="nav-links">
@@ -652,15 +802,7 @@ footer{
           <a class="nav-link" href="https://www.vokabellab.com/">Vokabel Lab</a>
           <a class="nav-link active" href="https://derdiedas.vokabellab.com/">DerDieDas</a>
           <a class="nav-link" href="https://www.imkontext.vokabellab.com/">imKontext</a>
-          <span class="nav-sep" aria-hidden="true"></span>
-          <button class="nav-link" id="landing-home-link" onclick="scrollTo(0,0)">Inicio</button>
-          <button class="nav-link" id="landing-features-link" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Funciones</button>
-          <button class="nav-link" id="landing-pricing-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
         </div>
-        <button class="nav-dashboard" onclick="showToast(t('toastPremiumSoon'))">
-          <span id="landing-dashboard-label">Dashboard</span>
-          <span class="nav-dashboard-soon" id="landing-dashboard-soon">Coming soon</span>
-        </button>
       </div>
     </div>
   </nav>
@@ -676,10 +818,10 @@ footer{
       </div>
       <div class="hero-note">Sin tarjeta de crédito · 3 rondas gratuitas al día</div>
     </div>
-    <div class="hero-visual">
+    <div class="hero-visual" onclick="enterDemo()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();enterDemo();}">
       <div class="hero-logo-wrap">
         <img src="./logo-hero.png" alt="DerDieDas zorro logo">
-        <div class="hero-logo-caption">La versión web del nuevo logo ya está integrada</div>
+        <div class="hero-logo-caption" id="heroLogoCaption">Empieza ya a practicar.</div>
       </div>
       <div class="hero-art-row">
         <div class="hero-art der">der</div>
@@ -902,7 +1044,7 @@ footer{
 <div class="screen" id="s-app">
   <!-- APP NAV -->
   <nav class="app-nav">
-    <a class="app-brand" href="#" onclick="goView('levels');return false">
+    <a class="app-brand" href="#" onclick="showScreen('s-landing');window.scrollTo(0,0);return false">
       <div class="app-logo">
         <img src="./logo-small.png" alt="DerDieDas logo">
       </div>
@@ -921,12 +1063,11 @@ footer{
         <button class="lang-btn" id="app-lang-de" onclick="setLang('de')">DE</button>
         <button class="lang-btn" id="app-lang-en" onclick="setLang('en')">EN</button>
       </div>
-      <div class="streak-pill">🔥 <span id="appStreak">0</span> días</div>
-      <button class="user-btn" onclick="showToast(t('appProfileSoon') || 'Perfil próximamente')">
-        <div class="user-av" id="appAv">?</div>
-        <span id="appName">Demo</span>
-        <span class="plan-chip" id="planChip">Free</span>
-      </button>
+      <select class="app-lang-select" id="app-lang-select" onchange="setLang(this.value)" aria-label="Idioma">
+        <option value="es">ES</option>
+        <option value="de">DE</option>
+        <option value="en">EN</option>
+      </select>
     </div>
   </nav>
 
@@ -1007,10 +1148,11 @@ let CURRENT_LANG = localStorage.getItem('derdiedas_lang') || 'de';
 const UI = {
   de: {
     topbarText:'der die das von Vokabel Lab | Meistere die Artikel',
-    navDashboard:'Dashboard', navDashboardSoon:'Bald verfügbar',
+    navDashboard:'Aktivitäten', navDashboardSoon:'Menü öffnen',
     navHome:'Start', navFeatures:'Funktionen', navPricing:'Preise', heroTitle:'Schluss mit dem Artikel-Chaos.',
     heroSubtitle:'Lerne der, die und das intuitiv. Wortschatz von A1 bis C2, geordnet nach Niveau und Thema.',
     heroStart:'Jetzt gratis starten →', heroDemo:'Ohne Login testen', heroNote:'Zeitlich begrenzt: kostenloser unbegrenzter Zugang. Nutze die Gelegenheit.',
+    heroLogoCaption:'Jetzt direkt loslegen.',
     heroQuestion:'Welcher Artikel ist richtig?', howTitle:'So funktioniert es', howSub:'Drei Schritte zu sicheren Artikeln',
     how1Title:'Niveau wählen', how1Text:'Wähle A1 bis C2 nach GER. Lerne genau den Wortschatz, den du jetzt brauchst.',
     how2Title:'Thema auswählen', how2Text:'Tiere, Wohnen, Arbeit, Gesundheit... Lerne im Kontext und verknüpfe passende Wörter.',
@@ -1037,10 +1179,11 @@ const UI = {
   },
   es: {
     topbarText:'der die das de Vokabel Lab | Domina los artículos',
-    navDashboard:'Dashboard', navDashboardSoon:'Próximamente',
+    navDashboard:'Actividades', navDashboardSoon:'Abrir menú',
     navHome:'Inicio', navFeatures:'Funciones', navPricing:'Planes', heroTitle:'No más dolores de cabeza con los artículos.',
     heroSubtitle:'Aprende der, die y das de forma intuitiva. Vocabulario categorizado de A1 a C2, adaptado al Marco Común Europeo.',
     heroStart:'Empezar gratis ahora →', heroDemo:'Probar sin cuenta', heroNote:'Por tiempo limitado: acceso gratuito ilimitado. Aprovecha.',
+    heroLogoCaption:'Empieza ya a practicar.',
     heroQuestion:'¿Cuál es el artículo correcto?', howTitle:'Así funciona', howSub:'Tres pasos para dominar los artículos alemanes',
     how1Title:'Elige tu nivel', how1Text:'Selecciona entre A1 y C2 según el Marco Común Europeo. No pierdas tiempo con vocabulario que no necesitas.',
     how2Title:'Escoge una categoría', how2Text:'Animales, hogar, trabajo, salud… Aprende en contexto. Las palabras relacionadas se aprenden juntas.',
@@ -1067,10 +1210,11 @@ const UI = {
   },
   en: {
     topbarText:'der die das by Vokabel Lab | Master the articles',
-    navDashboard:'Dashboard', navDashboardSoon:'Coming soon',
+    navDashboard:'Activities', navDashboardSoon:'Open menu',
     navHome:'Home', navFeatures:'Features', navPricing:'Pricing', heroTitle:'No more guessing German articles.',
     heroSubtitle:'Learn der, die and das intuitively. Vocabulary organized from A1 to C2 and grouped by topic.',
     heroStart:'Start free now →', heroDemo:'Try without login', heroNote:'Limited-time offer: unlimited free access. Make the most of it.',
+    heroLogoCaption:'Start practicing now.',
     heroQuestion:'Which article is correct?', howTitle:'How it works', howSub:'Three steps to master German articles',
     how1Title:'Choose your level', how1Text:'Pick from A1 to C2 based on the CEFR. Skip vocabulary you do not need yet.',
     how2Title:'Choose a topic', how2Text:'Animals, home, work, health... Learn in context and keep related words together.',
@@ -1256,6 +1400,7 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   window.scrollTo(0,0);
+  syncLandingHeaderState();
 }
 
 function enterDemo() {
@@ -1264,12 +1409,6 @@ function enterDemo() {
 }
 
 function startApp() {
-  document.getElementById('appAv').textContent = USER.name.slice(0,2).toUpperCase();
-  document.getElementById('appName').textContent = USER.name;
-  document.getElementById('appStreak').textContent = USER.streak;
-  const chip = document.getElementById('planChip');
-  chip.textContent = USER.isPremium ? t('proChip') : t('freeChip');
-  chip.className = 'plan-chip' + (USER.isPremium ? ' pro' : '');
   applyTranslations();
   renderLevels();
   showScreen('s-app');
@@ -1384,6 +1523,8 @@ function updateLangButtons() {
       if (button) button.classList.toggle('active', lang === CURRENT_LANG);
     });
   });
+  const appLangSelect = document.getElementById('app-lang-select');
+  if (appLangSelect) appLangSelect.value = CURRENT_LANG;
 }
 
 function applyTranslations() {
@@ -1409,11 +1550,13 @@ function applyTranslations() {
   const heroButtons = document.querySelectorAll('.hero-actions button');
   const heroNote = document.querySelector('.hero-note');
   const heroSmall = document.querySelector('.hero-word-demo .small');
+  const heroLogoCaption = document.getElementById('heroLogoCaption');
   if (heroTitle) heroTitle.textContent = t('heroTitle');
   if (heroSubtitle) heroSubtitle.textContent = t('heroSubtitle');
   if (heroButtons[0]) heroButtons[0].textContent = t('heroStart');
   if (heroButtons[1]) heroButtons[1].textContent = t('heroDemo');
   if (heroNote) heroNote.textContent = t('heroNote');
+  if (heroLogoCaption) heroLogoCaption.textContent = t('heroLogoCaption');
   if (heroSmall) heroSmall.textContent = t('heroQuestion');
 
   const howHeaders = document.querySelectorAll('.how-step h3');
@@ -1514,8 +1657,6 @@ function applyTranslations() {
   if (statsUpsellText) statsUpsellText.textContent = t('statsUpsellText');
   if (statsUpsellButton) statsUpsellButton.textContent = t('statsUpsellButton');
 
-  document.querySelector('.streak-pill').lastChild.textContent = ` ${t('streak')}`;
-  document.getElementById('planChip').textContent = USER.isPremium || PROMO_UNLIMITED_ACCESS ? t('proChip') : t('freeChip');
 }
 
 function setLang(lang) {
@@ -1530,6 +1671,15 @@ function setLang(lang) {
     else if (quiz.words.length) endQuiz();
   }
 }
+
+function syncLandingHeaderState() {
+  const landingVisible = document.getElementById('s-landing')?.classList.contains('on');
+  const compact = landingVisible && window.innerWidth <= 600 && window.scrollY > 10;
+  document.body.classList.toggle('landing-header-compact', compact);
+}
+
+window.addEventListener('scroll', syncLandingHeaderState, { passive: true });
+window.addEventListener('resize', syncLandingHeaderState);
 
 // ═══════════════════════════════════════════
 // LEVELS
