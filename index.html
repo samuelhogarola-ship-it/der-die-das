@@ -7,9 +7,6 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>DerDieDas — Vokabel Lab</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;scroll-behavior:smooth}
@@ -33,9 +30,10 @@ html{font-size:16px;scroll-behavior:smooth}
   --rl:16px;
   --sh:0 1px 3px rgba(0,0,0,0.05),0 0 0 1px rgba(0,0,0,0.06);
   --sh2:0 4px 16px rgba(0,0,0,0.08),0 0 0 1px rgba(0,0,0,0.06);
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
 }
 
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
 
 /* ─── UTILITY ─── */
 .hidden{display:none!important}
@@ -49,7 +47,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .lang-btn{
   min-width:42px;padding:7px 10px;border-radius:8px;border:1px solid var(--border2);
   background:var(--white);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;
-  font-family:'Inter',sans-serif;transition:all .14s
+  font-family:var(--font-sans);transition:all .14s
 }
 .lang-btn:hover{background:var(--bg);color:var(--text)}
 .lang-btn.active{background:var(--text);border-color:var(--text);color:var(--white)}
@@ -99,7 +97,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .nav-link{
   padding:6px 10px;border-radius:999px;font-size:13px;font-weight:600;
   color:var(--muted);cursor:pointer;border:none;background:none;
-  font-family:'Inter',sans-serif;transition:all .14s
+  font-family:var(--font-sans);transition:all .14s
 }
 .nav-link:hover{background:var(--bg);color:var(--text)}
 .nav-link.active{background:var(--text);color:var(--white)}
@@ -110,7 +108,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .nav-dashboard{
   display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
   border:1px solid var(--border2);background:var(--white);color:var(--text);
-  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+  font-family:var(--font-sans);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
   transition:all .14s
 }
 .nav-dashboard:hover{background:var(--bg)}
@@ -123,7 +121,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 .btn-sm{
   padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;
-  cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s;white-space:nowrap
+  cursor:pointer;border:none;font-family:var(--font-sans);transition:all .14s;white-space:nowrap
 }
 .btn-outline-sm{background:none;border:1px solid var(--border2);color:var(--text)}
 .btn-outline-sm:hover{background:var(--bg)}
@@ -144,7 +142,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .btn-hero{
   padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;
-  cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s
+  cursor:pointer;border:none;font-family:var(--font-sans);transition:all .14s
 }
 .btn-hero-primary{background:var(--text);color:var(--white)}
 .btn-hero-primary:hover{opacity:.82}
@@ -232,7 +230,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 }
 .plan-cta{
   width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:700;
-  cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s
+  cursor:pointer;border:none;font-family:var(--font-sans);transition:all .14s
 }
 .plan-cta-outline{background:none;border:1px solid var(--border2);color:var(--text)}
 .plan-cta-outline:hover{background:var(--bg)}
@@ -263,7 +261,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .btn-cta-white{
   padding:14px 32px;border-radius:10px;background:var(--white);color:var(--text);
   font-size:15px;font-weight:700;cursor:pointer;border:none;
-  font-family:'Inter',sans-serif;transition:opacity .14s
+  font-family:var(--font-sans);transition:opacity .14s
 }
 .btn-cta-white:hover{opacity:.88}
 
@@ -308,7 +306,7 @@ footer{
   background:var(--bg);border-radius:10px;padding:3px}
 .mtab{
   padding:8px;border-radius:8px;font-size:14px;font-weight:600;
-  cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;
+  cursor:pointer;border:none;background:none;font-family:var(--font-sans);
   color:var(--muted);transition:all .14s
 }
 .mtab.on{background:var(--white);color:var(--text);box-shadow:var(--sh)}
@@ -320,7 +318,7 @@ footer{
 .field label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.2px}
 .field input{
   padding:10px 13px;border:1px solid var(--border2);border-radius:8px;
-  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
+  font-family:var(--font-sans);font-size:14px;color:var(--text);
   background:var(--white);outline:none;transition:border-color .14s
 }
 .field input:focus{border-color:var(--text)}
@@ -328,7 +326,7 @@ footer{
 .btn-auth{
   padding:12px;border-radius:9px;background:var(--text);color:var(--white);
   font-size:14px;font-weight:700;cursor:pointer;border:none;
-  font-family:'Inter',sans-serif;transition:opacity .14s;margin-top:4px
+  font-family:var(--font-sans);transition:opacity .14s;margin-top:4px
 }
 .btn-auth:hover{opacity:.82}
 .auth-divider{text-align:center;font-size:12px;color:var(--muted2);position:relative;margin:4px 0}
@@ -340,7 +338,7 @@ footer{
 .btn-google{
   padding:11px;border-radius:9px;background:var(--white);border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;gap:10px;
-  font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans);
   transition:background .14s
 }
 .btn-google:hover{background:var(--bg)}
@@ -383,7 +381,7 @@ footer{
 .app-nav-right{display:flex;align-items:center;gap:8px}
 .app-lang-select{
   display:none;padding:9px 12px;border:1px solid var(--border2);border-radius:10px;
-  background:var(--white);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:700
+  background:var(--white);color:var(--text);font-family:var(--font-sans);font-size:13px;font-weight:700
 }
 .streak-pill{
   display:flex;align-items:center;gap:5px;padding:5px 12px;
@@ -392,7 +390,7 @@ footer{
 }
 .user-btn{
   display:flex;align-items:center;gap:7px;padding:5px 10px;border-radius:8px;
-  cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;
+  cursor:pointer;border:none;background:none;font-family:var(--font-sans);
   font-size:13px;font-weight:500;color:var(--muted);transition:background .13s
 }
 .user-btn:hover{background:var(--bg)}
@@ -461,7 +459,7 @@ footer{
   display:inline-flex;align-items:center;gap:8px;padding:8px 14px;
   border-radius:9px;background:var(--white);border:1px solid var(--border);
   font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;
-  font-family:'Inter',sans-serif;transition:all .14s;margin-bottom:24px;
+  font-family:var(--font-sans);transition:all .14s;margin-bottom:24px;
   box-shadow:var(--sh)
 }
 .back-btn:hover{background:var(--bg);color:var(--text)}
@@ -522,9 +520,14 @@ footer{
 .q-exit:hover{background:var(--border);color:var(--text)}
 .q-menu{
   padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--white);
-  font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all .13s
+  font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:var(--font-sans);transition:all .13s
 }
 .q-menu:hover{background:var(--bg);color:var(--text)}
+.q-finish{
+  padding:8px 12px;border-radius:10px;border:1px solid #F0CECE;background:#FFF2F2;
+  font-size:13px;font-weight:700;color:var(--der);cursor:pointer;font-family:var(--font-sans);transition:all .13s
+}
+.q-finish:hover{background:#FFE7E7}
 
 .q-card{
   background:var(--white);border:1.5px solid var(--border);border-radius:20px;
@@ -547,7 +550,7 @@ footer{
 .a-btn{
   padding:17px 8px;border-radius:12px;border:1.5px solid;
   font-size:26px;font-weight:900;cursor:pointer;background:var(--white);
-  transition:all .15s;letter-spacing:-.5px;font-family:'Inter',sans-serif
+  transition:all .15s;letter-spacing:-.5px;font-family:var(--font-sans)
 }
 .a-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:var(--sh2)}
 .a-btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
@@ -563,7 +566,7 @@ footer{
 .btn-next-q{
   width:100%;padding:11px;border-radius:10px;background:none;
   border:1px solid var(--border2);font-size:14px;color:var(--muted);
-  cursor:pointer;font-family:'Inter',sans-serif;transition:all .14s
+  cursor:pointer;font-family:var(--font-sans);transition:all .14s
 }
 .btn-next-q:hover{background:var(--white);color:var(--text)}
 
@@ -616,7 +619,7 @@ footer{
 .ub-btn{
   padding:8px 14px;border-radius:9px;background:var(--premium);color:var(--white);
   font-size:12px;font-weight:700;cursor:pointer;border:none;
-  font-family:'Inter',sans-serif;white-space:nowrap;transition:opacity .14s;flex-shrink:0
+  font-family:var(--font-sans);white-space:nowrap;transition:opacity .14s;flex-shrink:0
 }
 .ub-btn:hover{opacity:.82}
 
@@ -802,7 +805,7 @@ footer{
     <div class="nav-inner">
       <a class="nav-brand" href="#" onclick="return false">
         <div class="nav-logo">
-          <img src="./logo-small.png" alt="DerDieDas logo">
+          <img src="./logo-small.png" alt="DerDieDas logo" width="84" height="84" decoding="async">
         </div>
         <span class="nav-brandname">DerDieDas</span>
       </a>
@@ -843,7 +846,7 @@ footer{
     </div>
     <div class="hero-visual" onclick="enterDemo()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();enterDemo();}">
       <div class="hero-logo-wrap">
-        <img src="./logo-hero.png" alt="DerDieDas zorro logo">
+        <img src="./logo-hero.png" alt="DerDieDas zorro logo" width="1080" height="1080" fetchpriority="high" decoding="async">
         <div class="hero-logo-caption" id="heroLogoCaption">Empieza ya a practicar.</div>
       </div>
       <div class="hero-art-row">
@@ -990,7 +993,7 @@ footer{
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
     </button>
     <div class="modal-logo">
-      <img src="./logo-small.png" alt="DerDieDas logo">
+      <img src="./logo-small.png" alt="DerDieDas logo" width="68" height="68" decoding="async">
     </div>
     <h2 id="modalTitle">Bienvenido</h2>
     <p class="modal-sub" id="modalSub">Continúa con tu cuenta</p>
@@ -1069,7 +1072,7 @@ footer{
   <nav class="app-nav">
     <a class="app-brand" href="#" onclick="showScreen('s-landing');window.scrollTo(0,0);return false">
       <div class="app-logo">
-        <img src="./logo-small.png" alt="DerDieDas logo">
+        <img src="./logo-small.png" alt="DerDieDas logo" width="68" height="68" decoding="async">
       </div>
       <span class="app-brandname">DerDieDas</span>
     </a>
@@ -1197,7 +1200,7 @@ const UI = {
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
     quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie'
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
@@ -1228,7 +1231,7 @@ const UI = {
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
     quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha'
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
@@ -1259,7 +1262,7 @@ const UI = {
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
     quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak'
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1414,6 +1417,40 @@ let SESSION = {rounds:0, words:0, correct:0, total:0};
 let currentLevel = null;
 let currentCategory = null;
 let quiz = {words:[],idx:0,correct:0,answered:false};
+
+function cloneQuizState(value) {
+  return value ? JSON.parse(JSON.stringify(value)) : value;
+}
+
+function captureQuizSnapshot() {
+  return {
+    flashcardState: cloneQuizState(flashcardState),
+    quiz: {
+      idx: quiz.idx,
+      correct: quiz.correct,
+      answered: false,
+      pendingOutcome: null,
+      streak: quiz.streak || 0
+    },
+    session: {
+      correct: SESSION.correct,
+      total: SESSION.total
+    }
+  };
+}
+
+function restoreQuizSnapshot(snapshot) {
+  if (!snapshot) return;
+  flashcardState = cloneQuizState(snapshot.flashcardState);
+  quiz.idx = snapshot.quiz.idx;
+  quiz.correct = snapshot.quiz.correct;
+  quiz.answered = false;
+  quiz.pendingOutcome = null;
+  quiz.streak = snapshot.quiz.streak || 0;
+  SESSION.correct = snapshot.session.correct;
+  SESSION.total = snapshot.session.total;
+}
+
 let flashcardState = null;
 let nextQuestionTimer = null;
 
@@ -1805,7 +1842,7 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0};
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0, history:[], currentSnapshot:null};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -1821,6 +1858,7 @@ function renderQuestion() {
   const pct = (idx/total)*100;
   const levelLabel = LEVELS.find(level => level.id === currentLevel)?.label || currentLevel?.toUpperCase() || 'A1';
   const categoryLabel = currentCategory ? catName(currentCategory) : '';
+  quiz.currentSnapshot = captureQuizSnapshot();
   document.getElementById('quizInner').innerHTML = `
     <div class="quiz-context">
       <div class="quiz-path">${levelLabel}${categoryLabel ? ` · ${categoryLabel}` : ''}</div>
@@ -1828,10 +1866,11 @@ function renderQuestion() {
     </div>
     <div class="quiz-header">
       <div class="quiz-nav">
-        <button class="q-back" onclick="goView('cats')" title="${t('quizBack')}">
+        <button class="q-back" onclick="prevQ()" title="${t('quizBack')}">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
         </button>
         <button class="q-menu" onclick="goView('levels')">${t('quizMenu')}</button>
+        <button class="q-finish" onclick="finishQuiz()">${t('quizFinish')}</button>
       </div>
       <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
       <span class="qcount">${idx+1} / ${total}</span>
@@ -1886,6 +1925,10 @@ function answer(chosen) {
 function nextQ() {
   clearNextQuestionTimer();
 
+  if (quiz.currentSnapshot) {
+    quiz.history.push(cloneQuizState(quiz.currentSnapshot));
+  }
+
   if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
     const nextState = quiz.pendingOutcome === 'known'
       ? window.FlashcardCore.markKnown(flashcardState)
@@ -1903,14 +1946,41 @@ function nextQ() {
   renderQuestion();
 }
 
+function prevQ() {
+  clearNextQuestionTimer();
+  const snapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
+  if (!snapshot) {
+    goView('cats');
+    return;
+  }
+  restoreQuizSnapshot(snapshot);
+  renderQuestion();
+}
+
+function finishQuiz() {
+  clearNextQuestionTimer();
+  if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
+    const nextState = quiz.pendingOutcome === 'known'
+      ? window.FlashcardCore.markKnown(flashcardState)
+      : window.FlashcardCore.markUnknown(flashcardState);
+    flashcardState = hasValidFlashcardState(nextState) ? nextState : flashcardState;
+    quiz.pendingOutcome = null;
+    quiz.answered = false;
+  }
+  endQuiz();
+}
+
 function endQuiz() {
   clearNextQuestionTimer();
   SESSION.rounds++;
-  const totalWords = quiz.words.length;
+  const answeredItems = hasValidFlashcardState(flashcardState)
+    ? flashcardState.marks.map(mark => mark.item).filter(Boolean)
+    : quiz.words.slice(0, SESSION.total);
+  const totalWords = answeredItems.length;
   const pct = totalWords ? Math.round((quiz.correct/totalWords)*100) : 0;
-  const d = quiz.words.filter(w=>w.a==='der').length;
-  const i = quiz.words.filter(w=>w.a==='die').length;
-  const n = quiz.words.filter(w=>w.a==='das').length;
+  const d = answeredItems.filter(w=>w.a==='der').length;
+  const i = answeredItems.filter(w=>w.a==='die').length;
+  const n = answeredItems.filter(w=>w.a==='das').length;
   const nearLimit = !PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3;
   document.getElementById('quizInner').innerHTML = `
     ${nearLimit ? `<div class="upsell-bar">
@@ -1923,15 +1993,15 @@ function endQuiz() {
     <div class="result-box">
       <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px">${t('quizCompleted')}</div>
       <div class="r-pct">${pct}%</div>
-      <div class="r-lbl">${t('resultLabel', { correct: quiz.correct, total: quiz.words.length })}</div>
+      <div class="r-lbl">${t('resultLabel', { correct: quiz.correct, total: totalWords })}</div>
       <div class="r-arts">
         <div class="r-art rd"><div class="n">${d}</div><div class="l">der</div></div>
         <div class="r-art ri"><div class="n">${i}</div><div class="l">die</div></div>
         <div class="r-art rn"><div class="n">${n}</div><div class="l">das</div></div>
       </div>
       <div class="r-actions">
-        <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('levels')">${t('quizChangeLevel')}</button>
-        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
+        <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans)" onclick="goView('levels')">${t('quizChangeLevel')}</button>
+        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans)" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
       </div>
     </div>`;
 }
@@ -1942,8 +2012,8 @@ function renderLimit() {
       <div class="limit-icon">⏱</div>
       <h2>${t('limitTitle')}</h2>
       <p>${t('limitText')}</p>
-      <button style="padding:13px 28px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;width:100%" onclick="showToast(t('toastPlans'))">${t('limitButton')}</button>
-      <button style="padding:11px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;width:100%" onclick="goView('levels')">${t('limitBack')}</button>
+      <button style="padding:13px 28px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans);margin-bottom:10px;width:100%" onclick="showToast(t('toastPlans'))">${t('limitButton')}</button>
+      <button style="padding:11px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;color:var(--muted);cursor:pointer;font-family:var(--font-sans);width:100%" onclick="goView('levels')">${t('limitBack')}</button>
     </div>`;
 }
 
