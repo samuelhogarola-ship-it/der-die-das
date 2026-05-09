@@ -63,8 +63,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   backdrop-filter:blur(18px);position:sticky;top:0;z-index:100
 }
 .nav-inner{
-  max-width:1180px;margin:0 auto;height:64px;padding:0 24px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px
+  max-width:1180px;margin:0 auto;padding:18px 24px 16px;
+  display:flex;flex-direction:column;gap:14px
+}
+.nav-top,.nav-bottom{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;
 }
 .nav-brand{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;color:var(--text)}
 .nav-logo{
@@ -84,6 +87,20 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .nav-link.active{background:var(--text);color:var(--white)}
 .nav-sep{width:1px;height:18px;background:rgba(17,17,16,.12)}
 .nav-right{display:flex;align-items:center;gap:8px}
+.nav-dashboard{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--border2);background:var(--white);color:var(--text);
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+  transition:all .14s
+}
+.nav-dashboard:hover{background:var(--bg)}
+.nav-dashboard-soon{font-size:11px;font-weight:600;color:var(--muted)}
+
+@media(min-width:1200px){
+  .topbar{padding:16px 16px 22px}
+  .nav-inner{padding-top:22px;padding-bottom:18px}
+}
+
 .btn-sm{
   padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;
   cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s;white-space:nowrap
@@ -570,6 +587,10 @@ footer{
    RESPONSIVE
 ══════════════════════════════════════════════ */
 @media(max-width:900px){
+  .nav-top,.nav-bottom{flex-direction:column;align-items:flex-start}
+  .nav-right{width:100%;justify-content:flex-end}
+  .nav-bottom{gap:12px}
+  .nav-dashboard{align-self:flex-end}
   .hero{grid-template-columns:1fr;padding:60px 24px;gap:40px}
   .hero-text h1{font-size:38px}
   .hero-visual{max-width:480px;margin:0 auto;width:100%}
@@ -577,9 +598,8 @@ footer{
   .pricing-grid{grid-template-columns:1fr}
   .levels-grid{grid-template-columns:1fr 1fr}
   .cats-grid{grid-template-columns:1fr 1fr}
-  .nav-inner{height:auto;min-height:64px;padding:14px 20px;flex-wrap:wrap}
-  .nav-links{order:3;width:100%;justify-content:center}
-  .nav-right{margin-left:auto}
+  .nav-inner{padding:14px 20px}
+  .nav-links{width:100%;justify-content:flex-start}
 }
 @media(max-width:600px){
   .topbar{font-size:11px;padding:8px 12px}
@@ -587,6 +607,7 @@ footer{
   .nav-brandname{font-size:14px}
   .nav-links{gap:6px}
   .nav-link{padding:6px 12px;font-size:13px}
+  .nav-dashboard{align-self:stretch;justify-content:center}
   .levels-grid,.cats-grid{grid-template-columns:1fr}
   .levels-view,.cats-view,.quiz-view,.stats-view{padding:24px 16px}
   .q-word{font-size:44px}
@@ -606,33 +627,40 @@ footer{
 <!-- ══ SCREEN: LANDING ══ -->
 <div class="screen on" id="s-landing">
 
-  <div class="topbar">www.vokabellab.com | Laboratorio de vocabulario alemán</div>
+  <div class="topbar" id="topbarText">der die das de Vokabel Lab | Domina los artículos</div>
 
   <nav class="nav">
     <div class="nav-inner">
-      <a class="nav-brand" href="#" onclick="return false">
-        <div class="nav-logo">
-          <img src="./logo-small.png" alt="DerDieDas logo">
+      <div class="nav-top">
+        <a class="nav-brand" href="#" onclick="return false">
+          <div class="nav-logo">
+            <img src="./logo-small.png" alt="DerDieDas logo">
+          </div>
+          <span class="nav-brandname">DerDieDas</span>
+        </a>
+        <div class="nav-right">
+          <div class="lang-switch">
+            <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
+            <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
+            <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+          </div>
         </div>
-        <span class="nav-brandname">DerDieDas</span>
-      </a>
-      <div class="nav-links">
-        <a class="nav-link" href="https://www.samuelcoachdealeman.com/">Samuel Coach de Alemán</a>
-        <a class="nav-link" href="https://www.vokabellab.com/">Vokabel Lab</a>
-        <a class="nav-link active" href="https://derdiedas.vokabellab.com/">DerDieDas</a>
-        <a class="nav-link" href="https://www.imkontext.vokabellab.com/">imKontext</a>
-        <span class="nav-sep" aria-hidden="true"></span>
-        <button class="nav-link" id="landing-home-link" onclick="scrollTo(0,0)">Inicio</button>
-        <button class="nav-link" id="landing-features-link" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Funciones</button>
-        <button class="nav-link" id="landing-pricing-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
       </div>
-      <div class="nav-right">
-        <div class="lang-switch">
-          <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
-          <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
-          <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+      <div class="nav-bottom">
+        <div class="nav-links">
+          <a class="nav-link" href="https://www.samuelcoachdealeman.com/">Samuel Coach de Alemán</a>
+          <a class="nav-link" href="https://www.vokabellab.com/">Vokabel Lab</a>
+          <a class="nav-link active" href="https://derdiedas.vokabellab.com/">DerDieDas</a>
+          <a class="nav-link" href="https://www.imkontext.vokabellab.com/">imKontext</a>
+          <span class="nav-sep" aria-hidden="true"></span>
+          <button class="nav-link" id="landing-home-link" onclick="scrollTo(0,0)">Inicio</button>
+          <button class="nav-link" id="landing-features-link" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Funciones</button>
+          <button class="nav-link" id="landing-pricing-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
         </div>
-        <button class="btn-sm btn-dark-sm" onclick="enterDemo()">Empezar gratis</button>
+        <button class="nav-dashboard" onclick="showToast(t('toastPremiumSoon'))">
+          <span id="landing-dashboard-label">Dashboard</span>
+          <span class="nav-dashboard-soon" id="landing-dashboard-soon">Coming soon</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -972,14 +1000,17 @@ footer{
 // ═══════════════════════════════════════════
 const SB_URL = 'https://YOUR_PROJECT.supabase.co';
 const SB_KEY = 'YOUR_ANON_KEY';
+const PROMO_UNLIMITED_ACCESS = true;
 
 let CURRENT_LANG = localStorage.getItem('derdiedas_lang') || 'de';
 
 const UI = {
   de: {
+    topbarText:'der die das von Vokabel Lab | Meistere die Artikel',
+    navDashboard:'Dashboard', navDashboardSoon:'Bald verfügbar',
     navHome:'Start', navFeatures:'Funktionen', navPricing:'Preise', heroTitle:'Schluss mit dem Artikel-Chaos.',
     heroSubtitle:'Lerne der, die und das intuitiv. Wortschatz von A1 bis C2, geordnet nach Niveau und Thema.',
-    heroStart:'Kostenlos starten →', heroDemo:'Ohne Login testen', heroNote:'Keine Kreditkarte · 3 kostenlose Runden pro Tag',
+    heroStart:'Jetzt gratis starten →', heroDemo:'Ohne Login testen', heroNote:'Zeitlich begrenzt: kostenloser unbegrenzter Zugang. Nutze die Gelegenheit.',
     heroQuestion:'Welcher Artikel ist richtig?', howTitle:'So funktioniert es', howSub:'Drei Schritte zu sicheren Artikeln',
     how1Title:'Niveau wählen', how1Text:'Wähle A1 bis C2 nach GER. Lerne genau den Wortschatz, den du jetzt brauchst.',
     how2Title:'Thema auswählen', how2Text:'Tiere, Wohnen, Arbeit, Gesundheit... Lerne im Kontext und verknüpfe passende Wörter.',
@@ -995,19 +1026,21 @@ const UI = {
     appLevels:'Niveaus', appStats:'Statistiken', appPlans:'Preise', levelsTitle:'Niveaus', levelsSubtitle:'Wähle dein GER-Niveau für die nächste Übungsrunde',
     catsTitle:'Themen für {level}',
     catsSubtitle:'Wähle ein Thema zum Üben', statsTitle:'Statistiken', statsSubtitle:'Dein Fortschritt heute',
-    statsRoundsLabel:'Runden heute', statsRoundsNote:'von 3 kostenlosen', statsWordsLabel:'Geübte Wörter', statsWordsNote:'in dieser Sitzung',
+    statsRoundsLabel:'Runden heute', statsRoundsNote:'unbegrenzt während der Aktion', statsWordsLabel:'Geübte Wörter', statsWordsNote:'in dieser Sitzung',
     statsAccuracyLabel:'Trefferquote', statsAccuracyNote:'richtige Antworten', statsUpsellTitle:'Erweiterte Statistiken mit Premium',
     statsUpsellText:'Sieh, welche Endungen dir schwerfallen, nutze Verlauf und mehr.', statsUpsellButton:'Preise ansehen →',
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
-    quizOtherCategory:'Anderes Thema →', limitTitle:'Deine kostenlosen Runden sind aufgebraucht', limitText:'Du hast heute schon 3 kostenlose Runden abgeschlossen. Mit Premium übst du unbegrenzt und schaltest alle Niveaus und Themen frei.',
-    limitButton:'Premium ansehen →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Premium-Inhalt — Upgrade nötig',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Premium kommt bald', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute deine {rounds} kostenlosen Runden genutzt', premiumRounds:'Premium: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Free', proChip:'Pro'
+    quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
+    limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
+    topbarText:'der die das de Vokabel Lab | Domina los artículos',
+    navDashboard:'Dashboard', navDashboardSoon:'Próximamente',
     navHome:'Inicio', navFeatures:'Funciones', navPricing:'Planes', heroTitle:'No más dolores de cabeza con los artículos.',
     heroSubtitle:'Aprende der, die y das de forma intuitiva. Vocabulario categorizado de A1 a C2, adaptado al Marco Común Europeo.',
-    heroStart:'Empezar gratis →', heroDemo:'Probar sin cuenta', heroNote:'Sin tarjeta de crédito · 3 rondas gratuitas al día',
+    heroStart:'Empezar gratis ahora →', heroDemo:'Probar sin cuenta', heroNote:'Por tiempo limitado: acceso gratuito ilimitado. Aprovecha.',
     heroQuestion:'¿Cuál es el artículo correcto?', howTitle:'Así funciona', howSub:'Tres pasos para dominar los artículos alemanes',
     how1Title:'Elige tu nivel', how1Text:'Selecciona entre A1 y C2 según el Marco Común Europeo. No pierdas tiempo con vocabulario que no necesitas.',
     how2Title:'Escoge una categoría', how2Text:'Animales, hogar, trabajo, salud… Aprende en contexto. Las palabras relacionadas se aprenden juntas.',
@@ -1023,19 +1056,21 @@ const UI = {
     appLevels:'Niveles', appStats:'Estadísticas', appPlans:'Planes', levelsTitle:'Niveles', levelsSubtitle:'Elige tu nivel MCER para empezar a practicar',
     catsTitle:'Categorías de {level}',
     catsSubtitle:'Elige un tema para practicar', statsTitle:'Estadísticas', statsSubtitle:'Tu progreso de hoy',
-    statsRoundsLabel:'Rondas hoy', statsRoundsNote:'de 3 gratuitas', statsWordsLabel:'Palabras practicadas', statsWordsNote:'en esta sesión',
+    statsRoundsLabel:'Rondas hoy', statsRoundsNote:'ilimitadas durante la promo', statsWordsLabel:'Palabras practicadas', statsWordsNote:'en esta sesión',
     statsAccuracyLabel:'Precisión', statsAccuracyNote:'respuestas correctas', statsUpsellTitle:'Estadísticas avanzadas con Premium',
     statsUpsellText:'Descubre qué terminaciones te cuestan más, historial completo y mucho más', statsUpsellButton:'Ver planes →',
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
-    quizOtherCategory:'Otra categoría →', limitTitle:'Rondas de hoy agotadas', limitText:'Has completado tus 3 rondas gratuitas de hoy. Con Premium practicas sin límite y desbloqueas todos los niveles y categorías.',
-    limitButton:'Ver planes Premium →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Contenido Premium — actualiza tu plan',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Premium próximamente', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Has usado tus {rounds} rondas gratuitas de hoy', premiumRounds:'Premium: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Free', proChip:'Pro'
+    quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
+    limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
+    topbarText:'der die das by Vokabel Lab | Master the articles',
+    navDashboard:'Dashboard', navDashboardSoon:'Coming soon',
     navHome:'Home', navFeatures:'Features', navPricing:'Pricing', heroTitle:'No more guessing German articles.',
     heroSubtitle:'Learn der, die and das intuitively. Vocabulary organized from A1 to C2 and grouped by topic.',
-    heroStart:'Start free →', heroDemo:'Try without login', heroNote:'No credit card · 3 free rounds per day',
+    heroStart:'Start free now →', heroDemo:'Try without login', heroNote:'Limited-time offer: unlimited free access. Make the most of it.',
     heroQuestion:'Which article is correct?', howTitle:'How it works', howSub:'Three steps to master German articles',
     how1Title:'Choose your level', how1Text:'Pick from A1 to C2 based on the CEFR. Skip vocabulary you do not need yet.',
     how2Title:'Choose a topic', how2Text:'Animals, home, work, health... Learn in context and keep related words together.',
@@ -1051,13 +1086,13 @@ const UI = {
     appLevels:'Levels', appStats:'Stats', appPlans:'Plans', levelsTitle:'Levels', levelsSubtitle:'Choose your CEFR level to start practicing',
     catsTitle:'Topics for {level}',
     catsSubtitle:'Choose a topic to practice', statsTitle:'Stats', statsSubtitle:'Your progress today',
-    statsRoundsLabel:'Rounds today', statsRoundsNote:'out of 3 free', statsWordsLabel:'Words practiced', statsWordsNote:'in this session',
+    statsRoundsLabel:'Rounds today', statsRoundsNote:'unlimited during the promo', statsWordsLabel:'Words practiced', statsWordsNote:'in this session',
     statsAccuracyLabel:'Accuracy', statsAccuracyNote:'correct answers', statsUpsellTitle:'Advanced stats with Premium',
     statsUpsellText:'See which endings are hardest for you, review history and more.', statsUpsellButton:'See plans →',
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
-    quizOtherCategory:'Another topic →', limitTitle:'Today’s free rounds are used up', limitText:'You have completed your 3 free rounds for today. With Premium you can practice without limits and unlock all levels and topics.',
-    limitButton:'See Premium plans →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Premium content — upgrade your plan',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Premium coming soon', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You used your {rounds} free rounds today', premiumRounds:'Premium: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Pro'
+    quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
+    limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1224,7 +1259,7 @@ function showScreen(id) {
 }
 
 function enterDemo() {
-  USER = {name:t('demoName'), isLoggedIn:false, isPremium:false, streak:0};
+  USER = {name:t('demoName'), isLoggedIn:false, isPremium:PROMO_UNLIMITED_ACCESS, streak:0};
   startApp();
 }
 
@@ -1283,7 +1318,7 @@ function handleLogin() {
   if (!email || !pass) { authMsg('li-msg','Completa todos los campos','err'); return; }
   if (!email.includes('@')) { authMsg('li-msg','Email no válido','err'); return; }
   // TODO: connect to Supabase auth
-  USER = {name: email.split('@')[0], isLoggedIn:true, isPremium:false, streak:5};
+  USER = {name: email.split('@')[0], isLoggedIn:true, isPremium:PROMO_UNLIMITED_ACCESS, streak:5};
   closeAuth(); startApp();
 }
 
@@ -1296,13 +1331,13 @@ function handleRegister() {
   if (!email.includes('@')) { authMsg('rg-msg','Email no válido','err'); return; }
   if (pass.length < 8) { authMsg('rg-msg','La contraseña debe tener al menos 8 caracteres','err'); return; }
   // TODO: connect to Supabase auth
-  USER = {name, isLoggedIn:true, isPremium:false, streak:0};
+  USER = {name, isLoggedIn:true, isPremium:PROMO_UNLIMITED_ACCESS, streak:0};
   closeAuth(); startApp();
 }
 
 function handleGoogle() {
   // TODO: connect Supabase Google OAuth
-  USER = {name:'Usuario', isLoggedIn:true, isPremium:false, streak:0};
+  USER = {name:'Usuario', isLoggedIn:true, isPremium:PROMO_UNLIMITED_ACCESS, streak:0};
   closeAuth(); startApp();
 }
 
@@ -1355,15 +1390,19 @@ function applyTranslations() {
   document.documentElement.lang = CURRENT_LANG;
   updateLangButtons();
 
+  const topbarText = document.getElementById('topbarText');
+  if (topbarText) topbarText.textContent = t('topbarText');
+
   const landingHomeLink = document.getElementById('landing-home-link');
   const landingFeaturesLink = document.getElementById('landing-features-link');
   const landingPricingLink = document.getElementById('landing-pricing-link');
+  const landingDashboardLabel = document.getElementById('landing-dashboard-label');
+  const landingDashboardSoon = document.getElementById('landing-dashboard-soon');
   if (landingHomeLink) landingHomeLink.textContent = t('navHome');
   if (landingFeaturesLink) landingFeaturesLink.textContent = t('navFeatures');
   if (landingPricingLink) landingPricingLink.textContent = t('navPricing');
-
-  const navRightButton = document.querySelector('.nav-right .btn-sm.btn-dark-sm');
-  if (navRightButton) navRightButton.textContent = t('navStartDemo');
+  if (landingDashboardLabel) landingDashboardLabel.textContent = t('navDashboard');
+  if (landingDashboardSoon) landingDashboardSoon.textContent = t('navDashboardSoon');
 
   const heroTitle = document.querySelector('.hero-text h1');
   const heroSubtitle = document.querySelector('.hero-text p');
@@ -1476,7 +1515,7 @@ function applyTranslations() {
   if (statsUpsellButton) statsUpsellButton.textContent = t('statsUpsellButton');
 
   document.querySelector('.streak-pill').lastChild.textContent = ` ${t('streak')}`;
-  document.getElementById('planChip').textContent = USER.isPremium ? t('proChip') : t('freeChip');
+  document.getElementById('planChip').textContent = USER.isPremium || PROMO_UNLIMITED_ACCESS ? t('proChip') : t('freeChip');
 }
 
 function setLang(lang) {
@@ -1497,7 +1536,7 @@ function setLang(lang) {
 // ═══════════════════════════════════════════
 function renderLevels() {
   document.getElementById('levelsGrid').innerHTML = LEVELS.map(l => {
-    const locked = !l.free && !USER.isPremium;
+    const locked = PROMO_UNLIMITED_ACCESS ? false : (!l.free && !USER.isPremium);
     return `
     <div class="level-card${locked?' locked':''}" onclick="${locked?`showUpsell()`:``}" 
          ${!locked?`onclick="selectLevel('${l.id}')" role="button" tabindex="0"`:''}>
@@ -1521,7 +1560,7 @@ function renderLevels() {
 
   // Add click handlers separately to avoid inline onclick issues with locked
   LEVELS.forEach(l => {
-    const locked = !l.free && !USER.isPremium;
+    const locked = PROMO_UNLIMITED_ACCESS ? false : (!l.free && !USER.isPremium);
     const el = document.getElementById('levelsGrid').querySelectorAll('.level-card')[LEVELS.indexOf(l)];
     if (!locked) el.onclick = () => selectLevel(l.id);
     else el.onclick = () => showUpsell();
@@ -1542,7 +1581,7 @@ function selectLevel(levelId) {
 function renderCats(levelId) {
   const cats = CATS_BY_LEVEL[levelId] || [];
   document.getElementById('catsGrid').innerHTML = cats.map(c => {
-    const locked = !c.free && !USER.isPremium;
+    const locked = PROMO_UNLIMITED_ACCESS ? false : (!c.free && !USER.isPremium);
     return `
     <div class="cat-card${locked?' locked':''}" data-cat="${c.id}" data-locked="${locked}">
       <div class="cat-icon-box">${c.icon}</div>
@@ -1567,7 +1606,7 @@ function renderCats(levelId) {
 // QUIZ
 // ═══════════════════════════════════════════
 function startQuiz(catId) {
-  if (!USER.isPremium && SESSION.rounds >= 3) {
+  if (!PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3) {
     goView('quiz');
     renderLimit(); return;
   }
@@ -1682,7 +1721,7 @@ function endQuiz() {
   const d = quiz.words.filter(w=>w.a==='der').length;
   const i = quiz.words.filter(w=>w.a==='die').length;
   const n = quiz.words.filter(w=>w.a==='das').length;
-  const nearLimit = !USER.isPremium && SESSION.rounds >= 3;
+  const nearLimit = !PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3;
   document.getElementById('quizInner').innerHTML = `
     ${nearLimit ? `<div class="upsell-bar">
       <div class="ub-text">
