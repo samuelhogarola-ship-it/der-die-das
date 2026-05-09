@@ -30,6 +30,10 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+app.get("/derdiedas.html", (req, res) => {
+  res.redirect(301, "/");
+});
+
 app.use(express.static(publicDir, {
   extensions: ["html"]
 }));
