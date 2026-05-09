@@ -493,7 +493,25 @@ footer{
 .quiz-view{
   max-width:560px;margin:0 auto;padding:40px 24px;width:100%
 }
+.quiz-context{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:14px;flex-wrap:wrap
+}
+.quiz-path{
+  font-size:12px;font-weight:700;letter-spacing:.2px;color:var(--muted)
+}
+.quiz-streak{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;
+  background:var(--gold-bg);border:1px solid #E8D8A0;font-size:12px;font-weight:700;color:var(--gold)
+}
 .quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.quiz-nav{display:flex;align-items:center;gap:8px}
+.q-back{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:10px;background:var(--white);
+  border:1px solid var(--border);cursor:pointer;color:var(--muted);transition:all .13s
+}
+.q-back:hover{background:var(--bg);color:var(--text)}
 .qbar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .qbar-fill{height:100%;background:var(--text);border-radius:2px;transition:width .3s ease}
 .qcount{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
@@ -502,6 +520,11 @@ footer{
   border-radius:7px;display:flex;align-items:center;transition:all .13s
 }
 .q-exit:hover{background:var(--border);color:var(--text)}
+.q-menu{
+  padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--white);
+  font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all .13s
+}
+.q-menu:hover{background:var(--bg);color:var(--text)}
 
 .q-card{
   background:var(--white);border:1.5px solid var(--border);border-radius:20px;
@@ -1174,7 +1197,7 @@ const UI = {
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
     quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+'
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
@@ -1205,7 +1228,7 @@ const UI = {
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
     quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+'
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
@@ -1236,7 +1259,7 @@ const UI = {
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
     quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+'
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1389,6 +1412,7 @@ const RULES = {
 let USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
 let SESSION = {rounds:0, words:0, correct:0, total:0};
 let currentLevel = null;
+let currentCategory = null;
 let quiz = {words:[],idx:0,correct:0,answered:false};
 let flashcardState = null;
 let nextQuestionTimer = null;
@@ -1763,6 +1787,7 @@ function startQuiz(catId) {
   const pool = WORD_POOL[catId] || WORD_POOL['food'];
   const words = [...pool].sort(()=>Math.random()-.5);
   const flashcardItems = words.map((item, index) => normalizeFlashcardItem(item, catId, index));
+  currentCategory = catId;
 
   clearNextQuestionTimer();
   flashcardState = null;
@@ -1780,7 +1805,7 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null};
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -1794,11 +1819,20 @@ function renderQuestion() {
   const { idx, total, raw: w } = currentQuestion;
   quiz.idx = idx;
   const pct = (idx/total)*100;
+  const levelLabel = LEVELS.find(level => level.id === currentLevel)?.label || currentLevel?.toUpperCase() || 'A1';
+  const categoryLabel = currentCategory ? catName(currentCategory) : '';
   document.getElementById('quizInner').innerHTML = `
+    <div class="quiz-context">
+      <div class="quiz-path">${levelLabel}${categoryLabel ? ` · ${categoryLabel}` : ''}</div>
+      <div class="quiz-streak">🔥 ${quiz.streak} ${t('quizStreak')}</div>
+    </div>
     <div class="quiz-header">
-      <button class="q-exit" onclick="goView('cats')" title="Salir">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l11 11M12 1L1 12"/></svg>
-      </button>
+      <div class="quiz-nav">
+        <button class="q-back" onclick="goView('cats')" title="${t('quizBack')}">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
+        </button>
+        <button class="q-menu" onclick="goView('levels')">${t('quizMenu')}</button>
+      </div>
       <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
       <span class="qcount">${idx+1} / ${total}</span>
     </div>
@@ -1823,7 +1857,13 @@ function answer(chosen) {
   quiz.answered = true;
   const w = currentQuestion.raw;
   const ok = chosen === currentQuestion.answer;
-  if (ok) { quiz.correct++; SESSION.correct++; }
+  if (ok) {
+    quiz.correct++;
+    quiz.streak++;
+    SESSION.correct++;
+  } else {
+    quiz.streak = 0;
+  }
   SESSION.total++;
   quiz.pendingOutcome = ok ? 'known' : 'unknown';
 
