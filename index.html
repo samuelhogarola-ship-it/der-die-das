@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>DerDieDas — Vokabel Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +42,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 .topbar{
   background:#111110;color:rgba(255,255,255,.78);font-size:12px;line-height:1;
-  padding:10px 16px;text-align:center;letter-spacing:.2px
+  padding:10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  text-align:center;letter-spacing:.2px
 }
 .lang-switch{display:flex;align-items:center;gap:6px}
 .lang-btn{
@@ -60,13 +64,26 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* TOP NAV */
 .nav{
   background:rgba(255,255,255,.94);border-bottom:1px solid rgba(17,17,16,.08);
-  backdrop-filter:blur(18px);position:sticky;top:0;z-index:100
+  backdrop-filter:blur(18px);position:sticky;top:0;z-index:100;transition:box-shadow .18s ease
 }
 .nav-inner{
-  max-width:1180px;margin:0 auto;height:64px;padding:0 24px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px
+  max-width:1180px;margin:0 auto;
+  padding:12px max(20px, env(safe-area-inset-right)) 10px max(20px, env(safe-area-inset-left));
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  grid-template-areas:
+    "brand right"
+    "meta meta"
+    "bottom bottom";
+  column-gap:16px;row-gap:10px;transition:padding .18s ease,gap .18s ease
 }
-.nav-brand{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;color:var(--text)}
+.nav-meta{
+  grid-area:meta;display:flex;justify-content:flex-start;align-items:center;
+  width:100%;min-width:0;transition:all .18s ease;
+}
+.nav-brand{
+  grid-area:brand;display:flex;align-items:center;gap:12px;min-height:42px;min-width:0;
+  cursor:pointer;text-decoration:none;color:var(--text)
+}
 .nav-logo{
   width:42px;height:42px;border-radius:12px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -74,16 +91,36 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 }
 .nav-logo img{width:100%;height:100%;object-fit:cover;display:block}
 .nav-brandname{font-size:15px;font-weight:800;letter-spacing:-.3px}
-.nav-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-bottom{
+  grid-area:bottom;display:flex;align-items:center;justify-content:flex-start;
+  gap:16px;width:100%;transition:all .18s ease;
+}
+.nav-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .nav-link{
-  padding:7px 14px;border-radius:999px;font-size:14px;font-weight:600;
+  padding:6px 10px;border-radius:999px;font-size:13px;font-weight:600;
   color:var(--muted);cursor:pointer;border:none;background:none;
   font-family:'Inter',sans-serif;transition:all .14s
 }
 .nav-link:hover{background:var(--bg);color:var(--text)}
 .nav-link.active{background:var(--text);color:var(--white)}
 .nav-sep{width:1px;height:18px;background:rgba(17,17,16,.12)}
-.nav-right{display:flex;align-items:center;gap:8px}
+.nav-right{
+  grid-area:right;display:flex;align-items:center;justify-self:end;align-self:center;gap:8px;min-width:0
+}
+.nav-dashboard{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--border2);background:var(--white);color:var(--text);
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+  transition:all .14s
+}
+.nav-dashboard:hover{background:var(--bg)}
+.nav-dashboard-soon{font-size:11px;font-weight:600;color:var(--muted)}
+
+@media(min-width:1200px){
+  .topbar{padding:12px 16px 14px}
+  .nav-inner{padding-top:14px;padding-bottom:12px}
+}
+
 .btn-sm{
   padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;
   cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .14s;white-space:nowrap
@@ -118,8 +155,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* HERO VISUAL */
 .hero-visual{
   background:var(--white);border:1px solid var(--border);border-radius:20px;
-  padding:32px;box-shadow:var(--sh2);
+  padding:32px;box-shadow:var(--sh2);cursor:pointer;transition:transform .14s ease,box-shadow .14s ease
 }
+.hero-visual:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.06)}
 .hero-logo-wrap{
   text-align:center;margin-bottom:20px;padding:14px;border-radius:18px;
   background:linear-gradient(180deg,#fbfcff 0%,#f4f7fb 100%);
@@ -343,6 +381,10 @@ footer{
 .app-logo img{width:100%;height:100%;object-fit:cover;display:block}
 .app-brandname{font-size:14px;font-weight:700}
 .app-nav-right{display:flex;align-items:center;gap:8px}
+.app-lang-select{
+  display:none;padding:9px 12px;border:1px solid var(--border2);border-radius:10px;
+  background:var(--white);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;font-weight:700
+}
 .streak-pill{
   display:flex;align-items:center;gap:5px;padding:5px 12px;
   border-radius:99px;background:var(--gold-bg);border:1px solid #E8D8A0;
@@ -451,7 +493,25 @@ footer{
 .quiz-view{
   max-width:560px;margin:0 auto;padding:40px 24px;width:100%
 }
+.quiz-context{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:14px;flex-wrap:wrap
+}
+.quiz-path{
+  font-size:12px;font-weight:700;letter-spacing:.2px;color:var(--muted)
+}
+.quiz-streak{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;
+  background:var(--gold-bg);border:1px solid #E8D8A0;font-size:12px;font-weight:700;color:var(--gold)
+}
 .quiz-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.quiz-nav{display:flex;align-items:center;gap:8px}
+.q-back{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:10px;background:var(--white);
+  border:1px solid var(--border);cursor:pointer;color:var(--muted);transition:all .13s
+}
+.q-back:hover{background:var(--bg);color:var(--text)}
 .qbar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .qbar-fill{height:100%;background:var(--text);border-radius:2px;transition:width .3s ease}
 .qcount{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
@@ -460,6 +520,11 @@ footer{
   border-radius:7px;display:flex;align-items:center;transition:all .13s
 }
 .q-exit:hover{background:var(--border);color:var(--text)}
+.q-menu{
+  padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--white);
+  font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all .13s
+}
+.q-menu:hover{background:var(--bg);color:var(--text)}
 
 .q-card{
   background:var(--white);border:1.5px solid var(--border);border-radius:20px;
@@ -570,6 +635,15 @@ footer{
    RESPONSIVE
 ══════════════════════════════════════════════ */
 @media(max-width:900px){
+  .nav-inner{
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:
+      "brand right"
+      "meta meta"
+      "bottom bottom";
+  }
+  .nav-bottom{gap:8px}
+  .nav-dashboard{align-self:flex-start}
   .hero{grid-template-columns:1fr;padding:60px 24px;gap:40px}
   .hero-text h1{font-size:38px}
   .hero-visual{max-width:480px;margin:0 auto;width:100%}
@@ -577,16 +651,51 @@ footer{
   .pricing-grid{grid-template-columns:1fr}
   .levels-grid{grid-template-columns:1fr 1fr}
   .cats-grid{grid-template-columns:1fr 1fr}
-  .nav-inner{height:auto;min-height:64px;padding:14px 20px;flex-wrap:wrap}
-  .nav-links{order:3;width:100%;justify-content:center}
-  .nav-right{margin-left:auto}
+  .nav-inner{
+    padding:12px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left))
+  }
+  .nav-links{width:100%;justify-content:flex-start;gap:8px}
 }
 @media(max-width:600px){
-  .topbar{font-size:11px;padding:8px 12px}
-  .nav-inner{padding:12px 16px}
-  .nav-brandname{font-size:14px}
-  .nav-links{gap:6px}
-  .nav-link{padding:6px 12px;font-size:13px}
+  .topbar{
+    font-size:9px;padding:3px max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left));line-height:1.05;
+    transition:all .18s ease
+  }
+  .nav{box-shadow:0 1px 0 rgba(17,17,16,.06)}
+  .nav-inner{
+    padding:6px max(12px, env(safe-area-inset-right)) 5px max(12px, env(safe-area-inset-left));
+    row-gap:6px;column-gap:10px;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:
+      "brand right"
+      "meta meta"
+      "bottom bottom";
+    align-items:center;
+  }
+  .nav-brandname{
+    font-size:13px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+  }
+  .nav-logo{width:30px;height:30px}
+  .nav-brand{min-height:30px}
+  .nav-right{justify-self:end;align-self:center}
+  .lang-switch{display:flex;align-items:center;gap:4px;height:30px}
+  .lang-btn{min-width:34px;padding:5px 7px;font-size:10px}
+  .nav-meta{justify-content:flex-start}
+  .nav-links{
+    width:100%;gap:10px;flex-wrap:nowrap;overflow-x:auto;
+    scrollbar-width:none;-ms-overflow-style:none
+  }
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-link{flex:0 0 auto;padding:3px 0;font-size:11px}
+  .nav-link.active{padding-inline:10px}
+  .nav-dashboard{
+    align-self:flex-start;justify-content:flex-start;padding:6px 12px;font-size:11px;min-width:0
+  }
+  .nav-dashboard-soon{font-size:10px}
+  .app-nav{padding:0 14px}
+  .app-nav-right{gap:0}
+  .app-nav-right .lang-switch{display:none}
+  .app-lang-select{display:block}
   .levels-grid,.cats-grid{grid-template-columns:1fr}
   .levels-view,.cats-view,.quiz-view,.stats-view{padding:24px 16px}
   .q-word{font-size:44px}
@@ -596,8 +705,89 @@ footer{
   .feat-grid{grid-template-columns:1fr}
   .how-steps{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr}
-  .hero-text h1{font-size:32px}
+  .hero{
+    padding:38px 16px 18px;gap:18px;align-items:start
+  }
+  .hero-text{order:2}
+  .hero-visual{order:1}
+  .hero-text h1{
+    font-size:24px;line-height:1.08;letter-spacing:-1px;margin-bottom:12px
+  }
+  .hero-text p{
+    font-size:14px;line-height:1.45;margin-bottom:16px;max-width:none
+  }
+  .hero-actions{gap:10px}
+  .btn-hero{
+    padding:11px 16px;font-size:14px;border-radius:9px
+  }
+  .hero-note{
+    font-size:11px;margin-top:10px;line-height:1.35
+  }
+  .hero-visual{
+    padding:18px;border-radius:16px
+  }
+  .hero-logo-wrap{
+    margin-bottom:14px;padding:10px;border-radius:14px
+  }
+  .hero-logo-wrap img{
+    width:min(100%,240px)
+  }
+  .hero-logo-caption{
+    font-size:10px;margin-top:6px
+  }
+  .hero-art-row{
+    gap:8px;margin-bottom:14px
+  }
+  .hero-art{
+    padding:12px 8px;font-size:20px;border-radius:10px
+  }
+  .hero-word-demo .big{
+    font-size:28px
+  }
+  .hero-word-demo .small{
+    font-size:12px
+  }
+  .hero-article-reveal{
+    margin-top:10px;padding:8px 14px;font-size:14px
+  }
   footer{flex-direction:column;gap:12px;text-align:center}
+
+  body.landing-header-compact .topbar{
+    opacity:0;max-height:0;padding-top:0;padding-bottom:0;overflow:hidden
+  }
+  body.landing-header-compact .nav{
+    background:rgba(255,255,255,.98);backdrop-filter:none;
+    -webkit-backdrop-filter:none;box-shadow:0 10px 24px rgba(17,17,16,.08)
+  }
+  body.landing-header-compact .nav-inner{
+    padding:6px max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
+    row-gap:0;column-gap:8px;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"meta right";
+    align-items:center;
+  }
+  body.landing-header-compact .nav-brand{
+    display:none
+  }
+  body.landing-header-compact .nav-meta{
+    width:100%;justify-content:flex-start
+  }
+  body.landing-header-compact .nav-dashboard{
+    width:auto;justify-content:center;padding:6px 10px;font-size:10px;gap:4px;min-width:0;
+    max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+  }
+  body.landing-header-compact .nav-dashboard-soon{
+    display:none
+  }
+  body.landing-header-compact .lang-switch{
+    height:28px
+  }
+  body.landing-header-compact .lang-btn{
+    min-width:34px;padding:5px 6px;font-size:10px
+  }
+  body.landing-header-compact .nav-bottom{
+    max-height:0;opacity:0;overflow:hidden;pointer-events:none
+  }
 }
 </style>
 </head>
@@ -606,7 +796,7 @@ footer{
 <!-- ══ SCREEN: LANDING ══ -->
 <div class="screen on" id="s-landing">
 
-  <div class="topbar">www.vokabellab.com | Laboratorio de vocabulario alemán</div>
+  <div class="topbar" id="topbarText">der die das de Vokabel Lab | Domina los artículos</div>
 
   <nav class="nav">
     <div class="nav-inner">
@@ -616,23 +806,26 @@ footer{
         </div>
         <span class="nav-brandname">DerDieDas</span>
       </a>
-      <div class="nav-links">
-        <a class="nav-link" href="https://www.samuelcoachdealeman.com/">Samuel Coach de Alemán</a>
-        <a class="nav-link" href="https://www.vokabellab.com/">Vokabel Lab</a>
-        <a class="nav-link active" href="https://derdiedas.vokabellab.com/">DerDieDas</a>
-        <a class="nav-link" href="https://www.imkontext.vokabellab.com/">imKontext</a>
-        <span class="nav-sep" aria-hidden="true"></span>
-        <button class="nav-link" id="landing-home-link" onclick="scrollTo(0,0)">Inicio</button>
-        <button class="nav-link" id="landing-features-link" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Funciones</button>
-        <button class="nav-link" id="landing-pricing-link" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
-      </div>
       <div class="nav-right">
         <div class="lang-switch">
           <button class="lang-btn" id="lang-es" onclick="setLang('es')">ES</button>
           <button class="lang-btn" id="lang-de" onclick="setLang('de')">DE</button>
           <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
         </div>
-        <button class="btn-sm btn-dark-sm" onclick="enterDemo()">Empezar gratis</button>
+      </div>
+      <div class="nav-meta">
+        <button class="nav-dashboard" onclick="enterDemo()">
+          <span id="landing-dashboard-label">Actividades</span>
+          <span class="nav-dashboard-soon" id="landing-dashboard-soon">Abrir menú</span>
+        </button>
+      </div>
+      <div class="nav-bottom">
+        <div class="nav-links">
+          <a class="nav-link" href="https://www.samuelcoachdealeman.com/">Samuel Coach de Alemán</a>
+          <a class="nav-link" href="https://www.vokabellab.com/">Vokabel Lab</a>
+          <a class="nav-link active" href="https://derdiedas.vokabellab.com/">DerDieDas</a>
+          <a class="nav-link" href="https://www.imkontext.vokabellab.com/">imKontext</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -648,10 +841,10 @@ footer{
       </div>
       <div class="hero-note">Sin tarjeta de crédito · 3 rondas gratuitas al día</div>
     </div>
-    <div class="hero-visual">
+    <div class="hero-visual" onclick="enterDemo()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();enterDemo();}">
       <div class="hero-logo-wrap">
         <img src="./logo-hero.png" alt="DerDieDas zorro logo">
-        <div class="hero-logo-caption">La versión web del nuevo logo ya está integrada</div>
+        <div class="hero-logo-caption" id="heroLogoCaption">Empieza ya a practicar.</div>
       </div>
       <div class="hero-art-row">
         <div class="hero-art der">der</div>
@@ -874,7 +1067,7 @@ footer{
 <div class="screen" id="s-app">
   <!-- APP NAV -->
   <nav class="app-nav">
-    <a class="app-brand" href="#" onclick="goView('levels');return false">
+    <a class="app-brand" href="#" onclick="showScreen('s-landing');window.scrollTo(0,0);return false">
       <div class="app-logo">
         <img src="./logo-small.png" alt="DerDieDas logo">
       </div>
@@ -893,12 +1086,11 @@ footer{
         <button class="lang-btn" id="app-lang-de" onclick="setLang('de')">DE</button>
         <button class="lang-btn" id="app-lang-en" onclick="setLang('en')">EN</button>
       </div>
-      <div class="streak-pill">🔥 <span id="appStreak">0</span> días</div>
-      <button class="user-btn" onclick="showToast(t('appProfileSoon') || 'Perfil próximamente')">
-        <div class="user-av" id="appAv">?</div>
-        <span id="appName">Demo</span>
-        <span class="plan-chip" id="planChip">Free</span>
-      </button>
+      <select class="app-lang-select" id="app-lang-select" onchange="setLang(this.value)" aria-label="Idioma">
+        <option value="es">ES</option>
+        <option value="de">DE</option>
+        <option value="en">EN</option>
+      </select>
     </div>
   </nav>
 
@@ -972,14 +1164,18 @@ footer{
 // ═══════════════════════════════════════════
 const SB_URL = 'https://YOUR_PROJECT.supabase.co';
 const SB_KEY = 'YOUR_ANON_KEY';
+const PROMO_UNLIMITED_ACCESS = true;
 
 let CURRENT_LANG = localStorage.getItem('derdiedas_lang') || 'de';
 
 const UI = {
   de: {
+    topbarText:'der die das von Vokabel Lab | Meistere die Artikel',
+    navDashboard:'Aktivitäten', navDashboardSoon:'Menü öffnen',
     navHome:'Start', navFeatures:'Funktionen', navPricing:'Preise', heroTitle:'Schluss mit dem Artikel-Chaos.',
     heroSubtitle:'Lerne der, die und das intuitiv. Wortschatz von A1 bis C2, geordnet nach Niveau und Thema.',
-    heroStart:'Kostenlos starten →', heroDemo:'Ohne Login testen', heroNote:'Keine Kreditkarte · 3 kostenlose Runden pro Tag',
+    heroStart:'Jetzt gratis starten →', heroDemo:'Ohne Login testen', heroNote:'Zeitlich begrenzt: kostenloser unbegrenzter Zugang. Nutze die Gelegenheit.',
+    heroLogoCaption:'Jetzt direkt loslegen.',
     heroQuestion:'Welcher Artikel ist richtig?', howTitle:'So funktioniert es', howSub:'Drei Schritte zu sicheren Artikeln',
     how1Title:'Niveau wählen', how1Text:'Wähle A1 bis C2 nach GER. Lerne genau den Wortschatz, den du jetzt brauchst.',
     how2Title:'Thema auswählen', how2Text:'Tiere, Wohnen, Arbeit, Gesundheit... Lerne im Kontext und verknüpfe passende Wörter.',
@@ -995,19 +1191,22 @@ const UI = {
     appLevels:'Niveaus', appStats:'Statistiken', appPlans:'Preise', levelsTitle:'Niveaus', levelsSubtitle:'Wähle dein GER-Niveau für die nächste Übungsrunde',
     catsTitle:'Themen für {level}',
     catsSubtitle:'Wähle ein Thema zum Üben', statsTitle:'Statistiken', statsSubtitle:'Dein Fortschritt heute',
-    statsRoundsLabel:'Runden heute', statsRoundsNote:'von 3 kostenlosen', statsWordsLabel:'Geübte Wörter', statsWordsNote:'in dieser Sitzung',
+    statsRoundsLabel:'Runden heute', statsRoundsNote:'unbegrenzt während der Aktion', statsWordsLabel:'Geübte Wörter', statsWordsNote:'in dieser Sitzung',
     statsAccuracyLabel:'Trefferquote', statsAccuracyNote:'richtige Antworten', statsUpsellTitle:'Erweiterte Statistiken mit Premium',
     statsUpsellText:'Sieh, welche Endungen dir schwerfallen, nutze Verlauf und mehr.', statsUpsellButton:'Preise ansehen →',
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
-    quizOtherCategory:'Anderes Thema →', limitTitle:'Deine kostenlosen Runden sind aufgebraucht', limitText:'Du hast heute schon 3 kostenlose Runden abgeschlossen. Mit Premium übst du unbegrenzt und schaltest alle Niveaus und Themen frei.',
-    limitButton:'Premium ansehen →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Premium-Inhalt — Upgrade nötig',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Premium kommt bald', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute deine {rounds} kostenlosen Runden genutzt', premiumRounds:'Premium: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Free', proChip:'Pro'
+    quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
+    limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
+    topbarText:'der die das de Vokabel Lab | Domina los artículos',
+    navDashboard:'Actividades', navDashboardSoon:'Abrir menú',
     navHome:'Inicio', navFeatures:'Funciones', navPricing:'Planes', heroTitle:'No más dolores de cabeza con los artículos.',
     heroSubtitle:'Aprende der, die y das de forma intuitiva. Vocabulario categorizado de A1 a C2, adaptado al Marco Común Europeo.',
-    heroStart:'Empezar gratis →', heroDemo:'Probar sin cuenta', heroNote:'Sin tarjeta de crédito · 3 rondas gratuitas al día',
+    heroStart:'Empezar gratis ahora →', heroDemo:'Probar sin cuenta', heroNote:'Por tiempo limitado: acceso gratuito ilimitado. Aprovecha.',
+    heroLogoCaption:'Empieza ya a practicar.',
     heroQuestion:'¿Cuál es el artículo correcto?', howTitle:'Así funciona', howSub:'Tres pasos para dominar los artículos alemanes',
     how1Title:'Elige tu nivel', how1Text:'Selecciona entre A1 y C2 según el Marco Común Europeo. No pierdas tiempo con vocabulario que no necesitas.',
     how2Title:'Escoge una categoría', how2Text:'Animales, hogar, trabajo, salud… Aprende en contexto. Las palabras relacionadas se aprenden juntas.',
@@ -1023,19 +1222,22 @@ const UI = {
     appLevels:'Niveles', appStats:'Estadísticas', appPlans:'Planes', levelsTitle:'Niveles', levelsSubtitle:'Elige tu nivel MCER para empezar a practicar',
     catsTitle:'Categorías de {level}',
     catsSubtitle:'Elige un tema para practicar', statsTitle:'Estadísticas', statsSubtitle:'Tu progreso de hoy',
-    statsRoundsLabel:'Rondas hoy', statsRoundsNote:'de 3 gratuitas', statsWordsLabel:'Palabras practicadas', statsWordsNote:'en esta sesión',
+    statsRoundsLabel:'Rondas hoy', statsRoundsNote:'ilimitadas durante la promo', statsWordsLabel:'Palabras practicadas', statsWordsNote:'en esta sesión',
     statsAccuracyLabel:'Precisión', statsAccuracyNote:'respuestas correctas', statsUpsellTitle:'Estadísticas avanzadas con Premium',
     statsUpsellText:'Descubre qué terminaciones te cuestan más, historial completo y mucho más', statsUpsellButton:'Ver planes →',
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
-    quizOtherCategory:'Otra categoría →', limitTitle:'Rondas de hoy agotadas', limitText:'Has completado tus 3 rondas gratuitas de hoy. Con Premium practicas sin límite y desbloqueas todos los niveles y categorías.',
-    limitButton:'Ver planes Premium →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Contenido Premium — actualiza tu plan',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Premium próximamente', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Has usado tus {rounds} rondas gratuitas de hoy', premiumRounds:'Premium: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Free', proChip:'Pro'
+    quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
+    limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
+    topbarText:'der die das by Vokabel Lab | Master the articles',
+    navDashboard:'Activities', navDashboardSoon:'Open menu',
     navHome:'Home', navFeatures:'Features', navPricing:'Pricing', heroTitle:'No more guessing German articles.',
     heroSubtitle:'Learn der, die and das intuitively. Vocabulary organized from A1 to C2 and grouped by topic.',
-    heroStart:'Start free →', heroDemo:'Try without login', heroNote:'No credit card · 3 free rounds per day',
+    heroStart:'Start free now →', heroDemo:'Try without login', heroNote:'Limited-time offer: unlimited free access. Make the most of it.',
+    heroLogoCaption:'Start practicing now.',
     heroQuestion:'Which article is correct?', howTitle:'How it works', howSub:'Three steps to master German articles',
     how1Title:'Choose your level', how1Text:'Pick from A1 to C2 based on the CEFR. Skip vocabulary you do not need yet.',
     how2Title:'Choose a topic', how2Text:'Animals, home, work, health... Learn in context and keep related words together.',
@@ -1051,13 +1253,13 @@ const UI = {
     appLevels:'Levels', appStats:'Stats', appPlans:'Plans', levelsTitle:'Levels', levelsSubtitle:'Choose your CEFR level to start practicing',
     catsTitle:'Topics for {level}',
     catsSubtitle:'Choose a topic to practice', statsTitle:'Stats', statsSubtitle:'Your progress today',
-    statsRoundsLabel:'Rounds today', statsRoundsNote:'out of 3 free', statsWordsLabel:'Words practiced', statsWordsNote:'in this session',
+    statsRoundsLabel:'Rounds today', statsRoundsNote:'unlimited during the promo', statsWordsLabel:'Words practiced', statsWordsNote:'in this session',
     statsAccuracyLabel:'Accuracy', statsAccuracyNote:'correct answers', statsUpsellTitle:'Advanced stats with Premium',
     statsUpsellText:'See which endings are hardest for you, review history and more.', statsUpsellButton:'See plans →',
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
-    quizOtherCategory:'Another topic →', limitTitle:'Today’s free rounds are used up', limitText:'You have completed your 3 free rounds for today. With Premium you can practice without limits and unlock all levels and topics.',
-    limitButton:'See Premium plans →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Premium content — upgrade your plan',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Premium coming soon', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You used your {rounds} free rounds today', premiumRounds:'Premium: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Pro'
+    quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
+    limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1210,6 +1412,7 @@ const RULES = {
 let USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
 let SESSION = {rounds:0, words:0, correct:0, total:0};
 let currentLevel = null;
+let currentCategory = null;
 let quiz = {words:[],idx:0,correct:0,answered:false};
 let flashcardState = null;
 let nextQuestionTimer = null;
@@ -1221,20 +1424,15 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   window.scrollTo(0,0);
+  syncLandingHeaderState();
 }
 
 function enterDemo() {
-  USER = {name:t('demoName'), isLoggedIn:false, isPremium:false, streak:0};
+  USER = {name:t('demoName'), isLoggedIn:false, isPremium:PROMO_UNLIMITED_ACCESS, streak:0};
   startApp();
 }
 
 function startApp() {
-  document.getElementById('appAv').textContent = USER.name.slice(0,2).toUpperCase();
-  document.getElementById('appName').textContent = USER.name;
-  document.getElementById('appStreak').textContent = USER.streak;
-  const chip = document.getElementById('planChip');
-  chip.textContent = USER.isPremium ? t('proChip') : t('freeChip');
-  chip.className = 'plan-chip' + (USER.isPremium ? ' pro' : '');
   applyTranslations();
   renderLevels();
   showScreen('s-app');
@@ -1283,7 +1481,7 @@ function handleLogin() {
   if (!email || !pass) { authMsg('li-msg','Completa todos los campos','err'); return; }
   if (!email.includes('@')) { authMsg('li-msg','Email no válido','err'); return; }
   // TODO: connect to Supabase auth
-  USER = {name: email.split('@')[0], isLoggedIn:true, isPremium:false, streak:5};
+  USER = {name: email.split('@')[0], isLoggedIn:true, isPremium:PROMO_UNLIMITED_ACCESS, streak:5};
   closeAuth(); startApp();
 }
 
@@ -1296,13 +1494,13 @@ function handleRegister() {
   if (!email.includes('@')) { authMsg('rg-msg','Email no válido','err'); return; }
   if (pass.length < 8) { authMsg('rg-msg','La contraseña debe tener al menos 8 caracteres','err'); return; }
   // TODO: connect to Supabase auth
-  USER = {name, isLoggedIn:true, isPremium:false, streak:0};
+  USER = {name, isLoggedIn:true, isPremium:PROMO_UNLIMITED_ACCESS, streak:0};
   closeAuth(); startApp();
 }
 
 function handleGoogle() {
   // TODO: connect Supabase Google OAuth
-  USER = {name:'Usuario', isLoggedIn:true, isPremium:false, streak:0};
+  USER = {name:'Usuario', isLoggedIn:true, isPremium:PROMO_UNLIMITED_ACCESS, streak:0};
   closeAuth(); startApp();
 }
 
@@ -1349,32 +1547,40 @@ function updateLangButtons() {
       if (button) button.classList.toggle('active', lang === CURRENT_LANG);
     });
   });
+  const appLangSelect = document.getElementById('app-lang-select');
+  if (appLangSelect) appLangSelect.value = CURRENT_LANG;
 }
 
 function applyTranslations() {
   document.documentElement.lang = CURRENT_LANG;
   updateLangButtons();
 
+  const topbarText = document.getElementById('topbarText');
+  if (topbarText) topbarText.textContent = t('topbarText');
+
   const landingHomeLink = document.getElementById('landing-home-link');
   const landingFeaturesLink = document.getElementById('landing-features-link');
   const landingPricingLink = document.getElementById('landing-pricing-link');
+  const landingDashboardLabel = document.getElementById('landing-dashboard-label');
+  const landingDashboardSoon = document.getElementById('landing-dashboard-soon');
   if (landingHomeLink) landingHomeLink.textContent = t('navHome');
   if (landingFeaturesLink) landingFeaturesLink.textContent = t('navFeatures');
   if (landingPricingLink) landingPricingLink.textContent = t('navPricing');
-
-  const navRightButton = document.querySelector('.nav-right .btn-sm.btn-dark-sm');
-  if (navRightButton) navRightButton.textContent = t('navStartDemo');
+  if (landingDashboardLabel) landingDashboardLabel.textContent = t('navDashboard');
+  if (landingDashboardSoon) landingDashboardSoon.textContent = t('navDashboardSoon');
 
   const heroTitle = document.querySelector('.hero-text h1');
   const heroSubtitle = document.querySelector('.hero-text p');
   const heroButtons = document.querySelectorAll('.hero-actions button');
   const heroNote = document.querySelector('.hero-note');
   const heroSmall = document.querySelector('.hero-word-demo .small');
+  const heroLogoCaption = document.getElementById('heroLogoCaption');
   if (heroTitle) heroTitle.textContent = t('heroTitle');
   if (heroSubtitle) heroSubtitle.textContent = t('heroSubtitle');
   if (heroButtons[0]) heroButtons[0].textContent = t('heroStart');
   if (heroButtons[1]) heroButtons[1].textContent = t('heroDemo');
   if (heroNote) heroNote.textContent = t('heroNote');
+  if (heroLogoCaption) heroLogoCaption.textContent = t('heroLogoCaption');
   if (heroSmall) heroSmall.textContent = t('heroQuestion');
 
   const howHeaders = document.querySelectorAll('.how-step h3');
@@ -1475,8 +1681,6 @@ function applyTranslations() {
   if (statsUpsellText) statsUpsellText.textContent = t('statsUpsellText');
   if (statsUpsellButton) statsUpsellButton.textContent = t('statsUpsellButton');
 
-  document.querySelector('.streak-pill').lastChild.textContent = ` ${t('streak')}`;
-  document.getElementById('planChip').textContent = USER.isPremium ? t('proChip') : t('freeChip');
 }
 
 function setLang(lang) {
@@ -1492,12 +1696,21 @@ function setLang(lang) {
   }
 }
 
+function syncLandingHeaderState() {
+  const landingVisible = document.getElementById('s-landing')?.classList.contains('on');
+  const compact = landingVisible && window.innerWidth <= 600 && window.scrollY > 10;
+  document.body.classList.toggle('landing-header-compact', compact);
+}
+
+window.addEventListener('scroll', syncLandingHeaderState, { passive: true });
+window.addEventListener('resize', syncLandingHeaderState);
+
 // ═══════════════════════════════════════════
 // LEVELS
 // ═══════════════════════════════════════════
 function renderLevels() {
   document.getElementById('levelsGrid').innerHTML = LEVELS.map(l => {
-    const locked = !l.free && !USER.isPremium;
+    const locked = PROMO_UNLIMITED_ACCESS ? false : (!l.free && !USER.isPremium);
     return `
     <div class="level-card${locked?' locked':''}" onclick="${locked?`showUpsell()`:``}" 
          ${!locked?`onclick="selectLevel('${l.id}')" role="button" tabindex="0"`:''}>
@@ -1521,7 +1734,7 @@ function renderLevels() {
 
   // Add click handlers separately to avoid inline onclick issues with locked
   LEVELS.forEach(l => {
-    const locked = !l.free && !USER.isPremium;
+    const locked = PROMO_UNLIMITED_ACCESS ? false : (!l.free && !USER.isPremium);
     const el = document.getElementById('levelsGrid').querySelectorAll('.level-card')[LEVELS.indexOf(l)];
     if (!locked) el.onclick = () => selectLevel(l.id);
     else el.onclick = () => showUpsell();
@@ -1542,7 +1755,7 @@ function selectLevel(levelId) {
 function renderCats(levelId) {
   const cats = CATS_BY_LEVEL[levelId] || [];
   document.getElementById('catsGrid').innerHTML = cats.map(c => {
-    const locked = !c.free && !USER.isPremium;
+    const locked = PROMO_UNLIMITED_ACCESS ? false : (!c.free && !USER.isPremium);
     return `
     <div class="cat-card${locked?' locked':''}" data-cat="${c.id}" data-locked="${locked}">
       <div class="cat-icon-box">${c.icon}</div>
@@ -1567,13 +1780,14 @@ function renderCats(levelId) {
 // QUIZ
 // ═══════════════════════════════════════════
 function startQuiz(catId) {
-  if (!USER.isPremium && SESSION.rounds >= 3) {
+  if (!PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3) {
     goView('quiz');
     renderLimit(); return;
   }
   const pool = WORD_POOL[catId] || WORD_POOL['food'];
   const words = [...pool].sort(()=>Math.random()-.5);
   const flashcardItems = words.map((item, index) => normalizeFlashcardItem(item, catId, index));
+  currentCategory = catId;
 
   clearNextQuestionTimer();
   flashcardState = null;
@@ -1591,7 +1805,7 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null};
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -1605,11 +1819,20 @@ function renderQuestion() {
   const { idx, total, raw: w } = currentQuestion;
   quiz.idx = idx;
   const pct = (idx/total)*100;
+  const levelLabel = LEVELS.find(level => level.id === currentLevel)?.label || currentLevel?.toUpperCase() || 'A1';
+  const categoryLabel = currentCategory ? catName(currentCategory) : '';
   document.getElementById('quizInner').innerHTML = `
+    <div class="quiz-context">
+      <div class="quiz-path">${levelLabel}${categoryLabel ? ` · ${categoryLabel}` : ''}</div>
+      <div class="quiz-streak">🔥 ${quiz.streak} ${t('quizStreak')}</div>
+    </div>
     <div class="quiz-header">
-      <button class="q-exit" onclick="goView('cats')" title="Salir">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l11 11M12 1L1 12"/></svg>
-      </button>
+      <div class="quiz-nav">
+        <button class="q-back" onclick="goView('cats')" title="${t('quizBack')}">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
+        </button>
+        <button class="q-menu" onclick="goView('levels')">${t('quizMenu')}</button>
+      </div>
       <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
       <span class="qcount">${idx+1} / ${total}</span>
     </div>
@@ -1634,7 +1857,13 @@ function answer(chosen) {
   quiz.answered = true;
   const w = currentQuestion.raw;
   const ok = chosen === currentQuestion.answer;
-  if (ok) { quiz.correct++; SESSION.correct++; }
+  if (ok) {
+    quiz.correct++;
+    quiz.streak++;
+    SESSION.correct++;
+  } else {
+    quiz.streak = 0;
+  }
   SESSION.total++;
   quiz.pendingOutcome = ok ? 'known' : 'unknown';
 
@@ -1682,7 +1911,7 @@ function endQuiz() {
   const d = quiz.words.filter(w=>w.a==='der').length;
   const i = quiz.words.filter(w=>w.a==='die').length;
   const n = quiz.words.filter(w=>w.a==='das').length;
-  const nearLimit = !USER.isPremium && SESSION.rounds >= 3;
+  const nearLimit = !PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3;
   document.getElementById('quizInner').innerHTML = `
     ${nearLimit ? `<div class="upsell-bar">
       <div class="ub-text">

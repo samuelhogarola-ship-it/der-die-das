@@ -13,6 +13,13 @@ const indexFile = path.join(publicDir, "index.html");
 
 app.disable("x-powered-by");
 
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
+
 app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
@@ -21,6 +28,10 @@ app.get("/api/health", (req, res) => {
     indexFile,
     port: Number(PORT)
   });
+});
+
+app.get("/derdiedas.html", (req, res) => {
+  res.redirect(301, "/");
 });
 
 app.use(express.static(publicDir, {
