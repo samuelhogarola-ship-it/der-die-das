@@ -1634,8 +1634,73 @@ function updateLevelUrl(levelId, mode = 'push') {
   updateDocumentMetadata(levelId);
 }
 
+function createLocalShareCore() {
+  const replaceTemplate = (template, values) => String(template || '').replace(/\{(\w+)\}/g, (_match, key) => values[key] ?? '');
+  const buildShareableUrl = ({ url, queryParam = 'nivel', queryValue } = {}) => {
+    const nextUrl = new URL(url || getBaseAppUrl(), window.location.href);
+    if (queryValue) nextUrl.searchParams.set(queryParam, queryValue);
+    else nextUrl.searchParams.delete(queryParam);
+    return nextUrl.toString();
+  };
+  const buildPayload = (config = {}) => {
+    const values = {
+      appName: config.appName || '',
+      level: config.level || '',
+      correct: config.correct,
+      total: config.total,
+      url: buildShareableUrl(config)
+    };
+    const text = replaceTemplate(config.textTemplate, values);
+    const clipboardText = replaceTemplate(config.clipboardTemplate || config.textTemplate, values);
+    return {
+      mode: config.mode || 'share',
+      text,
+      url: values.url,
+      whatsappUrl: 'https://wa.me/?text=' + encodeURIComponent(text),
+      clipboardText
+    };
+  };
+  const copyToClipboard = (value, options = {}) => {
+    const clipboard = options.clipboard || options.navigator?.clipboard || navigator.clipboard;
+    if (clipboard && typeof clipboard.writeText === 'function') return clipboard.writeText(value);
+    return new Promise((resolve, reject) => {
+      if (!document?.body || typeof document.createElement !== 'function') {
+        reject(new Error('Clipboard unavailable'));
+        return;
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        resolve();
+      } catch (error) {
+        document.body.removeChild(textarea);
+        reject(error);
+      }
+    });
+  };
+  return {
+    buildLevelShare(config = {}) { return buildPayload(config); },
+    buildResultShare(config = {}) { return buildPayload(config); },
+    buildShareableUrl,
+    buildWhatsAppUrl(text) { return 'https://wa.me/?text=' + encodeURIComponent(text || ''); },
+    copyToClipboard
+  };
+}
+
 function getShareCore() {
-  return window.CoreShare || null;
+  if (window.CoreShare) return window.CoreShare;
+  if (!window.__localShareCoreFallback) {
+    console.warn('CoreShare unavailable, using local fallback');
+    window.__localShareCoreFallback = createLocalShareCore();
+  }
+  return window.__localShareCoreFallback;
 }
 
 function getBaseAppUrl() {
