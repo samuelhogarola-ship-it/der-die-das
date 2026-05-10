@@ -7,6 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>DerDieDas — Vokabel Lab</title>
+<link rel="canonical" href="/">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;scroll-behavior:smooth}
@@ -416,8 +417,19 @@ footer{
   max-width:960px;margin:0 auto;padding:48px 28px;width:100%
 }
 .view-header{margin-bottom:32px}
+.view-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .view-header h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
 .view-header p{font-size:15px;color:var(--muted)}
+.copy-link-btn{padding:8px 12px;border-radius:10px;border:1px solid var(--border2);background:var(--white);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-sans);transition:all .14s;white-space:nowrap}
+.copy-link-btn:hover{background:var(--bg)}
+.share-panel{margin-top:22px;padding:16px 18px;border:1px solid var(--border);border-radius:16px;background:var(--bg)}
+.share-panel.compact{margin-top:18px;padding:14px 16px}
+.share-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px}
+.share-actions{display:flex;flex-wrap:wrap;gap:10px}
+.share-btn{padding:10px 14px;border-radius:10px;border:1px solid var(--border2);background:var(--white);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-sans);transition:all .14s}
+.share-btn:hover{background:var(--bg)}
+.share-btn.whatsapp{background:#25D366;color:#fff;border-color:#25D366}
+.share-btn.whatsapp:hover{background:#1fb65a;border-color:#1fb65a}
 
 .levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .level-card{
@@ -701,6 +713,10 @@ footer{
   .app-lang-select{display:block}
   .levels-grid,.cats-grid{grid-template-columns:1fr}
   .levels-view,.cats-view,.quiz-view,.stats-view{padding:24px 16px}
+  .view-header-top{align-items:stretch}
+  .copy-link-btn{width:100%}
+  .share-actions{flex-direction:column}
+  .share-btn{width:100%}
   .q-word{font-size:44px}
   .q-card{padding:36px 20px 28px}
   .art-row{gap:7px}
@@ -1103,8 +1119,13 @@ footer{
     <div class="view on" id="v-levels">
       <div class="levels-view">
         <div class="view-header">
-          <h1>Niveles</h1>
-          <p>Elige tu nivel MCER para empezar a practicar</p>
+          <div class="view-header-top">
+            <div>
+              <h1>Niveles</h1>
+              <p>Elige tu nivel MCER para empezar a practicar</p>
+            </div>
+            <button class="copy-link-btn" id="copyLevelLinkBtn" onclick="copyLevelLink()">Comparte con tus amigos</button>
+          </div>
         </div>
         <div class="levels-grid" id="levelsGrid"></div>
       </div>
@@ -1120,6 +1141,13 @@ footer{
         <div class="view-header">
           <h1 id="catsTitle">Categorías de A1</h1>
           <p>Elige un tema para practicar</p>
+          <div class="share-panel compact">
+            <div class="share-title" id="shareLevelTitle">Comparte este nivel</div>
+            <div class="share-actions">
+              <button class="share-btn whatsapp" id="shareLevelWhatsappBtn" onclick="shareLevelWhatsApp()">WhatsApp</button>
+              <button class="share-btn" id="shareLevelCopyBtn" onclick="copyLevelLink()">Copiar link</button>
+            </div>
+          </div>
         </div>
         <div class="cats-grid" id="catsGrid"></div>
       </div>
@@ -1200,7 +1228,7 @@ const UI = {
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
     quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden'
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden', copyLink:'Mit Freunden teilen', copiedLink:'Link kopiert', copiedResult:'Ergebnis kopiert', copiedInstagram:'Instagram-Text kopiert', shareFriendsCta:'Mit Freunden teilen', shareLevelTitle:'Dieses Niveau teilen', shareWhatsapp:'WhatsApp', shareCopyLink:'Link kopieren', shareCopyLevelLink:'Level-Link kopieren', shareProgressTitle:'Teile deinen Fortschritt', shareCopyResult:'Ergebnis kopieren', shareCopyInstagram:'Für Instagram kopieren', shareLevelMessage:'Ich übe deutsche Artikel mit DerDieDas auf Niveau {level}. Machst du mit? {url}', shareAppMessage:'Ich übe deutsche Artikel mit DerDieDas. Machst du mit? {url}', shareResultMessage:'Ich habe deutsche Artikel mit DerDieDas geübt und {correct}/{total} auf Niveau {level} geschafft. Machst du mit? {url}', shareInstagramMessage:'Ich habe {correct}/{total} in DerDieDas auf Niveau {level} geschafft. Machst du mit? {url}'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
@@ -1231,7 +1259,7 @@ const UI = {
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
     quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio'
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio', copyLink:'Comparte con tus amigos', copiedLink:'Enlace copiado', copiedResult:'Resultado copiado', copiedInstagram:'Texto para Instagram copiado', shareFriendsCta:'Comparte con tus amigos', shareLevelTitle:'Comparte este nivel', shareWhatsapp:'WhatsApp', shareCopyLink:'Copiar link', shareCopyLevelLink:'Copiar enlace del nivel', shareProgressTitle:'Comparte tu progreso', shareCopyResult:'Copiar resultado', shareCopyInstagram:'Copiar para Instagram', shareLevelMessage:'Estoy practicando artículos alemanes en DerDieDas, nivel {level}. ¿Te animas? {url}', shareAppMessage:'Estoy practicando artículos alemanes en DerDieDas. ¿Te animas? {url}', shareResultMessage:'He practicado artículos alemanes en DerDieDas y he sacado {correct}/{total} en nivel {level}. ¿Te animas? {url}', shareInstagramMessage:'He sacado {correct}/{total} en DerDieDas nivel {level}. ¿Te animas? {url}'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
@@ -1262,7 +1290,7 @@ const UI = {
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
     quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise'
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise', copyLink:'Share with friends', copiedLink:'Link copied', copiedResult:'Result copied', copiedInstagram:'Instagram text copied', shareFriendsCta:'Share with friends', shareLevelTitle:'Share this level', shareWhatsapp:'WhatsApp', shareCopyLink:'Copy link', shareCopyLevelLink:'Copy level link', shareProgressTitle:'Share your progress', shareCopyResult:'Copy result', shareCopyInstagram:'Copy for Instagram', shareLevelMessage:'I am practicing German articles in DerDieDas at level {level}. Want to try? {url}', shareAppMessage:'I am practicing German articles in DerDieDas. Want to try? {url}', shareResultMessage:'I practiced German articles in DerDieDas and scored {correct}/{total} at level {level}. Want to try? {url}', shareInstagramMessage:'I scored {correct}/{total} in DerDieDas at level {level}. Want to try? {url}'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1416,6 +1444,7 @@ let USER = {name:'Demo', isLoggedIn:false, isPremium:false, streak:0};
 let SESSION = {rounds:0, words:0, correct:0, total:0};
 let currentLevel = null;
 let currentCategory = null;
+const SHAREABLE_LEVELS = new Set(['a1','a2','b1','b2','c1','c2']);
 let quiz = {words:[],idx:0,correct:0,answered:false};
 
 function cloneQuizState(value) {
@@ -1474,6 +1503,7 @@ function startApp() {
   renderLevels();
   showScreen('s-app');
   goView('levels');
+  if (!applyLevelFromLocation()) updateDocumentMetadata(null);
 }
 
 // ═══════════════════════════════════════════
@@ -1571,6 +1601,189 @@ function levelName(levelId) {
 
 function levelDesc(levelId) {
   return LEVEL_TEXT[levelId]?.[CURRENT_LANG]?.desc || "";
+}
+
+function getLevelIdFromQuery(search = window.location.search) {
+  const params = new URLSearchParams(search);
+  const rawLevel = (params.get('nivel') || '').trim().toLowerCase();
+  return SHAREABLE_LEVELS.has(rawLevel) ? rawLevel : null;
+}
+
+function getLevelLabel(levelId) {
+  return LEVELS.find(level => level.id === levelId)?.label || levelId?.toUpperCase() || null;
+}
+
+function buildLevelUrl(levelId) {
+  const url = new URL(window.location.href);
+  if (levelId && SHAREABLE_LEVELS.has(levelId)) url.searchParams.set('nivel', getLevelLabel(levelId));
+  else url.searchParams.delete('nivel');
+  return url;
+}
+
+function updateDocumentMetadata(levelId = currentLevel) {
+  const label = getLevelLabel(levelId);
+  document.title = label ? 'Der Die Das ' + label + ' | Vokabel Lab' : 'DerDieDas — Vokabel Lab';
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.setAttribute('href', '/');
+}
+
+function updateLevelUrl(levelId, mode = 'push') {
+  const nextUrl = buildLevelUrl(levelId);
+  const method = mode === 'replace' ? 'replaceState' : 'pushState';
+  window.history[method]({ nivel: levelId || null }, '', nextUrl);
+  updateDocumentMetadata(levelId);
+}
+
+function createLocalShareCore() {
+  const replaceTemplate = (template, values) => String(template || '').replace(/\{(\w+)\}/g, (_match, key) => values[key] ?? '');
+  const buildShareableUrl = ({ url, queryParam = 'nivel', queryValue } = {}) => {
+    const nextUrl = new URL(url || getBaseAppUrl(), window.location.href);
+    if (queryValue) nextUrl.searchParams.set(queryParam, queryValue);
+    else nextUrl.searchParams.delete(queryParam);
+    return nextUrl.toString();
+  };
+  const buildPayload = (config = {}) => {
+    const values = {
+      appName: config.appName || '',
+      level: config.level || '',
+      correct: config.correct,
+      total: config.total,
+      url: buildShareableUrl(config)
+    };
+    const text = replaceTemplate(config.textTemplate, values);
+    const clipboardText = replaceTemplate(config.clipboardTemplate || config.textTemplate, values);
+    return {
+      mode: config.mode || 'share',
+      text,
+      url: values.url,
+      whatsappUrl: 'https://wa.me/?text=' + encodeURIComponent(text),
+      clipboardText
+    };
+  };
+  const copyToClipboard = (value, options = {}) => {
+    const clipboard = options.clipboard || options.navigator?.clipboard || navigator.clipboard;
+    if (clipboard && typeof clipboard.writeText === 'function') return clipboard.writeText(value);
+    return new Promise((resolve, reject) => {
+      if (!document?.body || typeof document.createElement !== 'function') {
+        reject(new Error('Clipboard unavailable'));
+        return;
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        resolve();
+      } catch (error) {
+        document.body.removeChild(textarea);
+        reject(error);
+      }
+    });
+  };
+  return {
+    buildLevelShare(config = {}) { return buildPayload(config); },
+    buildResultShare(config = {}) { return buildPayload(config); },
+    buildShareableUrl,
+    buildWhatsAppUrl(text) { return 'https://wa.me/?text=' + encodeURIComponent(text || ''); },
+    copyToClipboard
+  };
+}
+
+function getShareCore() {
+  if (window.CoreShare) return window.CoreShare;
+  if (!window.__localShareCoreFallback) {
+    console.warn('CoreShare unavailable, using local fallback');
+    window.__localShareCoreFallback = createLocalShareCore();
+  }
+  return window.__localShareCoreFallback;
+}
+
+function getBaseAppUrl() {
+  return window.location.origin + window.location.pathname;
+}
+
+function buildLevelSharePayload(levelId = currentLevel) {
+  const ShareCore = getShareCore();
+  const label = getLevelLabel(levelId);
+  return ShareCore.buildLevelShare({
+    appName: 'DerDieDas',
+    level: label,
+    url: getBaseAppUrl(),
+    queryParam: 'nivel',
+    queryValue: label,
+    mode: 'level-share',
+    textTemplate: label ? t('shareLevelMessage') : t('shareAppMessage'),
+    clipboardTemplate: label ? t('shareLevelMessage') : t('shareAppMessage')
+  });
+}
+
+function buildResultSharePayload(correct, total, levelId = currentLevel, mode = 'quiz-result') {
+  const ShareCore = getShareCore();
+  return ShareCore.buildResultShare({
+    appName: 'DerDieDas',
+    level: getLevelLabel(levelId) || '',
+    correct,
+    total,
+    url: getBaseAppUrl(),
+    queryParam: 'nivel',
+    queryValue: getLevelLabel(levelId) || '',
+    mode,
+    textTemplate: mode === 'instagram-result' ? t('shareInstagramMessage') : t('shareResultMessage'),
+    clipboardTemplate: mode === 'instagram-result' ? t('shareInstagramMessage') : t('shareResultMessage')
+  });
+}
+
+function copySharePayload(payload, toastKey) {
+  const ShareCore = getShareCore();
+  return ShareCore.copyToClipboard(payload.clipboardText, { navigator, document }).then(() => {
+    showToast(t(toastKey));
+  }).catch((error) => {
+    console.warn('Clipboard copy failed', error);
+  });
+}
+
+function openWhatsAppPayload(payload) {
+  const opened = typeof window.open === 'function' ? window.open(payload.whatsappUrl, '_blank', 'noopener') : null;
+  if (!opened) window.location.href = payload.whatsappUrl;
+}
+
+function copyLevelLink(levelId = currentLevel) {
+  const payload = buildLevelSharePayload(levelId);
+  return copySharePayload({ clipboardText: payload.url }, 'copiedLink');
+}
+
+function shareLevelWhatsApp(levelId = currentLevel) {
+  openWhatsAppPayload(buildLevelSharePayload(levelId));
+}
+
+function shareResultWhatsApp(correct, total, levelId = currentLevel) {
+  openWhatsAppPayload(buildResultSharePayload(correct, total, levelId));
+}
+
+function copyResultText(correct, total, levelId = currentLevel) {
+  return copySharePayload(buildResultSharePayload(correct, total, levelId), 'copiedResult');
+}
+
+function copyInstagramText(correct, total, levelId = currentLevel) {
+  return copySharePayload(buildResultSharePayload(correct, total, levelId, 'instagram-result'), 'copiedInstagram');
+}
+
+function applyLevelFromLocation(options = {}) {
+  const levelId = getLevelIdFromQuery();
+  if (!levelId) {
+    currentLevel = null;
+    updateDocumentMetadata(null);
+    if (options.fromHistory) goView('levels');
+    return false;
+  }
+  if (!USER || !document.getElementById('s-app').classList.contains('on')) enterDemo();
+  selectLevel(levelId, { historyMode: 'none' });
+  return true;
 }
 
 function catName(catId) {
@@ -1689,15 +1902,23 @@ function applyTranslations() {
 
   const levelsHeader = document.querySelector('#v-levels .view-header h1');
   const levelsText = document.querySelector('#v-levels .view-header p');
+  const copyLevelLinkBtn = document.getElementById('copyLevelLinkBtn');
   if (levelsHeader) levelsHeader.textContent = t('levelsTitle');
   if (levelsText) levelsText.textContent = t('levelsSubtitle');
+  if (copyLevelLinkBtn) copyLevelLinkBtn.textContent = t('shareFriendsCta');
 
   const catsHeader = document.querySelector('#v-cats .view-header h1');
   const catsText = document.querySelector('#v-cats .view-header p');
   const backButton = document.querySelector('#v-cats .back-btn');
+  const shareLevelTitle = document.getElementById('shareLevelTitle');
+  const shareLevelWhatsappBtn = document.getElementById('shareLevelWhatsappBtn');
+  const shareLevelCopyBtn = document.getElementById('shareLevelCopyBtn');
   if (catsHeader) catsHeader.textContent = t('catsTitle', { level: currentLevel ? LEVELS.find((level) => level.id === currentLevel)?.label || 'A1' : 'A1' });
   if (catsText) catsText.textContent = t('catsSubtitle');
   if (backButton) backButton.lastChild.textContent = ` ${t('limitBack')}`;
+  if (shareLevelTitle) shareLevelTitle.textContent = t('shareLevelTitle');
+  if (shareLevelWhatsappBtn) shareLevelWhatsappBtn.textContent = t('shareWhatsapp');
+  if (shareLevelCopyBtn) shareLevelCopyBtn.textContent = t('shareCopyLink');
 
   const statsHeader = document.querySelector('#v-stats .view-header h1');
   const statsText = document.querySelector('#v-stats .view-header p');
@@ -1741,6 +1962,10 @@ function syncLandingHeaderState() {
 
 window.addEventListener('scroll', syncLandingHeaderState, { passive: true });
 window.addEventListener('resize', syncLandingHeaderState);
+window.addEventListener('popstate', () => {
+  if (!document.getElementById('s-app').classList.contains('on')) return;
+  applyLevelFromLocation({ fromHistory: true });
+});
 
 // ═══════════════════════════════════════════
 // LEVELS
@@ -1778,12 +2003,16 @@ function renderLevels() {
   });
 }
 
-function selectLevel(levelId) {
+function selectLevel(levelId, options = {}) {
   currentLevel = levelId;
   const lvl = LEVELS.find(l=>l.id===levelId);
+  if (!lvl) return;
   document.getElementById('catsTitle').textContent = t('catsTitle', { level: lvl.label });
   renderCats(levelId);
   goView('cats');
+  const historyMode = options.historyMode ?? 'push';
+  if (historyMode !== 'none' && SHAREABLE_LEVELS.has(levelId)) updateLevelUrl(levelId, historyMode);
+  else updateDocumentMetadata(levelId);
 }
 
 // ═══════════════════════════════════════════
@@ -2003,6 +2232,15 @@ function endQuiz() {
         <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans)" onclick="goView('levels')">${t('quizChangeLevel')}</button>
         ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans)" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
       </div>
+      <div class="share-panel">
+        <div class="share-title">${t('shareProgressTitle')}</div>
+        <div class="share-actions">
+          <button class="share-btn whatsapp" onclick="shareResultWhatsApp(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareWhatsapp')}</button>
+          <button class="share-btn" onclick="copyResultText(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareCopyResult')}</button>
+          <button class="share-btn" onclick="copyInstagramText(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareCopyInstagram')}</button>
+          <button class="share-btn" onclick="copyLevelLink()">${t('shareCopyLevelLink')}</button>
+        </div>
+      </div>
     </div>`;
 }
 
@@ -2044,6 +2282,8 @@ function showToast(msg) {
 }
 
 applyTranslations();
+updateDocumentMetadata(null);
+if (getLevelIdFromQuery()) enterDemo();
 
 function clearNextQuestionTimer() {
   if (nextQuestionTimer) {
