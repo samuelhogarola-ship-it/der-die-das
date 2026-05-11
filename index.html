@@ -1764,7 +1764,7 @@ function getLevelLabel(levelId) {
 }
 
 function buildLevelUrl(levelId) {
-  const url = new URL(window.location.href);
+  const url = new URL(getBaseAppUrl(), window.location.href);
   if (levelId && SHAREABLE_LEVELS.has(levelId)) url.searchParams.set('nivel', getLevelLabel(levelId));
   else url.searchParams.delete('nivel');
   return url;
@@ -1774,7 +1774,12 @@ function updateDocumentMetadata(levelId = currentLevel) {
   const label = getLevelLabel(levelId);
   document.title = label ? 'Der Die Das ' + label + ' | Vokabel Lab' : 'DerDieDas — Vokabel Lab';
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', '/');
+  if (canonical) {
+    const canonicalUrl = levelId && SHAREABLE_LEVELS.has(levelId)
+      ? buildLevelUrl(levelId)
+      : new URL('/', window.location.origin);
+    canonical.setAttribute('href', canonicalUrl.toString());
+  }
 }
 
 function updateLevelUrl(levelId, mode = 'push') {
