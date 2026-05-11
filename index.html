@@ -2168,12 +2168,14 @@ function renderLevels() {
     </div>`;
   }).join('');
 
-  // Add click handlers separately to avoid inline onclick issues with locked
-  LEVELS.forEach(l => {
+  // Wire click + keyboard (Enter/Space) handlers
+  const cards = document.getElementById('levelsGrid').querySelectorAll('.level-card');
+  LEVELS.forEach((l, i) => {
     const locked = PROMO_UNLIMITED_ACCESS ? false : (!l.free && !USER.isPremium);
-    const el = document.getElementById('levelsGrid').querySelectorAll('.level-card')[LEVELS.indexOf(l)];
-    if (!locked) el.onclick = () => selectLevel(l.id);
-    else el.onclick = () => showUpsell();
+    const el = cards[i];
+    const action = locked ? showUpsell : () => selectLevel(l.id);
+    el.onclick = action;
+    el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); action(); } };
   });
 }
 
