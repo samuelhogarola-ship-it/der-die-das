@@ -367,18 +367,19 @@ footer{
 
 /* APP NAV */
 .app-nav{
-  background:var(--white);border-bottom:1px solid var(--border);
-  height:54px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;position:sticky;top:0;z-index:100;flex-shrink:0
+  background:rgba(255,255,255,.96);border-bottom:1px solid rgba(17,17,16,.08);
+  backdrop-filter:blur(14px);
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;position:sticky;top:0;z-index:100;flex-shrink:0
 }
-.app-brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
+.app-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
 .app-logo{
-  width:34px;height:34px;border-radius:10px;overflow:hidden;
+  width:38px;height:38px;border-radius:11px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  box-shadow:0 8px 18px rgba(37,99,168,.14),0 0 0 1px rgba(17,17,16,.06)
+  box-shadow:0 8px 22px rgba(37,99,168,.16),0 0 0 1px rgba(17,17,16,.06)
 }
 .app-logo img{width:100%;height:100%;object-fit:cover;display:block}
-.app-brandname{font-size:14px;font-weight:700}
+.app-brandname{font-size:15px;font-weight:800;letter-spacing:-.2px}
 .app-nav-right{display:flex;align-items:center;gap:8px}
 .app-lang-select{
   display:none;padding:9px 12px;border:1px solid var(--border2);border-radius:10px;
@@ -414,14 +415,19 @@ footer{
    VIEW: NIVELES
 ══════════════════════════════════════════════ */
 .levels-view{
-  max-width:960px;margin:0 auto;padding:48px 28px;width:100%
+  max-width:1160px;margin:0 auto;padding:56px 36px;width:100%
 }
-.view-header{margin-bottom:32px}
+.view-header{margin-bottom:36px}
 .view-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.view-header h1{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
-.view-header p{font-size:15px;color:var(--muted)}
-.copy-link-btn{padding:8px 12px;border-radius:10px;border:1px solid var(--border2);background:var(--white);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-sans);transition:all .14s;white-space:nowrap}
-.copy-link-btn:hover{background:var(--bg)}
+.view-header h1{font-size:32px;font-weight:900;letter-spacing:-.7px;margin-bottom:6px}
+.view-header p{font-size:16px;color:var(--muted)}
+.copy-link-btn{
+  padding:9px 16px;border-radius:10px;border:1px solid var(--border2);
+  background:var(--white);color:var(--text);font-size:13px;font-weight:700;
+  cursor:pointer;font-family:var(--font-sans);transition:all .14s;white-space:nowrap;
+  box-shadow:var(--sh)
+}
+.copy-link-btn:hover{background:var(--bg);box-shadow:var(--sh2)}
 .share-panel{margin-top:22px;padding:16px 18px;border:1px solid var(--border);border-radius:16px;background:var(--bg)}
 .share-panel.compact{margin-top:18px;padding:14px 16px}
 .share-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px}
@@ -431,41 +437,51 @@ footer{
 .share-btn.whatsapp{background:#25D366;color:#fff;border-color:#25D366}
 .share-btn.whatsapp:hover{background:#1fb65a;border-color:#1fb65a}
 
-.levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .level-card{
   background:var(--white);border:1px solid var(--border);border-radius:var(--rl);
-  padding:22px;cursor:pointer;transition:all .16s;position:relative;overflow:hidden
+  padding:28px 28px 22px;cursor:pointer;transition:all .2s;position:relative;
+  display:flex;flex-direction:column;min-height:210px
 }
-.level-card:hover:not(.locked){border-color:var(--border2);box-shadow:var(--sh2);transform:translateY(-1px)}
-.level-card.locked{opacity:.6;cursor:not-allowed}
-.lc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.level-card:hover:not(.locked){
+  border-color:rgba(17,17,16,.14);
+  box-shadow:0 8px 28px rgba(0,0,0,.09),0 0 0 1px rgba(0,0,0,.07);
+  transform:translateY(-3px)
+}
+.level-card.locked{opacity:.55;cursor:not-allowed}
+.lc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
 .lc-badge-wrap{display:flex;align-items:center;gap:10px}
 .lc-lvl{
-  width:44px;height:44px;border-radius:10px;
+  width:64px;height:64px;border-radius:14px;
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:900;flex-shrink:0
+  font-size:22px;font-weight:900;flex-shrink:0;letter-spacing:-.5px
 }
-.lc-lvl.a1{background:#EEF4FC;color:var(--die)}
-.lc-lvl.a2{background:#EEF7F2;color:var(--das)}
-.lc-lvl.b1{background:#FBF6E8;color:var(--gold)}
-.lc-lvl.b2{background:#FFF7EE;color:#C06020}
-.lc-lvl.c1{background:var(--premium-bg);color:var(--premium)}
-.lc-lvl.c2{background:#FFF2F2;color:var(--der)}
-.lc-name{font-size:15px;font-weight:700}
-.lc-desc{font-size:12px;color:var(--muted)}
-.lc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
-.lc-count{font-size:12px;color:var(--muted2)}
+.lc-lvl.a1{background:#EBF3FC;color:#1d6fb8;border:1.5px solid #C5D9F2;box-shadow:0 3px 10px rgba(37,99,168,.13)}
+.lc-lvl.a2{background:#EBF5EF;color:#1A6B41;border:1.5px solid #B8D9C8;box-shadow:0 3px 10px rgba(26,107,65,.13)}
+.lc-lvl.b1{background:#FBF6E8;color:#9A6F00;border:1.5px solid #E8D8A0;box-shadow:0 3px 10px rgba(184,134,11,.13)}
+.lc-lvl.b2{background:#FFF4EC;color:#B85520;border:1.5px solid #F0CFA0;box-shadow:0 3px 10px rgba(192,96,32,.13)}
+.lc-lvl.c1{background:#F2EEFF;color:#4F35A8;border:1.5px solid #D4C8F5;box-shadow:0 3px 10px rgba(91,63,187,.13)}
+.lc-lvl.c2{background:#FFF0EE;color:#B82A1C;border:1.5px solid #F0CECE;box-shadow:0 3px 10px rgba(192,57,43,.13)}
+.lc-body{flex:1;margin-bottom:18px}
+.lc-name{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:5px}
+.lc-desc{font-size:13px;color:var(--muted);line-height:1.5}
+.lc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border);margin-top:auto}
+.lc-count{font-size:13px;color:var(--muted);font-weight:500}
 .lc-pro{
-  font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;
-  background:var(--premium-bg);color:var(--premium);border:1px solid #D4C8F5;letter-spacing:.2px
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;
+  background:var(--premium-bg);color:var(--premium);border:1px solid #D4C8F5;letter-spacing:.3px
 }
-.lc-arrow{color:var(--muted2)}
+.lc-arrow{
+  color:var(--muted2);width:20px;height:20px;flex-shrink:0;
+  transition:color .16s,transform .16s
+}
+.level-card:hover:not(.locked) .lc-arrow{color:var(--text);transform:translateX(2px)}
 
 /* ══════════════════════════════════════════════
    VIEW: CATEGORÍAS
 ══════════════════════════════════════════════ */
 .cats-view{
-  max-width:960px;margin:0 auto;padding:48px 28px;width:100%
+  max-width:1160px;margin:0 auto;padding:56px 36px;width:100%
 }
 .back-btn{
   display:inline-flex;align-items:center;gap:8px;padding:8px 14px;
@@ -476,21 +492,25 @@ footer{
 }
 .back-btn:hover{background:var(--bg);color:var(--text)}
 
-.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .cat-card{
   background:var(--white);border:1px solid var(--border);border-radius:var(--rl);
-  padding:18px 20px;cursor:pointer;transition:all .15s;
-  display:flex;align-items:center;gap:14px;position:relative
+  padding:20px 22px;cursor:pointer;transition:all .18s;
+  display:flex;align-items:center;gap:16px;position:relative
 }
-.cat-card:hover:not(.locked){border-color:var(--border2);box-shadow:var(--sh2)}
+.cat-card:hover:not(.locked){
+  border-color:rgba(17,17,16,.14);
+  box-shadow:0 6px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06);
+  transform:translateY(-2px)
+}
 .cat-card.locked{opacity:.55;cursor:not-allowed}
 .cat-icon-box{
-  width:36px;height:36px;border-radius:9px;background:var(--bg);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0
+  width:46px;height:46px;border-radius:12px;background:var(--bg);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0
 }
-.cat-info{flex:1}
-.cat-name-text{font-size:15px;font-weight:600;margin-bottom:1px}
-.cat-count-text{font-size:12px;color:var(--muted2)}
+.cat-info{flex:1;min-width:0}
+.cat-name-text{font-size:15px;font-weight:700;margin-bottom:3px}
+.cat-count-text{font-size:12px;color:var(--muted)}
 .cat-pro-tag{
   font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;
   background:var(--premium-bg);color:var(--premium);flex-shrink:0
@@ -665,6 +685,7 @@ footer{
   .feat-grid,.how-steps{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr}
   .levels-grid{grid-template-columns:1fr 1fr}
+  .levels-view,.cats-view{padding:40px 24px}
   .cats-grid{grid-template-columns:1fr 1fr}
   .nav-inner{
     padding:12px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left))
@@ -2129,22 +2150,20 @@ function renderLevels() {
   document.getElementById('levelsGrid').innerHTML = LEVELS.map(l => {
     const locked = PROMO_UNLIMITED_ACCESS ? false : (!l.free && !USER.isPremium);
     return `
-    <div class="level-card${locked?' locked':''}" onclick="${locked?`showUpsell()`:``}" 
-         ${!locked?`onclick="selectLevel('${l.id}')" role="button" tabindex="0"`:''}>
+    <div class="level-card${locked?' locked':''}" role="button" tabindex="0">
       <div class="lc-top">
-        <div class="lc-badge-wrap">
-          <div class="lc-lvl ${l.id}">${l.label}</div>
-          <div>
-            <div class="lc-name">${levelName(l.id)}</div>
-            <div class="lc-desc">${levelDesc(l.id)}</div>
-          </div>
-        </div>
-        ${locked ? '<div class="lc-pro">Pro</div>' : 
-          `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lc-arrow"><path d="M5 3l5 5-5 5"/></svg>`}
+        <div class="lc-lvl ${l.id}">${l.label}</div>
+        ${locked
+          ? '<div class="lc-pro">Pro</div>'
+          : `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lc-arrow"><path d="M6 3.5l5.5 5.5-5.5 5.5"/></svg>`}
+      </div>
+      <div class="lc-body">
+        <div class="lc-name">${levelName(l.id)}</div>
+        <div class="lc-desc">${levelDesc(l.id)}</div>
       </div>
       <div class="lc-foot">
         <span class="lc-count">${l.count} ${t('words')}</span>
-        ${!locked ? `<span style="font-size:12px;color:var(--muted2)">${(CATS_BY_LEVEL[l.id]||[]).length} ${t('categories')}</span>` : ''}
+        ${!locked ? `<span style="font-size:12px;color:var(--muted2);font-weight:500">${(CATS_BY_LEVEL[l.id]||[]).length} ${t('categories')}</span>` : ''}
       </div>
     </div>`;
   }).join('');
