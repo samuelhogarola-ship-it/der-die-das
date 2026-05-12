@@ -2433,6 +2433,10 @@ function nextQ() {
 
 function prevQ() {
   clearNextQuestionTimer();
+  if (hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
+    const nextState = window.FlashcardCore.markUnknown(flashcardState);
+    if (hasValidFlashcardState(nextState)) flashcardState = nextState;
+  }
   const snapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
   if (!snapshot) {
     goView('cats');
