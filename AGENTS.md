@@ -1,45 +1,27 @@
 # AGENTS.md
 
-Protocolo ligero para trabajar en los proyectos de VokabelLab con Claude/Codex.
+Guía corta para trabajar en `der-die-das`.
 
 ## Principios
 
-- Entiende el repo antes de tocar nada.
-- Reutiliza antes de crear algo nuevo.
-- Haz el cambio más pequeño que resuelva el problema.
-- Si algo puede romper UX, datos o deploy, para y revisa.
-- Deja el trabajo fácil de continuar por otra sesión.
-
-## Flujo
-
-1. Revisa el estado actual.
-   Mira rama, diff abierto, PR activa y archivos relacionados.
-2. Busca implementaciones existentes.
-   Si ya hay un helper, patrón o módulo parecido, extiéndelo.
-3. Trabaja en rama dedicada.
-   Un objetivo por rama/PR. Evita mezclar arreglos no relacionados.
-4. Mantén el diff corto.
-   No refactorices por deporte. No cambies nombres, estructura o copy sin motivo.
-5. Verifica lo importante.
-   Comprueba solo lo que reduce riesgo real: sintaxis, flujo afectado, links, build o smoke test.
-6. Cierra con handover claro.
-   Resume qué cambiaste, qué probaste y qué queda pendiente.
+- Trata `der-die-das` como app activa de práctica de artículos alemanes.
+- Reutiliza `core` antes de duplicar lógica.
+- Mantén el cambio más pequeño que resuelva el problema real.
 
 ## Reglas útiles
 
-- Reutiliza antes de duplicar.
-- No trabajes directamente en `main` para cambios medianos o grandes.
-- Si el cambio toca 3 o más archivos, afecta lógica compartida, routing, SEO, estilos globales o deploy, usa rama dedicada y PR.
-- No abras una PR nueva si una existente ya cubre ese objetivo.
-- Si el cambio se sale del alcance, anótalo pero no lo mezcles.
-- Si encuentras conflicto entre velocidad y seguridad, prioriza seguridad con el menor overhead posible.
+- No toques branding, mascota, iconos o colores principales sin instrucción explícita.
+- Preserva las URLs compartibles por nivel.
+- Cuida la experiencia responsive en desktop y mobile.
+- No mezcles cambios visuales con cambios funcionales en la misma PR.
+- Cambios en ejercicios, progreso, `localStorage` o scoring requieren PR dedicada.
 
 ## Handover
 
-Cuando pares una sesión, deja siempre:
+Al cerrar una sesión, deja claro:
 
 - rama actual
-- objetivo del cambio
+- objetivo
 - archivos tocados
 - pruebas hechas
 - riesgo pendiente, si existe
