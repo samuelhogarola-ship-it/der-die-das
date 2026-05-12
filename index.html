@@ -7,7 +7,19 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>DerDieDas — Vokabel Lab</title>
+<meta name="description" content="Aprende der, die y das con ejercicios rápidos por niveles, categorías útiles y práctica visual para ganar seguridad al hablar alemán.">
 <link rel="canonical" href="/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DerDieDas">
+<meta property="og:title" content="DerDieDas — Vokabel Lab">
+<meta property="og:description" content="Aprende der, die y das con ejercicios rápidos por niveles, categorías útiles y práctica visual para ganar seguridad al hablar alemán.">
+<meta property="og:url" content="https://derdiedas.vokabellab.com/">
+<meta property="og:image" content="https://derdiedas.vokabellab.com/logo-hero.png">
+<meta property="og:image:alt" content="Logo de DerDieDas">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DerDieDas — Vokabel Lab">
+<meta name="twitter:description" content="Aprende der, die y das con ejercicios rápidos por niveles, categorías útiles y práctica visual para ganar seguridad al hablar alemán.">
+<meta name="twitter:image" content="https://derdiedas.vokabellab.com/logo-hero.png">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;scroll-behavior:smooth}
@@ -1860,14 +1872,25 @@ function buildLevelUrl(levelId) {
 
 function updateDocumentMetadata(levelId = currentLevel) {
   const label = getLevelLabel(levelId);
-  document.title = label ? 'Der Die Das ' + label + ' | Vokabel Lab' : 'DerDieDas — Vokabel Lab';
+  const title = label ? 'Der Die Das ' + label + ' | Practica artículos en alemán' : 'Der Die Das | Practica artículos en alemán';
+  const description = label
+    ? `Practica der, die y das en nivel ${label} con vocabulario útil por categorías y ejercicios rápidos para ganar soltura en alemán.`
+    : 'Aprende der, die y das con ejercicios rápidos por niveles, categorías útiles y práctica visual para ganar seguridad al hablar alemán.';
+  const url = levelId && SHAREABLE_LEVELS.has(levelId)
+    ? buildLevelUrl(levelId).toString()
+    : new URL('/', window.location.origin).toString();
+  const image = new URL('/logo-hero.png', window.location.origin).toString();
+  document.title = title;
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) {
-    const canonicalUrl = levelId && SHAREABLE_LEVELS.has(levelId)
-      ? buildLevelUrl(levelId)
-      : new URL('/', window.location.origin);
-    canonical.setAttribute('href', canonicalUrl.toString());
-  }
+  if (canonical) canonical.setAttribute('href', url);
+  setMetaContent('name', 'description', description);
+  setMetaContent('property', 'og:title', title);
+  setMetaContent('property', 'og:description', description);
+  setMetaContent('property', 'og:url', url);
+  setMetaContent('property', 'og:image', image);
+  setMetaContent('name', 'twitter:title', title);
+  setMetaContent('name', 'twitter:description', description);
+  setMetaContent('name', 'twitter:image', image);
 }
 
 function updateLevelUrl(levelId, mode = 'push') {
@@ -1995,6 +2018,25 @@ function openWhatsAppPayload(payload) {
   if (!opened) window.location.href = payload.whatsappUrl;
 }
 
+function setMetaContent(attribute, key, value) {
+  const meta = document.querySelector(`meta[${attribute}="${key}"]`);
+  if (meta) meta.setAttribute('content', value);
+}
+
+function shareWithInstagramStory(payload) {
+  if (navigator.share) {
+    return navigator.share({
+      title: 'DerDieDas',
+      text: payload.text,
+      url: payload.url
+    }).catch((error) => {
+      if (error && error.name === 'AbortError') return;
+      return copySharePayload(payload, 'copiedInstagram');
+    });
+  }
+  return copySharePayload(payload, 'copiedInstagram');
+}
+
 function copyLevelLink(levelId = currentLevel) {
   const payload = buildLevelSharePayload(levelId);
   return copySharePayload({ clipboardText: payload.url }, 'copiedLink');
@@ -2013,7 +2055,7 @@ function copyResultText(correct, total, levelId = currentLevel) {
 }
 
 function copyInstagramText(correct, total, levelId = currentLevel) {
-  return copySharePayload(buildResultSharePayload(correct, total, levelId, 'instagram-result'), 'copiedInstagram');
+  return shareWithInstagramStory(buildResultSharePayload(correct, total, levelId, 'instagram-result'));
 }
 
 function applyLevelFromLocation(options = {}) {
