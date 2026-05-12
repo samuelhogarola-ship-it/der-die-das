@@ -1713,13 +1713,18 @@ function restoreQuizSnapshot(snapshot, options = {}) {
   if (!snapshot) return;
   quiz.reviewSnapshot = options.reviewOnly ? cloneQuizState(snapshot.question) : null;
   quiz.idx = snapshot.quiz.idx;
-  quiz.correct = snapshot.quiz.correct;
-  quiz.answered = !!snapshot.quiz.answered;
-  quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
-  quiz.streak = snapshot.quiz.streak || 0;
-  quiz.chosenAnswer = snapshot.quiz.chosenAnswer ?? null;
-  quiz.wasCorrect = snapshot.quiz.wasCorrect ?? null;
-  if (!options.reviewOnly) {
+  if (options.reviewOnly) {
+    quiz.answered = !!snapshot.quiz.answered;
+    quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
+    quiz.chosenAnswer = snapshot.quiz.chosenAnswer ?? null;
+    quiz.wasCorrect = snapshot.quiz.wasCorrect ?? null;
+  } else {
+    quiz.correct = snapshot.quiz.correct;
+    quiz.answered = !!snapshot.quiz.answered;
+    quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
+    quiz.streak = snapshot.quiz.streak || 0;
+    quiz.chosenAnswer = snapshot.quiz.chosenAnswer ?? null;
+    quiz.wasCorrect = snapshot.quiz.wasCorrect ?? null;
     SESSION.correct = snapshot.session.correct;
     SESSION.total = snapshot.session.total;
   }
