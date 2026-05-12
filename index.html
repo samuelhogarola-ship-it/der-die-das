@@ -436,6 +436,25 @@ footer{
 .share-btn:hover{background:var(--bg)}
 .share-btn.whatsapp{background:#25D366;color:#fff;border-color:#25D366}
 .share-btn.whatsapp:hover{background:#1fb65a;border-color:#1fb65a}
+.ig-share-panel{margin-top:22px}
+.ig-share-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:12px;text-align:center}
+.ig-story-btn{
+  width:100%;padding:15px;border-radius:14px;
+  background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  color:#fff;border:none;font-size:16px;font-weight:800;
+  cursor:pointer;font-family:var(--font-sans);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:opacity .15s,transform .1s;box-shadow:0 4px 18px rgba(220,39,67,.3)
+}
+.ig-story-btn:hover{opacity:.9}
+.ig-story-btn:active{opacity:.8;transform:scale(.98)}
+.review-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.review-nav-btn{
+  padding:11px;border-radius:10px;border:1px solid var(--border2);
+  background:var(--white);color:var(--text);font-size:14px;font-weight:700;
+  cursor:pointer;font-family:var(--font-sans);transition:all .14s
+}
+.review-nav-btn:hover{background:var(--bg)}
 
 .levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .level-card{
@@ -1695,10 +1714,12 @@ function captureQuizSnapshot() {
     quiz: {
       idx: quiz.idx,
       correct: quiz.correct,
-      answered: false,
-      pendingOutcome: null,
+      answered: quiz.answered || false,
+      pendingOutcome: quiz.pendingOutcome || null,
       streak: quiz.streak || 0
     },
+    chosenAnswer: quiz.chosenAnswer || null,
+    wasCorrect: quiz.wasCorrect ?? null,
     session: {
       correct: SESSION.correct,
       total: SESSION.total
@@ -1711,8 +1732,10 @@ function restoreQuizSnapshot(snapshot) {
   flashcardState = cloneQuizState(snapshot.flashcardState);
   quiz.idx = snapshot.quiz.idx;
   quiz.correct = snapshot.quiz.correct;
-  quiz.answered = false;
-  quiz.pendingOutcome = null;
+  quiz.chosenAnswer = snapshot.chosenAnswer || null;
+  quiz.wasCorrect = snapshot.wasCorrect ?? null;
+  quiz.answered = !!snapshot.chosenAnswer;
+  quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
   quiz.streak = snapshot.quiz.streak || 0;
   SESSION.correct = snapshot.session.correct;
   SESSION.total = snapshot.session.total;
@@ -2014,6 +2037,59 @@ function copyResultText(correct, total, levelId = currentLevel) {
 
 function copyInstagramText(correct, total, levelId = currentLevel) {
   return copySharePayload(buildResultSharePayload(correct, total, levelId, 'instagram-result'), 'copiedInstagram');
+}
+
+function shareInstagramStory(correct, total, levelId) {
+  const pct = total ? Math.round((correct / total) * 100) : 0;
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080; canvas.height = 1920;
+  const ctx = canvas.getContext('2d');
+
+  const bg = ctx.createLinearGradient(0, 0, 1080, 1920);
+  bg.addColorStop(0, '#0C0C1A'); bg.addColorStop(0.5, '#160A28'); bg.addColorStop(1, '#0A1625');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, 1080, 1920);
+
+  ctx.beginPath(); ctx.arc(180, 280, 420, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(99,60,210,0.07)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(950, 1680, 520, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(236,72,153,0.05)'; ctx.fill();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.font = '500 54px -apple-system,Helvetica,sans-serif';
+  ctx.fillText('DerDieDas', 540, 590);
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '900 300px -apple-system,Helvetica,sans-serif';
+  ctx.fillText(pct + '%', 540, 950);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.font = '600 64px -apple-system,Helvetica,sans-serif';
+  ctx.fillText(correct + ' de ' + total + ' correctas', 540, 1055);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.28)';
+  ctx.font = '500 46px -apple-system,Helvetica,sans-serif';
+  ctx.fillText('Nivel ' + (levelId || '').toUpperCase() + ' · Artículos alemanes', 540, 1140);
+
+  const arts = [{ t:'der', c:'#E87A7A' }, { t:'die', c:'#7EB4E8' }, { t:'das', c:'#7EC49A' }];
+  const artY = 1620; const sp = 240;
+  arts.forEach((a, i) => {
+    ctx.fillStyle = a.c;
+    ctx.font = '900 86px -apple-system,Helvetica,sans-serif';
+    ctx.fillText(a.t, 540 - sp + i * sp, artY);
+  });
+
+  canvas.toBlob(async (blob) => {
+    const file = new File([blob], 'derdiedas.png', { type: 'image/png' });
+    if (navigator.share && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); return; } catch(e) { if (e.name === 'AbortError') return; }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'derdiedas.png'; a.click();
+    URL.revokeObjectURL(url);
+    showToast('Imagen descargada · Ábrela en tu story de Instagram');
+  }, 'image/png');
 }
 
 function applyLevelFromLocation(options = {}) {
@@ -2327,7 +2403,7 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0, history:[], currentSnapshot:null};
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0, history:[], future:[], currentSnapshot:null, chosenAnswer:null, wasCorrect:null};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -2371,7 +2447,38 @@ function renderQuestion() {
       <button class="a-btn die" id="b-die" onclick="answer('die')">die</button>
       <button class="a-btn das" id="b-das" onclick="answer('das')">das</button>
     </div>
-    <button class="btn-next-q" onclick="nextQ()">${t('quizNext')}</button>`;
+    ${quiz.future && quiz.future.length > 0
+      ? `<div class="review-nav">
+          <button class="review-nav-btn" onclick="prevQ()">← Anterior</button>
+          <button class="review-nav-btn" onclick="nextReview()">Siguiente →</button>
+        </div>`
+      : `<button class="btn-next-q" onclick="nextQ()">${t('quizNext')}</button>`
+    }`;
+  if (quiz.chosenAnswer) applyAnswerState();
+}
+
+function applyAnswerState() {
+  const chosen = quiz.chosenAnswer;
+  const ok = quiz.wasCorrect;
+  const currentQ = getCurrentQuestionState();
+  if (!currentQ) return;
+  const w = currentQ.raw;
+  ['der','die','das'].forEach(a => {
+    const btn = document.getElementById('b-'+a);
+    if (!btn) return;
+    btn.disabled = true;
+    if (a === w.a) btn.classList.add('v-ok');
+    else if (a === chosen && !ok) btn.classList.add('v-ko');
+  });
+  const fb = document.getElementById('qfb');
+  if (fb) {
+    fb.classList.add('show', ok ? 'ok' : 'ko');
+    fb.innerHTML = ok
+      ? `✓ <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`
+      : `✗ Era <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`;
+  }
+  const card = document.getElementById('qc');
+  if (card) card.classList.add(ok ? 'ok' : 'ko');
 }
 
 function answer(chosen) {
@@ -2390,6 +2497,12 @@ function answer(chosen) {
   }
   SESSION.total++;
   quiz.pendingOutcome = ok ? 'known' : 'unknown';
+  quiz.chosenAnswer = chosen;
+  quiz.wasCorrect = ok;
+  if (quiz.currentSnapshot) {
+    quiz.currentSnapshot.chosenAnswer = chosen;
+    quiz.currentSnapshot.wasCorrect = ok;
+  }
 
   ['der','die','das'].forEach(a => {
     const btn = document.getElementById('b-'+a);
@@ -2409,6 +2522,9 @@ function answer(chosen) {
 
 function nextQ() {
   clearNextQuestionTimer();
+  quiz.future = [];
+  quiz.chosenAnswer = null;
+  quiz.wasCorrect = null;
 
   if (quiz.currentSnapshot) {
     quiz.history.push(cloneQuizState(quiz.currentSnapshot));
@@ -2433,11 +2549,24 @@ function nextQ() {
 
 function prevQ() {
   clearNextQuestionTimer();
-  const snapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
-  if (!snapshot) {
-    goView('cats');
-    return;
+  const isLive = !quiz.future || quiz.future.length === 0;
+  if (isLive && hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
+    const nextState = window.FlashcardCore.markUnknown(flashcardState);
+    if (hasValidFlashcardState(nextState)) flashcardState = nextState;
   }
+  quiz.future = quiz.future || [];
+  if (quiz.currentSnapshot) quiz.future.push(cloneQuizState(quiz.currentSnapshot));
+  const snapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
+  if (!snapshot) { goView('cats'); return; }
+  restoreQuizSnapshot(snapshot);
+  renderQuestion();
+}
+
+function nextReview() {
+  clearNextQuestionTimer();
+  const snapshot = quiz.future && quiz.future.length ? quiz.future.pop() : null;
+  if (!snapshot) return;
+  if (quiz.currentSnapshot) quiz.history.push(cloneQuizState(quiz.currentSnapshot));
   restoreQuizSnapshot(snapshot);
   renderQuestion();
 }
@@ -2488,14 +2617,12 @@ function endQuiz() {
         <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans)" onclick="goView('levels')">${t('quizChangeLevel')}</button>
         ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans)" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
       </div>
-      <div class="share-panel">
-        <div class="share-title">${t('shareProgressTitle')}</div>
-        <div class="share-actions">
-          <button class="share-btn whatsapp" onclick="shareResultWhatsApp(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareWhatsapp')}</button>
-          <button class="share-btn" onclick="copyResultText(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareCopyResult')}</button>
-          <button class="share-btn" onclick="copyInstagramText(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareCopyInstagram')}</button>
-          <button class="share-btn" onclick="copyLevelLink()">${t('shareCopyLevelLink')}</button>
-        </div>
+      <div class="ig-share-panel">
+        <div class="ig-share-label">Comparte tu resultado</div>
+        <button class="ig-story-btn" onclick="shareInstagramStory(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram Story
+        </button>
       </div>
     </div>`;
 }
