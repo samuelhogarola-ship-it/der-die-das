@@ -436,8 +436,9 @@ footer{
 .share-btn:hover{background:var(--bg)}
 .share-btn.whatsapp{background:#25D366;color:#fff;border-color:#25D366}
 .share-btn.whatsapp:hover{background:#1fb65a;border-color:#1fb65a}
-.ig-share-panel{margin-top:22px}
-.ig-share-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:12px;text-align:center}
+.ig-share-panel{margin-top:28px;padding-top:24px;border-top:1px solid var(--border)}
+.ig-share-title{font-size:17px;font-weight:800;letter-spacing:-.3px;margin-bottom:14px;text-align:center}
+.ig-share-secondary{display:flex;gap:10px;margin-top:12px}
 .ig-story-btn{
   width:100%;padding:15px;border-radius:14px;
   background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
@@ -451,10 +452,12 @@ footer{
 .review-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .review-nav-btn{
   padding:11px;border-radius:10px;border:1px solid var(--border2);
-  background:var(--white);color:var(--text);font-size:14px;font-weight:700;
+  background:var(--white);color:var(--muted);font-size:14px;font-weight:700;
   cursor:pointer;font-family:var(--font-sans);transition:all .14s
 }
-.review-nav-btn:hover{background:var(--bg)}
+.review-nav-btn:hover{background:var(--bg);color:var(--text)}
+.review-nav-fwd{background:var(--text);color:var(--white);border-color:var(--text)}
+.review-nav-fwd:hover{background:#333;color:var(--white)}
 
 .levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .level-card{
@@ -596,7 +599,7 @@ footer{
 .q-card.ok{border-color:var(--das)}
 .q-card.ko{border-color:var(--der)}
 .q-prompt{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
-.q-word{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1}
+.q-word{font-size:72px;font-weight:900;letter-spacing:-2.5px;line-height:1}
 .q-trans{font-size:15px;color:var(--muted)}
 .q-fb{font-size:13px;line-height:1.5;padding:9px 16px;border-radius:9px;display:none;max-width:300px}
 .q-fb.show{display:block}
@@ -617,8 +620,9 @@ footer{
 .a-btn.der:hover:not(:disabled){background:#FFF2F2}
 .a-btn.die:hover:not(:disabled){background:#EEF4FC}
 .a-btn.das:hover:not(:disabled){background:#EEF7F2}
-.a-btn.v-ok{background:#EEF7F2!important;border-color:var(--das)!important;color:var(--das)!important}
-.a-btn.v-ko{background:#FFF2F2!important;border-color:var(--der)!important;color:var(--der)!important}
+.a-btn.v-ok{background:var(--das)!important;border-color:var(--das)!important;color:#fff!important;opacity:1!important}
+.a-btn.v-ko{background:var(--der)!important;border-color:var(--der)!important;color:#fff!important;opacity:1!important}
+.a-btn:disabled:not(.v-ok):not(.v-ko){opacity:.28}
 
 .btn-next-q{
   width:100%;padding:11px;border-radius:10px;background:none;
@@ -2447,13 +2451,10 @@ function renderQuestion() {
       <button class="a-btn die" id="b-die" onclick="answer('die')">die</button>
       <button class="a-btn das" id="b-das" onclick="answer('das')">das</button>
     </div>
-    ${quiz.future && quiz.future.length > 0
-      ? `<div class="review-nav">
-          <button class="review-nav-btn" onclick="prevQ()">← Anterior</button>
-          <button class="review-nav-btn" onclick="nextReview()">Siguiente →</button>
-        </div>`
-      : `<button class="btn-next-q" onclick="nextQ()">${t('quizNext')}</button>`
-    }`;
+    <div class="review-nav">
+      <button class="review-nav-btn" onclick="prevQ()">← Anterior</button>
+      <button class="review-nav-btn review-nav-fwd" onclick="siguienteBtn()">Siguiente →</button>
+    </div>`;
   if (quiz.chosenAnswer) applyAnswerState();
 }
 
@@ -2520,6 +2521,14 @@ function answer(chosen) {
   nextQuestionTimer = setTimeout(nextQ, 1800);
 }
 
+function siguienteBtn() {
+  if (quiz.future && quiz.future.length > 0) {
+    nextReview();
+  } else {
+    nextQ();
+  }
+}
+
 function nextQ() {
   clearNextQuestionTimer();
   quiz.future = [];
@@ -2530,8 +2539,9 @@ function nextQ() {
     quiz.history.push(cloneQuizState(quiz.currentSnapshot));
   }
 
-  if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
-    const nextState = quiz.pendingOutcome === 'known'
+  if (hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
+    const outcome = quiz.pendingOutcome || 'unknown';
+    const nextState = outcome === 'known'
       ? window.FlashcardCore.markKnown(flashcardState)
       : window.FlashcardCore.markUnknown(flashcardState);
     flashcardState = hasValidFlashcardState(nextState) ? nextState : advanceFlashcardState(flashcardState);
@@ -2618,11 +2628,15 @@ function endQuiz() {
         ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans)" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
       </div>
       <div class="ig-share-panel">
-        <div class="ig-share-label">Comparte tu resultado</div>
+        <div class="ig-share-title">Comparte tu progreso</div>
         <button class="ig-story-btn" onclick="shareInstagramStory(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           Instagram Story
         </button>
+        <div class="ig-share-secondary">
+          <button class="share-btn whatsapp" onclick="shareResultWhatsApp(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareWhatsapp')}</button>
+          <button class="share-btn" onclick="copyLevelLink()">${t('shareCopyLevelLink')}</button>
+        </div>
       </div>
     </div>`;
 }
