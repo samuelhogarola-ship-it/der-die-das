@@ -1690,14 +1690,17 @@ function cloneQuizState(value) {
 }
 
 function captureQuizSnapshot() {
+  const question = getCurrentQuestionState();
   return {
-    flashcardState: cloneQuizState(flashcardState),
+    question: cloneQuizState(question),
     quiz: {
       idx: quiz.idx,
       correct: quiz.correct,
-      answered: false,
-      pendingOutcome: null,
-      streak: quiz.streak || 0
+      answered: !!quiz.answered,
+      pendingOutcome: quiz.pendingOutcome || null,
+      streak: quiz.streak || 0,
+      chosenAnswer: quiz.chosenAnswer ?? null,
+      wasCorrect: quiz.wasCorrect ?? null
     },
     session: {
       correct: SESSION.correct,
@@ -1706,16 +1709,20 @@ function captureQuizSnapshot() {
   };
 }
 
-function restoreQuizSnapshot(snapshot) {
+function restoreQuizSnapshot(snapshot, options = {}) {
   if (!snapshot) return;
-  flashcardState = cloneQuizState(snapshot.flashcardState);
+  quiz.reviewSnapshot = options.reviewOnly ? cloneQuizState(snapshot.question) : null;
   quiz.idx = snapshot.quiz.idx;
   quiz.correct = snapshot.quiz.correct;
-  quiz.answered = false;
-  quiz.pendingOutcome = null;
+  quiz.answered = !!snapshot.quiz.answered;
+  quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
   quiz.streak = snapshot.quiz.streak || 0;
-  SESSION.correct = snapshot.session.correct;
-  SESSION.total = snapshot.session.total;
+  quiz.chosenAnswer = snapshot.quiz.chosenAnswer ?? null;
+  quiz.wasCorrect = snapshot.quiz.wasCorrect ?? null;
+  if (!options.reviewOnly) {
+    SESSION.correct = snapshot.session.correct;
+    SESSION.total = snapshot.session.total;
+  }
 }
 
 let flashcardState = null;
@@ -2327,7 +2334,21 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0, history:[], currentSnapshot:null};
+  quiz = {
+    words,
+    idx:0,
+    correct:0,
+    answered:false,
+    pendingOutcome:null,
+    streak:0,
+    history:[],
+    future:[],
+    currentSnapshot:null,
+    chosenAnswer:null,
+    wasCorrect:null,
+    reviewSnapshot:null,
+    liveResume:null
+  };
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -2372,6 +2393,33 @@ function renderQuestion() {
       <button class="a-btn das" id="b-das" onclick="answer('das')">das</button>
     </div>
     <button class="btn-next-q" onclick="nextQ()">${t('quizNext')}</button>`;
+  if (quiz.answered) applyAnswerState();
+}
+
+function applyAnswerState() {
+  const currentQuestion = getCurrentQuestionState();
+  if (!currentQuestion) return;
+  const w = currentQuestion.raw;
+  const chosen = quiz.chosenAnswer;
+  const ok = quiz.wasCorrect;
+
+  ['der','die','das'].forEach(a => {
+    const btn = document.getElementById('b-'+a);
+    if (!btn) return;
+    btn.disabled = true;
+    if (a === w.a) btn.classList.add('v-ok');
+    else if (chosen && a === chosen && ok === false) btn.classList.add('v-ko');
+  });
+
+  const fb = document.getElementById('qfb');
+  if (fb) {
+    fb.classList.add('show', ok ? 'ok' : 'ko');
+    fb.innerHTML = ok
+      ? `✓ <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`
+      : `✗ Era <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`;
+  }
+  const card = document.getElementById('qc');
+  if (card) card.classList.add(ok ? 'ok' : 'ko');
 }
 
 function answer(chosen) {
@@ -2390,6 +2438,17 @@ function answer(chosen) {
   }
   SESSION.total++;
   quiz.pendingOutcome = ok ? 'known' : 'unknown';
+  quiz.chosenAnswer = chosen;
+  quiz.wasCorrect = ok;
+  if (quiz.currentSnapshot) {
+    quiz.currentSnapshot.quiz.answered = true;
+    quiz.currentSnapshot.quiz.pendingOutcome = quiz.pendingOutcome;
+    quiz.currentSnapshot.quiz.streak = quiz.streak;
+    quiz.currentSnapshot.quiz.chosenAnswer = chosen;
+    quiz.currentSnapshot.quiz.wasCorrect = ok;
+    quiz.currentSnapshot.session.correct = SESSION.correct;
+    quiz.currentSnapshot.session.total = SESSION.total;
+  }
 
   ['der','die','das'].forEach(a => {
     const btn = document.getElementById('b-'+a);
@@ -2410,6 +2469,33 @@ function answer(chosen) {
 function nextQ() {
   clearNextQuestionTimer();
 
+  if (quiz.reviewSnapshot) {
+    if (quiz.currentSnapshot) {
+      quiz.history.push(cloneQuizState(quiz.currentSnapshot));
+    }
+    const reviewSnapshot = quiz.future && quiz.future.length ? quiz.future.pop() : null;
+    if (reviewSnapshot) {
+      restoreQuizSnapshot(reviewSnapshot, { reviewOnly: true });
+      renderQuestion();
+      return;
+    }
+    quiz.reviewSnapshot = null;
+    if (quiz.liveResume) {
+      quiz.idx = quiz.liveResume.idx;
+      quiz.correct = quiz.liveResume.correct;
+      quiz.streak = quiz.liveResume.streak;
+      SESSION.correct = quiz.liveResume.sessionCorrect;
+      SESSION.total = quiz.liveResume.sessionTotal;
+      quiz.liveResume = null;
+    }
+    quiz.answered = false;
+    quiz.pendingOutcome = null;
+    quiz.chosenAnswer = null;
+    quiz.wasCorrect = null;
+    renderQuestion();
+    return;
+  }
+
   if (quiz.currentSnapshot) {
     quiz.history.push(cloneQuizState(quiz.currentSnapshot));
   }
@@ -2428,22 +2514,112 @@ function nextQ() {
   }
   quiz.answered = false;
   quiz.pendingOutcome = null;
+  quiz.chosenAnswer = null;
+  quiz.wasCorrect = null;
+  quiz.future = [];
   renderQuestion();
 }
 
 function prevQ() {
   clearNextQuestionTimer();
+  quiz.future = quiz.future || [];
+
+  if (quiz.reviewSnapshot) {
+    if (quiz.currentSnapshot) quiz.future.push(cloneQuizState(quiz.currentSnapshot));
+    const olderSnapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
+    if (!olderSnapshot) {
+      goView('cats');
+      return;
+    }
+    restoreQuizSnapshot(olderSnapshot, { reviewOnly: true });
+    renderQuestion();
+    return;
+  }
+
+  if (!quiz.answered && !quiz.pendingOutcome) {
+    if (hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
+      const nextState = window.FlashcardCore.markUnknown(flashcardState);
+      flashcardState = hasValidFlashcardState(nextState) ? nextState : advanceFlashcardState(flashcardState);
+      if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
+    } else if (hasValidFlashcardState(flashcardState)) {
+      flashcardState = advanceFlashcardState(flashcardState);
+      if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
+    } else {
+      quiz.idx++;
+    }
+    SESSION.total++;
+    quiz.streak = 0;
+    if (quiz.currentSnapshot) {
+      const skippedSnapshot = cloneQuizState(quiz.currentSnapshot);
+      skippedSnapshot.quiz.answered = true;
+      skippedSnapshot.quiz.pendingOutcome = 'unknown';
+      skippedSnapshot.quiz.streak = 0;
+      skippedSnapshot.quiz.chosenAnswer = '';
+      skippedSnapshot.quiz.wasCorrect = false;
+      skippedSnapshot.session.correct = SESSION.correct;
+      skippedSnapshot.session.total = SESSION.total;
+      quiz.future.push(skippedSnapshot);
+    }
+    quiz.answered = false;
+    quiz.pendingOutcome = null;
+    quiz.chosenAnswer = null;
+    quiz.wasCorrect = null;
+  } else {
+    if (quiz.pendingOutcome) {
+      if (hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
+        const nextState = quiz.pendingOutcome === 'known'
+          ? window.FlashcardCore.markKnown(flashcardState)
+          : window.FlashcardCore.markUnknown(flashcardState);
+        flashcardState = hasValidFlashcardState(nextState) ? nextState : advanceFlashcardState(flashcardState);
+        if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
+      } else if (hasValidFlashcardState(flashcardState)) {
+        flashcardState = advanceFlashcardState(flashcardState);
+        if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
+      } else {
+        quiz.idx++;
+      }
+    }
+    if (quiz.currentSnapshot) quiz.future.push(cloneQuizState(quiz.currentSnapshot));
+    quiz.answered = false;
+    quiz.pendingOutcome = null;
+    quiz.chosenAnswer = null;
+    quiz.wasCorrect = null;
+  }
+
+  if (!quiz.liveResume) {
+    quiz.liveResume = {
+      idx: quiz.idx,
+      correct: quiz.correct,
+      streak: quiz.streak,
+      sessionCorrect: SESSION.correct,
+      sessionTotal: SESSION.total
+    };
+  }
+
   const snapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
   if (!snapshot) {
     goView('cats');
     return;
   }
-  restoreQuizSnapshot(snapshot);
+  restoreQuizSnapshot(snapshot, { reviewOnly: true });
   renderQuestion();
 }
 
 function finishQuiz() {
   clearNextQuestionTimer();
+  if (quiz.reviewSnapshot && quiz.liveResume) {
+    quiz.reviewSnapshot = null;
+    quiz.idx = quiz.liveResume.idx;
+    quiz.correct = quiz.liveResume.correct;
+    quiz.streak = quiz.liveResume.streak;
+    SESSION.correct = quiz.liveResume.sessionCorrect;
+    SESSION.total = quiz.liveResume.sessionTotal;
+    quiz.liveResume = null;
+    quiz.answered = false;
+    quiz.pendingOutcome = null;
+    quiz.chosenAnswer = null;
+    quiz.wasCorrect = null;
+  }
   if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
     const nextState = quiz.pendingOutcome === 'known'
       ? window.FlashcardCore.markKnown(flashcardState)
@@ -2580,6 +2756,10 @@ function advanceFlashcardState(state) {
 }
 
 function getCurrentQuestionState() {
+  if (quiz.reviewSnapshot) {
+    return cloneQuizState(quiz.reviewSnapshot);
+  }
+
   if (hasValidFlashcardState(flashcardState)) {
     const session = flashcardState.session;
     const idx = session.currentIndex;
