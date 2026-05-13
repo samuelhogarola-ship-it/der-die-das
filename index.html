@@ -690,7 +690,72 @@ footer{
 .r-art.rd .n{color:var(--der)}
 .r-art.ri .n{color:var(--die)}
 .r-art.rn .n{color:var(--das)}
-.r-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.r-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.result-primary-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0 14px}
+.result-secondary-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.result-btn{
+  min-height:56px;padding:14px 18px;border-radius:14px;border:1px solid var(--border2);
+  background:var(--white);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-sans);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease, color .18s ease
+}
+.result-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:var(--sh2)}
+.result-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.result-btn.primary{background:var(--text);border-color:var(--text);color:var(--white)}
+.result-btn.soft{background:linear-gradient(180deg,#FFF 0%,#F8F9FB 100%)}
+.result-btn.accent{background:#EEF4FC;border-color:#C5D9F2;color:#1E4F8D}
+.result-btn.warn{background:#FFF4EC;border-color:#F1D4B7;color:#A7581C}
+.result-chip-note{
+  display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border-radius:999px;
+  background:var(--bg);border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--muted);margin-bottom:18px
+}
+.review-overlay{
+  position:fixed;inset:0;background:rgba(17,17,16,.42);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:24px;z-index:1001
+}
+.review-overlay.on{display:flex;animation:fadeIn .18s ease}
+.review-modal{
+  width:min(760px,100%);max-height:min(82vh,760px);overflow:hidden;display:flex;flex-direction:column;
+  background:var(--white);border:1px solid rgba(17,17,16,.08);border-radius:24px;box-shadow:0 24px 60px rgba(17,17,16,.18)
+}
+.review-modal-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:24px 24px 18px;border-bottom:1px solid var(--border)
+}
+.review-modal-copy h3{font-size:24px;font-weight:900;letter-spacing:-.8px;margin-bottom:6px}
+.review-modal-copy p{font-size:14px;color:var(--muted);line-height:1.5}
+.review-close{
+  width:40px;height:40px;border-radius:12px;border:1px solid var(--border);background:var(--white);
+  cursor:pointer;color:var(--muted);font-size:20px;line-height:1;flex-shrink:0
+}
+.review-list{padding:16px 24px 24px;overflow:auto;background:linear-gradient(180deg,#FCFCFD 0%,#F7F7F8 100%)}
+.review-item{
+  display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr) auto;gap:16px;align-items:center;
+  padding:16px 18px;border-radius:18px;background:var(--white);border:1px solid var(--border);box-shadow:var(--sh);margin-bottom:12px
+}
+.review-wordline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.review-word{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.review-translation{font-size:13px;color:var(--muted)}
+.review-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.3px;text-transform:uppercase
+}
+.review-pill.ok{background:#EEF7F2;color:var(--das);border:1px solid #B8D9C8}
+.review-pill.ko{background:#FFF2F2;color:var(--der);border:1px solid #F0CECE}
+.review-answers{display:grid;gap:8px}
+.review-answer-line{font-size:13px;color:var(--muted)}
+.review-article{font-weight:900;padding:2px 8px;border-radius:999px;border:1px solid transparent}
+.review-article.der{color:var(--der);background:#FFF2F2;border-color:#F0CECE}
+.review-article.die{color:var(--die);background:#EEF4FC;border-color:#C5D9F2}
+.review-article.das{color:var(--das);background:#EEF7F2;border-color:#B8D9C8}
+.review-status-icon{
+  width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:900
+}
+.review-status-icon.ok{background:#EEF7F2;color:var(--das)}
+.review-status-icon.ko{background:#FFF2F2;color:var(--der)}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
 
 /* ══════════════════════════════════════════════
    VIEW: ESTADÍSTICAS
@@ -846,6 +911,12 @@ footer{
   .q-card{padding:36px 20px 28px}
   .art-row{gap:7px}
   .a-btn{font-size:22px;padding:14px 4px}
+  .r-actions,.result-primary-actions{grid-template-columns:1fr}
+  .review-overlay{padding:14px}
+  .review-modal{max-height:min(88vh,880px);border-radius:20px}
+  .review-modal-head,.review-list{padding-inline:16px}
+  .review-item{grid-template-columns:1fr;align-items:flex-start}
+  .review-status-icon{width:36px;height:36px;border-radius:12px}
   .feat-grid{grid-template-columns:1fr}
   .how-steps{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr}
@@ -1331,6 +1402,19 @@ footer{
 
 </div><!-- /app screen -->
 
+<div class="review-overlay" id="reviewOverlay" aria-hidden="true">
+  <div class="review-modal" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+    <div class="review-modal-head">
+      <div class="review-modal-copy">
+        <h3 id="reviewModalTitle">Respuestas</h3>
+        <p id="reviewModalSub">Revisa tu última ronda.</p>
+      </div>
+      <button class="review-close" type="button" onclick="closeReviewAnswers()" aria-label="Cerrar">×</button>
+    </div>
+    <div class="review-list" id="reviewAnswersList"></div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toastEl"></div>
 
@@ -1374,7 +1458,7 @@ const UI = {
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
     quizRetry:'Nochmal versuchen →', quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden', copyLink:'Mit Freunden teilen', copiedLink:'Link kopiert', copiedResult:'Ergebnis kopiert', copiedInstagram:'Instagram-Text kopiert', shareFriendsCta:'Mit Freunden teilen', shareLevelTitle:'Dieses Niveau teilen', shareWhatsapp:'WhatsApp', shareCopyLink:'Link kopieren', shareCopyLevelLink:'Level-Link kopieren', shareProgressTitle:'Teile deinen Fortschritt', shareCopyResult:'Ergebnis kopieren', shareCopyInstagram:'Für Instagram kopieren', resultMsgHigh:'Gut gemacht!', resultMsgMid:'Gute Arbeit!', resultMsgLow:'Weiter üben!', quizPrev:'← Vorherige', igStoryScore:'{correct} von {total} richtig', igStoryLevel:'Niveau {level}', igStoryToast:'Bild geladen · In Instagram Story öffnen', shareLevelMessage:'Ich übe deutsche Artikel mit DerDieDas auf Niveau {level}. Machst du mit? {url}', shareAppMessage:'Ich übe deutsche Artikel mit DerDieDas. Machst du mit? {url}', shareResultMessage:'Ich habe deutsche Artikel mit DerDieDas geübt und {correct}/{total} auf Niveau {level} geschafft. Machst du mit? {url}', shareInstagramMessage:'Ich habe {correct}/{total} in DerDieDas auf Niveau {level} geschafft. Machst du mit? {url}'
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden', copyLink:'Mit Freunden teilen', copiedLink:'Link kopiert', copiedResult:'Ergebnis kopiert', copiedInstagram:'Instagram-Text kopiert', shareFriendsCta:'Mit Freunden teilen', shareLevelTitle:'Dieses Niveau teilen', shareWhatsapp:'WhatsApp', shareCopyLink:'Link kopieren', shareCopyLevelLink:'Level-Link kopieren', shareProgressTitle:'Teile deinen Fortschritt', shareCopyResult:'Ergebnis kopieren', shareCopyInstagram:'Für Instagram kopieren', resultMsgHigh:'Gut gemacht!', resultMsgMid:'Gute Arbeit!', resultMsgLow:'Weiter üben!', quizPrev:'← Vorherige', igStoryScore:'{correct} von {total} richtig', igStoryLevel:'Niveau {level}', igStoryToast:'Bild geladen · In Instagram Story öffnen', shareLevelMessage:'Ich übe deutsche Artikel mit DerDieDas auf Niveau {level}. Machst du mit? {url}', shareAppMessage:'Ich übe deutsche Artikel mit DerDieDas. Machst du mit? {url}', shareResultMessage:'Ich habe deutsche Artikel mit DerDieDas geübt und {correct}/{total} auf Niveau {level} geschafft. Machst du mit? {url}', shareInstagramMessage:'Ich habe {correct}/{total} in DerDieDas auf Niveau {level} geschafft. Machst du mit? {url}', quizReviewAnswers:'Antworten ansehen', quizKeepPracticing:'Weiter üben', quizPracticeErrors:'Fehler üben', quizReviewTitle:'Antworten der Runde', quizReviewSubtitle:'Sieh dir Wort, Ubersetzung, richtigen Artikel und deine Antwort im Überblick an.', quizReviewCorrect:'Richtiger Artikel', quizReviewYourAnswer:'Deine Antwort', quizReviewCorrectBadge:'Richtig', quizReviewIncorrectBadge:'Falsch', quizPracticeErrorsDisabled:'Keine Fehler in dieser Runde', quizPracticeErrorsNote:'Nur deine falschen Antworten'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
@@ -1405,7 +1489,7 @@ const UI = {
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
     quizRetry:'Volver a intentar →', quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio', copyLink:'Comparte con tus amigos', copiedLink:'Enlace copiado', copiedResult:'Resultado copiado', copiedInstagram:'Texto para Instagram copiado', shareFriendsCta:'Comparte con tus amigos', shareLevelTitle:'Comparte este nivel', shareWhatsapp:'WhatsApp', shareCopyLink:'Copiar link', shareCopyLevelLink:'Copiar enlace del nivel', shareProgressTitle:'Comparte tu progreso', shareCopyResult:'Copiar resultado', shareCopyInstagram:'Copiar para Instagram', resultMsgHigh:'¡Bien hecho!', resultMsgMid:'¡Buen trabajo!', resultMsgLow:'¡Sigue así!', quizPrev:'← Anterior', igStoryScore:'{correct} de {total} correctas', igStoryLevel:'Nivel {level}', igStoryToast:'Imagen descargada · Ábrela en tu story de Instagram', shareLevelMessage:'Estoy practicando artículos alemanes en DerDieDas, nivel {level}. ¿Te animas? {url}', shareAppMessage:'Estoy practicando artículos alemanes en DerDieDas. ¿Te animas? {url}', shareResultMessage:'He practicado artículos alemanes en DerDieDas y he sacado {correct}/{total} en nivel {level}. ¿Te animas? {url}', shareInstagramMessage:'He sacado {correct}/{total} en DerDieDas nivel {level}. ¿Te animas? {url}'
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio', copyLink:'Comparte con tus amigos', copiedLink:'Enlace copiado', copiedResult:'Resultado copiado', copiedInstagram:'Texto para Instagram copiado', shareFriendsCta:'Comparte con tus amigos', shareLevelTitle:'Comparte este nivel', shareWhatsapp:'WhatsApp', shareCopyLink:'Copiar link', shareCopyLevelLink:'Copiar enlace del nivel', shareProgressTitle:'Comparte tu progreso', shareCopyResult:'Copiar resultado', shareCopyInstagram:'Copiar para Instagram', resultMsgHigh:'¡Bien hecho!', resultMsgMid:'¡Buen trabajo!', resultMsgLow:'¡Sigue así!', quizPrev:'← Anterior', igStoryScore:'{correct} de {total} correctas', igStoryLevel:'Nivel {level}', igStoryToast:'Imagen descargada · Ábrela en tu story de Instagram', shareLevelMessage:'Estoy practicando artículos alemanes en DerDieDas, nivel {level}. ¿Te animas? {url}', shareAppMessage:'Estoy practicando artículos alemanes en DerDieDas. ¿Te animas? {url}', shareResultMessage:'He practicado artículos alemanes en DerDieDas y he sacado {correct}/{total} en nivel {level}. ¿Te animas? {url}', shareInstagramMessage:'He sacado {correct}/{total} en DerDieDas nivel {level}. ¿Te animas? {url}', quizReviewAnswers:'Ver respuestas', quizKeepPracticing:'Seguir practicando', quizPracticeErrors:'Practicar errores', quizReviewTitle:'Respuestas de la ronda', quizReviewSubtitle:'Revisa palabra, traducción, artículo correcto y tu respuesta de un vistazo.', quizReviewCorrect:'Artículo correcto', quizReviewYourAnswer:'Tu respuesta', quizReviewCorrectBadge:'Correcta', quizReviewIncorrectBadge:'Incorrecta', quizPracticeErrorsDisabled:'Sin errores en esta ronda', quizPracticeErrorsNote:'Mini quiz solo con falladas'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
@@ -1436,7 +1520,7 @@ const UI = {
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
     quizRetry:'Try again →', quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise', copyLink:'Share with friends', copiedLink:'Link copied', copiedResult:'Result copied', copiedInstagram:'Instagram text copied', shareFriendsCta:'Share with friends', shareLevelTitle:'Share this level', shareWhatsapp:'WhatsApp', shareCopyLink:'Copy link', shareCopyLevelLink:'Copy level link', shareProgressTitle:'Share your progress', shareCopyResult:'Copy result', shareCopyInstagram:'Copy for Instagram', resultMsgHigh:'Well done!', resultMsgMid:'Good job!', resultMsgLow:'Keep it up!', quizPrev:'← Previous', igStoryScore:'{correct} of {total} correct', igStoryLevel:'Level {level}', igStoryToast:'Image downloaded · Open it in your Instagram Story', shareLevelMessage:'I am practicing German articles in DerDieDas at level {level}. Want to try? {url}', shareAppMessage:'I am practicing German articles in DerDieDas. Want to try? {url}', shareResultMessage:'I practiced German articles in DerDieDas and scored {correct}/{total} at level {level}. Want to try? {url}', shareInstagramMessage:'I scored {correct}/{total} in DerDieDas at level {level}. Want to try? {url}'
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise', copyLink:'Share with friends', copiedLink:'Link copied', copiedResult:'Result copied', copiedInstagram:'Instagram text copied', shareFriendsCta:'Share with friends', shareLevelTitle:'Share this level', shareWhatsapp:'WhatsApp', shareCopyLink:'Copy link', shareCopyLevelLink:'Copy level link', shareProgressTitle:'Share your progress', shareCopyResult:'Copy result', shareCopyInstagram:'Copy for Instagram', resultMsgHigh:'Well done!', resultMsgMid:'Good job!', resultMsgLow:'Keep it up!', quizPrev:'← Previous', igStoryScore:'{correct} of {total} correct', igStoryLevel:'Level {level}', igStoryToast:'Image downloaded · Open it in your Instagram Story', shareLevelMessage:'I am practicing German articles in DerDieDas at level {level}. Want to try? {url}', shareAppMessage:'I am practicing German articles in DerDieDas. Want to try? {url}', shareResultMessage:'I practiced German articles in DerDieDas and scored {correct}/{total} at level {level}. Want to try? {url}', shareInstagramMessage:'I scored {correct}/{total} in DerDieDas at level {level}. Want to try? {url}', quizReviewAnswers:'Review answers', quizKeepPracticing:'Keep practicing', quizPracticeErrors:'Practice mistakes', quizReviewTitle:'Round answers', quizReviewSubtitle:'Review the word, translation, correct article, and your answer at a glance.', quizReviewCorrect:'Correct article', quizReviewYourAnswer:'Your answer', quizReviewCorrectBadge:'Correct', quizReviewIncorrectBadge:'Incorrect', quizPracticeErrorsDisabled:'No mistakes this round', quizPracticeErrorsNote:'Mini quiz with your missed words only'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1742,6 +1826,7 @@ let currentLevel = null;
 let currentCategory = null;
 const SHAREABLE_LEVELS = new Set(['a1','a2','b1','b2','c1','c2']);
 let quiz = {words:[],idx:0,correct:0,answered:false};
+let latestQuizResult = null;
 
 function cloneQuizState(value) {
   return value ? JSON.parse(JSON.stringify(value)) : value;
@@ -2439,8 +2524,27 @@ function startQuiz(catId) {
     goView('quiz');
     renderLimit(); return;
   }
-  const pool = WORD_POOL[catId] || WORD_POOL['food'];
-  const words = [...pool].sort(()=>Math.random()-.5);
+  launchQuizRound(catId, pickRoundWords(catId));
+}
+
+function shuffleArray(list) {
+  return [...list].sort(() => Math.random() - .5);
+}
+
+function getWordKey(item) {
+  return `${item.a}__${item.w}__${item.t || ''}`;
+}
+
+function pickRoundWords(catId, options = {}) {
+  const source = options.sourceWords ? [...options.sourceWords] : [...(WORD_POOL[catId] || WORD_POOL.food || [])];
+  const desiredSize = source.length;
+  const excludeKeys = new Set((options.excludeWords || []).map(getWordKey));
+  const filtered = excludeKeys.size ? source.filter(item => !excludeKeys.has(getWordKey(item))) : source;
+  const usable = filtered.length >= desiredSize ? filtered : source;
+  return shuffleArray(usable);
+}
+
+function launchQuizRound(catId, words, options = {}) {
   const flashcardItems = words.map((item, index) => normalizeFlashcardItem(item, catId, index));
   currentCategory = catId;
 
@@ -2449,7 +2553,7 @@ function startQuiz(catId) {
 
   if (hasFlashcardCore()) {
     const nextState = window.FlashcardCore.createFlashcardState(flashcardItems, {
-      meta: { categoryId: catId }
+      meta: { categoryId: catId, mode: options.mode || 'default' }
     });
     if (hasValidFlashcardState(nextState)) {
       flashcardState = nextState;
@@ -2460,7 +2564,10 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0, history:[], future:[], currentSnapshot:null, chosenAnswer:null, wasCorrect:null};
+  quiz = {
+    words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0,
+    history:[], future:[], currentSnapshot:null, chosenAnswer:null, wasCorrect:null, roundAnswers:[]
+  };
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -2553,6 +2660,14 @@ function answer(chosen) {
   quiz.pendingOutcome = ok ? 'known' : 'unknown';
   quiz.chosenAnswer = chosen;
   quiz.wasCorrect = ok;
+  quiz.roundAnswers.push({
+    word: w.w,
+    translation: w.t,
+    correctArticle: w.a,
+    userAnswer: chosen,
+    isCorrect: ok,
+    item: cloneQuizState(w)
+  });
   if (quiz.currentSnapshot) {
     quiz.currentSnapshot.chosenAnswer = chosen;
     quiz.currentSnapshot.wasCorrect = ok;
@@ -2646,9 +2761,7 @@ function finishQuiz() {
 function endQuiz() {
   clearNextQuestionTimer();
   SESSION.rounds++;
-  const answeredItems = hasValidFlashcardState(flashcardState)
-    ? flashcardState.marks.map(mark => mark.item).filter(Boolean)
-    : quiz.words.slice(0, SESSION.total);
+  const answeredItems = (quiz.roundAnswers || []).map(entry => entry.item).filter(Boolean);
   const totalWords = answeredItems.length;
   const pct = totalWords ? Math.round((quiz.correct/totalWords)*100) : 0;
   const d = answeredItems.filter(w=>w.a==='der').length;
@@ -2656,6 +2769,14 @@ function endQuiz() {
   const n = answeredItems.filter(w=>w.a==='das').length;
   const nearLimit = !PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3;
   const mascotMsg = pct >= 80 ? t('resultMsgHigh') : pct >= 50 ? t('resultMsgMid') : t('resultMsgLow');
+  const incorrectAnswers = (quiz.roundAnswers || []).filter(entry => !entry.isCorrect);
+  latestQuizResult = {
+    categoryId: currentCategory,
+    levelId: currentLevel,
+    answers: cloneQuizState(quiz.roundAnswers || []),
+    incorrectAnswers: cloneQuizState(incorrectAnswers),
+    recentWords: cloneQuizState(answeredItems)
+  };
   document.getElementById('quizInner').innerHTML = `
     ${nearLimit ? `<div class="upsell-bar">
       <div class="ub-text">
@@ -2677,11 +2798,19 @@ function endQuiz() {
         <div class="r-art ri"><div class="n">${i}</div><div class="l">die</div></div>
         <div class="r-art rn"><div class="n">${n}</div><div class="l">das</div></div>
       </div>
+      ${incorrectAnswers.length ? `<div class="result-chip-note">${t('quizPracticeErrorsNote')}</div>` : ''}
       <div class="r-actions">
-        <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans)" onclick="goView('levels')">${t('quizChangeLevel')}</button>
-        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans)" onclick="startQuiz('${currentCategory}')">${t('quizRetry')}</button>` : ''}
+        <button class="result-btn soft" type="button" onclick="openReviewAnswers()">${t('quizReviewAnswers')}</button>
+        ${!nearLimit ? `<button class="result-btn primary" type="button" onclick="continuePracticing()">${t('quizKeepPracticing')}</button>` : `<button class="result-btn primary" type="button" onclick="startQuiz('${currentCategory}')">${t('quizRetry')}</button>`}
       </div>
-      ${!nearLimit ? `<div style="text-align:center;margin-bottom:8px"><button style="padding:9px 18px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:var(--font-sans)" onclick="goView('cats')">${t('quizOtherCategory')}</button></div>` : ''}
+      <div class="result-primary-actions">
+        <button class="result-btn warn" type="button" onclick="practiceMistakes()" ${incorrectAnswers.length ? '' : `disabled title="${t('quizPracticeErrorsDisabled')}"`}>${t('quizPracticeErrors')}</button>
+        <button class="result-btn accent" type="button" onclick="startQuiz('${currentCategory}')">${t('quizRetry')}</button>
+      </div>
+      <div class="result-secondary-actions">
+        <button class="result-btn soft" type="button" onclick="goView('levels')">${t('quizChangeLevel')}</button>
+        ${!nearLimit ? `<button class="result-btn soft" type="button" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
+      </div>
       <div class="ig-share-panel">
         <div class="ig-share-title">${t('shareProgressTitle')}</div>
         <div class="ig-share-grid">
@@ -2697,6 +2826,50 @@ function endQuiz() {
         <button class="share-link-btn" onclick="copyLevelLink()">🔗 ${t('shareCopyLevelLink')}</button>
       </div>
     </div>`;
+}
+
+function openReviewAnswers() {
+  if (!latestQuizResult || !latestQuizResult.answers || !latestQuizResult.answers.length) return;
+  document.getElementById('reviewModalTitle').textContent = t('quizReviewTitle');
+  document.getElementById('reviewModalSub').textContent = t('quizReviewSubtitle');
+  const list = document.getElementById('reviewAnswersList');
+  list.innerHTML = latestQuizResult.answers.map((entry) => `
+    <div class="review-item">
+      <div>
+        <div class="review-wordline">
+          <div class="review-word">${entry.word}</div>
+          <div class="review-pill ${entry.isCorrect ? 'ok' : 'ko'}">${entry.isCorrect ? t('quizReviewCorrectBadge') : t('quizReviewIncorrectBadge')}</div>
+        </div>
+        <div class="review-translation">${entry.translation || ''}</div>
+      </div>
+      <div class="review-answers">
+        <div class="review-answer-line">${t('quizReviewCorrect')}: <span class="review-article ${entry.correctArticle}">${entry.correctArticle}</span></div>
+        <div class="review-answer-line">${t('quizReviewYourAnswer')}: <span class="review-article ${entry.userAnswer}">${entry.userAnswer}</span></div>
+      </div>
+      <div class="review-status-icon ${entry.isCorrect ? 'ok' : 'ko'}">${entry.isCorrect ? '✓' : '✕'}</div>
+    </div>
+  `).join('');
+  const overlay = document.getElementById('reviewOverlay');
+  overlay.classList.add('on');
+  overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closeReviewAnswers() {
+  const overlay = document.getElementById('reviewOverlay');
+  overlay.classList.remove('on');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function continuePracticing() {
+  if (!currentCategory) return;
+  const recentWords = latestQuizResult?.recentWords || [];
+  launchQuizRound(currentCategory, pickRoundWords(currentCategory, { excludeWords: recentWords }), { mode: 'continue' });
+}
+
+function practiceMistakes() {
+  const mistakes = (latestQuizResult?.incorrectAnswers || []).map(entry => entry.item).filter(Boolean);
+  if (!mistakes.length || !currentCategory) return;
+  launchQuizRound(currentCategory, shuffleArray(mistakes), { mode: 'mistakes' });
 }
 
 function renderLimit() {
@@ -2817,6 +2990,16 @@ function normalizeFlashcardItem(item, groupId, index) {
     raw: item
   };
 }
+
+document.getElementById('reviewOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeReviewAnswers();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('reviewOverlay').classList.contains('on')) {
+    closeReviewAnswers();
+  }
+});
 </script>
 </body>
 </html>
