@@ -2369,7 +2369,7 @@ function renderLevels() {
         <div class="lc-desc">${levelDesc(l.id)}</div>
       </div>
       <div class="lc-foot">
-        <span class="lc-count">${l.count} ${t('words')}</span>
+        <span class="lc-count">${(WORD_POOL[l.id]||[]).length} ${t('words')}</span>
         ${!locked ? `<span style="font-size:12px;color:var(--muted2);font-weight:500">${(CATS_BY_LEVEL[l.id]||[]).length} ${t('categories')}</span>` : ''}
       </div>
     </div>`;
@@ -2415,7 +2415,7 @@ function renderCats(levelId) {
       </div>
       <div class="cat-info">
         <div class="cat-name-text">${catName(c.id)}</div>
-        <div class="cat-count-text">${c.count} ${t('words')}</div>
+        <div class="cat-count-text">${(WORD_POOL[c.id]||[]).length} ${t('words')}</div>
       </div>
     </div>`;
   }).join('');
