@@ -2439,10 +2439,8 @@ function startQuiz(catId) {
     goView('quiz');
     renderLimit(); return;
   }
-  const ROUND_SIZE = 25;
   const pool = WORD_POOL[catId] || WORD_POOL['food'];
-  const shuffled = [...pool].sort(()=>Math.random()-.5);
-  const words = shuffled.length > ROUND_SIZE ? shuffled.slice(0, ROUND_SIZE) : shuffled;
+  const words = [...pool].sort(()=>Math.random()-.5);
   const flashcardItems = words.map((item, index) => normalizeFlashcardItem(item, catId, index));
   currentCategory = catId;
 
