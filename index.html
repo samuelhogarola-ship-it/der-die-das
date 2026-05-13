@@ -448,6 +448,51 @@ footer{
 .share-btn:hover{background:var(--bg)}
 .share-btn.whatsapp{background:#25D366;color:#fff;border-color:#25D366}
 .share-btn.whatsapp:hover{background:#1fb65a;border-color:#1fb65a}
+.ig-share-panel{margin-top:28px;padding-top:24px;border-top:1px solid var(--border)}
+.ig-share-title{font-size:18px;font-weight:900;letter-spacing:-.4px;margin-bottom:16px;text-align:center}
+.ig-share-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ig-share-secondary{display:flex;gap:10px;margin-top:12px}
+.wa-story-btn{
+  padding:14px 10px;border-radius:14px;
+  background:#25D366;color:#fff;border:none;font-size:15px;font-weight:800;
+  cursor:pointer;font-family:var(--font-sans);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:opacity .15s;box-shadow:0 4px 14px rgba(37,211,102,.28)
+}
+.wa-story-btn:hover{opacity:.88}
+.share-link-btn{
+  width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);
+  background:none;font-size:13px;color:var(--muted);font-weight:600;
+  cursor:pointer;font-family:var(--font-sans);transition:all .13s
+}
+.share-link-btn:hover{background:var(--bg);color:var(--text)}
+.mascot-row{display:flex;align-items:flex-end;justify-content:center;gap:14px;margin-bottom:24px}
+.mascot-img{width:96px;height:96px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 14px rgba(0,0,0,.14))}
+.mascot-bubble{
+  background:var(--text);color:var(--white);
+  padding:11px 18px;border-radius:16px 16px 16px 4px;
+  font-size:16px;font-weight:900;letter-spacing:-.3px;line-height:1.25;
+  text-align:center;position:relative
+}
+.ig-story-btn{
+  width:100%;padding:15px;border-radius:14px;
+  background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  color:#fff;border:none;font-size:16px;font-weight:800;
+  cursor:pointer;font-family:var(--font-sans);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:opacity .15s,transform .1s;box-shadow:0 4px 18px rgba(220,39,67,.3)
+}
+.ig-story-btn:hover{opacity:.9}
+.ig-story-btn:active{opacity:.8;transform:scale(.98)}
+.review-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.review-nav-btn{
+  padding:11px;border-radius:10px;border:1px solid var(--border2);
+  background:var(--white);color:var(--muted);font-size:14px;font-weight:700;
+  cursor:pointer;font-family:var(--font-sans);transition:all .14s
+}
+.review-nav-btn:hover{background:var(--bg);color:var(--text)}
+.review-nav-fwd{background:var(--text);color:var(--white);border-color:var(--text)}
+.review-nav-fwd:hover{background:#333;color:var(--white)}
 
 .levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .level-card{
@@ -589,7 +634,7 @@ footer{
 .q-card.ok{border-color:var(--das)}
 .q-card.ko{border-color:var(--der)}
 .q-prompt{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
-.q-word{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1}
+.q-word{font-size:72px;font-weight:900;letter-spacing:-2.5px;line-height:1}
 .q-trans{font-size:15px;color:var(--muted)}
 .q-fb{font-size:13px;line-height:1.5;padding:9px 16px;border-radius:9px;display:none;max-width:300px}
 .q-fb.show{display:block}
@@ -610,8 +655,9 @@ footer{
 .a-btn.der:hover:not(:disabled){background:#FFF2F2}
 .a-btn.die:hover:not(:disabled){background:#EEF4FC}
 .a-btn.das:hover:not(:disabled){background:#EEF7F2}
-.a-btn.v-ok{background:#EEF7F2!important;border-color:var(--das)!important;color:var(--das)!important}
-.a-btn.v-ko{background:#FFF2F2!important;border-color:var(--der)!important;color:var(--der)!important}
+.a-btn.v-ok{background:var(--das)!important;border-color:var(--das)!important;color:#fff!important;opacity:1!important}
+.a-btn.v-ko{background:var(--der)!important;border-color:var(--der)!important;color:#fff!important;opacity:1!important}
+.a-btn:disabled:not(.v-ok):not(.v-ko){opacity:.28}
 
 .btn-next-q{
   width:100%;padding:11px;border-radius:10px;background:none;
@@ -1326,9 +1372,9 @@ const UI = {
     statsAccuracyLabel:'Trefferquote', statsAccuracyNote:'richtige Antworten', statsUpsellTitle:'Erweiterte Statistiken mit Premium',
     statsUpsellText:'Sieh, welche Endungen dir schwerfallen, nutze Verlauf und mehr.', statsUpsellButton:'Preise ansehen →',
     quizPrompt:'Welcher Artikel ist richtig?', quizNext:'Weiter →', quizCompleted:'Runde abgeschlossen', quizChangeLevel:'← Niveau wechseln',
-    quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
+    quizRetry:'Nochmal versuchen →', quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
-    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden', copyLink:'Mit Freunden teilen', copiedLink:'Link kopiert', copiedResult:'Ergebnis kopiert', copiedInstagram:'Instagram-Text kopiert', shareFriendsCta:'Mit Freunden teilen', shareLevelTitle:'Dieses Niveau teilen', shareWhatsapp:'WhatsApp', shareCopyLink:'Link kopieren', shareCopyLevelLink:'Level-Link kopieren', shareProgressTitle:'Teile deinen Fortschritt', shareCopyResult:'Ergebnis kopieren', shareCopyInstagram:'Für Instagram kopieren', shareLevelMessage:'Ich übe deutsche Artikel mit DerDieDas auf Niveau {level}. Machst du mit? {url}', shareAppMessage:'Ich übe deutsche Artikel mit DerDieDas. Machst du mit? {url}', shareResultMessage:'Ich habe deutsche Artikel mit DerDieDas geübt und {correct}/{total} auf Niveau {level} geschafft. Machst du mit? {url}', shareInstagramMessage:'Ich habe {correct}/{total} in DerDieDas auf Niveau {level} geschafft. Machst du mit? {url}'
+    toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden', copyLink:'Mit Freunden teilen', copiedLink:'Link kopiert', copiedResult:'Ergebnis kopiert', copiedInstagram:'Instagram-Text kopiert', shareFriendsCta:'Mit Freunden teilen', shareLevelTitle:'Dieses Niveau teilen', shareWhatsapp:'WhatsApp', shareCopyLink:'Link kopieren', shareCopyLevelLink:'Level-Link kopieren', shareProgressTitle:'Teile deinen Fortschritt', shareCopyResult:'Ergebnis kopieren', shareCopyInstagram:'Für Instagram kopieren', resultMsgHigh:'Gut gemacht!', resultMsgMid:'Gute Arbeit!', resultMsgLow:'Weiter üben!', quizPrev:'← Vorherige', igStoryScore:'{correct} von {total} richtig', igStoryLevel:'Niveau {level}', igStoryToast:'Bild geladen · In Instagram Story öffnen', shareLevelMessage:'Ich übe deutsche Artikel mit DerDieDas auf Niveau {level}. Machst du mit? {url}', shareAppMessage:'Ich übe deutsche Artikel mit DerDieDas. Machst du mit? {url}', shareResultMessage:'Ich habe deutsche Artikel mit DerDieDas geübt und {correct}/{total} auf Niveau {level} geschafft. Machst du mit? {url}', shareInstagramMessage:'Ich habe {correct}/{total} in DerDieDas auf Niveau {level} geschafft. Machst du mit? {url}'
     ,appProfileSoon:'Profil bald verfügbar'
   },
   es: {
@@ -1357,9 +1403,9 @@ const UI = {
     statsAccuracyLabel:'Precisión', statsAccuracyNote:'respuestas correctas', statsUpsellTitle:'Estadísticas avanzadas con Premium',
     statsUpsellText:'Descubre qué terminaciones te cuestan más, historial completo y mucho más', statsUpsellButton:'Ver planes →',
     quizPrompt:'¿Cuál es el artículo?', quizNext:'Siguiente →', quizCompleted:'Ronda completada', quizChangeLevel:'← Cambiar nivel',
-    quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
+    quizRetry:'Volver a intentar →', quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
-    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio', copyLink:'Comparte con tus amigos', copiedLink:'Enlace copiado', copiedResult:'Resultado copiado', copiedInstagram:'Texto para Instagram copiado', shareFriendsCta:'Comparte con tus amigos', shareLevelTitle:'Comparte este nivel', shareWhatsapp:'WhatsApp', shareCopyLink:'Copiar link', shareCopyLevelLink:'Copiar enlace del nivel', shareProgressTitle:'Comparte tu progreso', shareCopyResult:'Copiar resultado', shareCopyInstagram:'Copiar para Instagram', shareLevelMessage:'Estoy practicando artículos alemanes en DerDieDas, nivel {level}. ¿Te animas? {url}', shareAppMessage:'Estoy practicando artículos alemanes en DerDieDas. ¿Te animas? {url}', shareResultMessage:'He practicado artículos alemanes en DerDieDas y he sacado {correct}/{total} en nivel {level}. ¿Te animas? {url}', shareInstagramMessage:'He sacado {correct}/{total} en DerDieDas nivel {level}. ¿Te animas? {url}'
+    toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio', copyLink:'Comparte con tus amigos', copiedLink:'Enlace copiado', copiedResult:'Resultado copiado', copiedInstagram:'Texto para Instagram copiado', shareFriendsCta:'Comparte con tus amigos', shareLevelTitle:'Comparte este nivel', shareWhatsapp:'WhatsApp', shareCopyLink:'Copiar link', shareCopyLevelLink:'Copiar enlace del nivel', shareProgressTitle:'Comparte tu progreso', shareCopyResult:'Copiar resultado', shareCopyInstagram:'Copiar para Instagram', resultMsgHigh:'¡Bien hecho!', resultMsgMid:'¡Buen trabajo!', resultMsgLow:'¡Sigue así!', quizPrev:'← Anterior', igStoryScore:'{correct} de {total} correctas', igStoryLevel:'Nivel {level}', igStoryToast:'Imagen descargada · Ábrela en tu story de Instagram', shareLevelMessage:'Estoy practicando artículos alemanes en DerDieDas, nivel {level}. ¿Te animas? {url}', shareAppMessage:'Estoy practicando artículos alemanes en DerDieDas. ¿Te animas? {url}', shareResultMessage:'He practicado artículos alemanes en DerDieDas y he sacado {correct}/{total} en nivel {level}. ¿Te animas? {url}', shareInstagramMessage:'He sacado {correct}/{total} en DerDieDas nivel {level}. ¿Te animas? {url}'
     ,appProfileSoon:'Perfil próximamente'
   },
   en: {
@@ -1388,9 +1434,9 @@ const UI = {
     statsAccuracyLabel:'Accuracy', statsAccuracyNote:'correct answers', statsUpsellTitle:'Advanced stats with Premium',
     statsUpsellText:'See which endings are hardest for you, review history and more.', statsUpsellButton:'See plans →',
     quizPrompt:'Which article is correct?', quizNext:'Next →', quizCompleted:'Round completed', quizChangeLevel:'← Change level',
-    quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
+    quizRetry:'Try again →', quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
-    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise', copyLink:'Share with friends', copiedLink:'Link copied', copiedResult:'Result copied', copiedInstagram:'Instagram text copied', shareFriendsCta:'Share with friends', shareLevelTitle:'Share this level', shareWhatsapp:'WhatsApp', shareCopyLink:'Copy link', shareCopyLevelLink:'Copy level link', shareProgressTitle:'Share your progress', shareCopyResult:'Copy result', shareCopyInstagram:'Copy for Instagram', shareLevelMessage:'I am practicing German articles in DerDieDas at level {level}. Want to try? {url}', shareAppMessage:'I am practicing German articles in DerDieDas. Want to try? {url}', shareResultMessage:'I practiced German articles in DerDieDas and scored {correct}/{total} at level {level}. Want to try? {url}', shareInstagramMessage:'I scored {correct}/{total} in DerDieDas at level {level}. Want to try? {url}'
+    toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise', copyLink:'Share with friends', copiedLink:'Link copied', copiedResult:'Result copied', copiedInstagram:'Instagram text copied', shareFriendsCta:'Share with friends', shareLevelTitle:'Share this level', shareWhatsapp:'WhatsApp', shareCopyLink:'Copy link', shareCopyLevelLink:'Copy level link', shareProgressTitle:'Share your progress', shareCopyResult:'Copy result', shareCopyInstagram:'Copy for Instagram', resultMsgHigh:'Well done!', resultMsgMid:'Good job!', resultMsgLow:'Keep it up!', quizPrev:'← Previous', igStoryScore:'{correct} of {total} correct', igStoryLevel:'Level {level}', igStoryToast:'Image downloaded · Open it in your Instagram Story', shareLevelMessage:'I am practicing German articles in DerDieDas at level {level}. Want to try? {url}', shareAppMessage:'I am practicing German articles in DerDieDas. Want to try? {url}', shareResultMessage:'I practiced German articles in DerDieDas and scored {correct}/{total} at level {level}. Want to try? {url}', shareInstagramMessage:'I scored {correct}/{total} in DerDieDas at level {level}. Want to try? {url}'
     ,appProfileSoon:'Profile coming soon'
   }
 };
@@ -1702,18 +1748,17 @@ function cloneQuizState(value) {
 }
 
 function captureQuizSnapshot() {
-  const question = getCurrentQuestionState();
   return {
-    question: cloneQuizState(question),
+    flashcardState: cloneQuizState(flashcardState),
     quiz: {
       idx: quiz.idx,
       correct: quiz.correct,
-      answered: !!quiz.answered,
+      answered: quiz.answered || false,
       pendingOutcome: quiz.pendingOutcome || null,
-      streak: quiz.streak || 0,
-      chosenAnswer: quiz.chosenAnswer ?? null,
-      wasCorrect: quiz.wasCorrect ?? null
+      streak: quiz.streak || 0
     },
+    chosenAnswer: quiz.chosenAnswer || null,
+    wasCorrect: quiz.wasCorrect ?? null,
     session: {
       correct: SESSION.correct,
       total: SESSION.total
@@ -1721,25 +1766,16 @@ function captureQuizSnapshot() {
   };
 }
 
-function restoreQuizSnapshot(snapshot, options = {}) {
+function restoreQuizSnapshot(snapshot) {
   if (!snapshot) return;
-  quiz.reviewSnapshot = options.reviewOnly ? cloneQuizState(snapshot.question) : null;
+  flashcardState = cloneQuizState(snapshot.flashcardState);
   quiz.idx = snapshot.quiz.idx;
-  if (options.reviewOnly) {
-    quiz.answered = !!snapshot.quiz.answered;
-    quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
-    quiz.chosenAnswer = snapshot.quiz.chosenAnswer ?? null;
-    quiz.wasCorrect = snapshot.quiz.wasCorrect ?? null;
-  } else {
-    quiz.correct = snapshot.quiz.correct;
-    quiz.answered = !!snapshot.quiz.answered;
-    quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
-    quiz.streak = snapshot.quiz.streak || 0;
-    quiz.chosenAnswer = snapshot.quiz.chosenAnswer ?? null;
-    quiz.wasCorrect = snapshot.quiz.wasCorrect ?? null;
-    SESSION.correct = snapshot.session.correct;
-    SESSION.total = snapshot.session.total;
-  }
+  // Preserve live score/stats — review is display-only, no score rollback
+  quiz.chosenAnswer = snapshot.chosenAnswer || null;
+  quiz.wasCorrect = snapshot.wasCorrect ?? null;
+  quiz.answered = !!snapshot.chosenAnswer;
+  quiz.pendingOutcome = snapshot.quiz.pendingOutcome || null;
+  quiz.streak = snapshot.quiz.streak || 0;
 }
 
 let flashcardState = null;
@@ -1882,19 +1918,28 @@ function buildLevelUrl(levelId) {
   return url;
 }
 
+function setMetaContent(attribute, key, value) {
+  const el = document.querySelector(`meta[${attribute}="${key}"]`);
+  if (el) el.setAttribute('content', value);
+}
+
 function updateDocumentMetadata(levelId = currentLevel) {
   const label = getLevelLabel(levelId);
-  const title = label ? 'Der Die Das ' + label + ' | Practica artículos en alemán' : 'Der Die Das | Practica artículos en alemán';
+  const title = label ? `Der Die Das ${label} | Vokabel Lab` : 'DerDieDas — Vokabel Lab';
   const description = label
-    ? `Practica der, die y das en nivel ${label} con vocabulario útil por categorías y ejercicios rápidos para ganar soltura en alemán.`
+    ? `Practica artículos alemanes del nivel ${label} con DerDieDas.`
     : 'Aprende der, die y das con ejercicios rápidos por niveles, categorías útiles y práctica visual para ganar seguridad al hablar alemán.';
-  const url = levelId && SHAREABLE_LEVELS.has(levelId)
-    ? buildLevelUrl(levelId).toString()
-    : new URL('/', window.location.origin).toString();
-  const image = new URL('/logo-hero.png', window.location.origin).toString();
+  const image = 'https://derdiedas.vokabellab.com/logo-hero.png';
+
   document.title = title;
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', url);
+  if (canonical) {
+    const canonicalUrl = levelId && SHAREABLE_LEVELS.has(levelId)
+      ? buildLevelUrl(levelId)
+      : new URL('/', window.location.origin);
+    canonical.setAttribute('href', canonicalUrl.toString());
+  }
+  const url = canonical ? canonical.getAttribute('href') : window.location.href;
   setMetaContent('name', 'description', description);
   setMetaContent('property', 'og:title', title);
   setMetaContent('property', 'og:description', description);
@@ -2030,25 +2075,6 @@ function openWhatsAppPayload(payload) {
   if (!opened) window.location.href = payload.whatsappUrl;
 }
 
-function setMetaContent(attribute, key, value) {
-  const meta = document.querySelector(`meta[${attribute}="${key}"]`);
-  if (meta) meta.setAttribute('content', value);
-}
-
-function shareWithInstagramStory(payload) {
-  if (navigator.share) {
-    return navigator.share({
-      title: 'DerDieDas',
-      text: payload.text,
-      url: payload.url
-    }).catch((error) => {
-      if (error && error.name === 'AbortError') return;
-      return copySharePayload(payload, 'copiedInstagram');
-    });
-  }
-  return copySharePayload(payload, 'copiedInstagram');
-}
-
 function copyLevelLink(levelId = currentLevel) {
   const payload = buildLevelSharePayload(levelId);
   return copySharePayload({ clipboardText: payload.url }, 'copiedLink');
@@ -2067,7 +2093,60 @@ function copyResultText(correct, total, levelId = currentLevel) {
 }
 
 function copyInstagramText(correct, total, levelId = currentLevel) {
-  return shareWithInstagramStory(buildResultSharePayload(correct, total, levelId, 'instagram-result'));
+  return copySharePayload(buildResultSharePayload(correct, total, levelId, 'instagram-result'), 'copiedInstagram');
+}
+
+function shareInstagramStory(correct, total, levelId) {
+  const pct = total ? Math.round((correct / total) * 100) : 0;
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080; canvas.height = 1920;
+  const ctx = canvas.getContext('2d');
+
+  const bg = ctx.createLinearGradient(0, 0, 1080, 1920);
+  bg.addColorStop(0, '#0C0C1A'); bg.addColorStop(0.5, '#160A28'); bg.addColorStop(1, '#0A1625');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, 1080, 1920);
+
+  ctx.beginPath(); ctx.arc(180, 280, 420, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(99,60,210,0.07)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(950, 1680, 520, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(236,72,153,0.05)'; ctx.fill();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.font = '500 54px -apple-system,Helvetica,sans-serif';
+  ctx.fillText('DerDieDas', 540, 590);
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '900 300px -apple-system,Helvetica,sans-serif';
+  ctx.fillText(pct + '%', 540, 950);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.font = '600 64px -apple-system,Helvetica,sans-serif';
+  ctx.fillText(t('igStoryScore', { correct, total }), 540, 1055);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.28)';
+  ctx.font = '500 46px -apple-system,Helvetica,sans-serif';
+  ctx.fillText(t('igStoryLevel', { level: (levelId || '').toUpperCase() }) + ' · DerDieDas', 540, 1140);
+
+  const arts = [{ t:'der', c:'#E87A7A' }, { t:'die', c:'#7EB4E8' }, { t:'das', c:'#7EC49A' }];
+  const artY = 1620; const sp = 240;
+  arts.forEach((a, i) => {
+    ctx.fillStyle = a.c;
+    ctx.font = '900 86px -apple-system,Helvetica,sans-serif';
+    ctx.fillText(a.t, 540 - sp + i * sp, artY);
+  });
+
+  canvas.toBlob(async (blob) => {
+    const file = new File([blob], 'derdiedas.png', { type: 'image/png' });
+    if (navigator.share && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); return; } catch(e) { if (e.name === 'AbortError') return; }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'derdiedas.png'; a.click();
+    URL.revokeObjectURL(url);
+    showToast(t('igStoryToast'));
+  }, 'image/png');
 }
 
 function applyLevelFromLocation(options = {}) {
@@ -2360,8 +2439,10 @@ function startQuiz(catId) {
     goView('quiz');
     renderLimit(); return;
   }
+  const ROUND_SIZE = 25;
   const pool = WORD_POOL[catId] || WORD_POOL['food'];
-  const words = [...pool].sort(()=>Math.random()-.5);
+  const shuffled = [...pool].sort(()=>Math.random()-.5);
+  const words = shuffled.length > ROUND_SIZE ? shuffled.slice(0, ROUND_SIZE) : shuffled;
   const flashcardItems = words.map((item, index) => normalizeFlashcardItem(item, catId, index));
   currentCategory = catId;
 
@@ -2381,21 +2462,7 @@ function startQuiz(catId) {
     console.error("FlashcardCore unavailable");
   }
 
-  quiz = {
-    words,
-    idx:0,
-    correct:0,
-    answered:false,
-    pendingOutcome:null,
-    streak:0,
-    history:[],
-    future:[],
-    currentSnapshot:null,
-    chosenAnswer:null,
-    wasCorrect:null,
-    reviewSnapshot:null,
-    liveResume:null
-  };
+  quiz = {words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0, history:[], future:[], currentSnapshot:null, chosenAnswer:null, wasCorrect:null};
   SESSION.words += words.length;
   goView('quiz');
   renderQuestion();
@@ -2439,25 +2506,26 @@ function renderQuestion() {
       <button class="a-btn die" id="b-die" onclick="answer('die')">die</button>
       <button class="a-btn das" id="b-das" onclick="answer('das')">das</button>
     </div>
-    <button class="btn-next-q" onclick="nextQ()">${t('quizNext')}</button>`;
-  if (quiz.answered) applyAnswerState();
+    <div class="review-nav">
+      <button class="review-nav-btn" onclick="prevQ()">${t('quizPrev')}</button>
+      <button class="review-nav-btn review-nav-fwd" onclick="siguienteBtn()">${t('quizNext')}</button>
+    </div>`;
+  if (quiz.chosenAnswer) applyAnswerState();
 }
 
 function applyAnswerState() {
-  const currentQuestion = getCurrentQuestionState();
-  if (!currentQuestion) return;
-  const w = currentQuestion.raw;
   const chosen = quiz.chosenAnswer;
   const ok = quiz.wasCorrect;
-
+  const currentQ = getCurrentQuestionState();
+  if (!currentQ) return;
+  const w = currentQ.raw;
   ['der','die','das'].forEach(a => {
     const btn = document.getElementById('b-'+a);
     if (!btn) return;
     btn.disabled = true;
     if (a === w.a) btn.classList.add('v-ok');
-    else if (chosen && a === chosen && ok === false) btn.classList.add('v-ko');
+    else if (a === chosen && !ok) btn.classList.add('v-ko');
   });
-
   const fb = document.getElementById('qfb');
   if (fb) {
     fb.classList.add('show', ok ? 'ok' : 'ko');
@@ -2488,13 +2556,8 @@ function answer(chosen) {
   quiz.chosenAnswer = chosen;
   quiz.wasCorrect = ok;
   if (quiz.currentSnapshot) {
-    quiz.currentSnapshot.quiz.answered = true;
-    quiz.currentSnapshot.quiz.pendingOutcome = quiz.pendingOutcome;
-    quiz.currentSnapshot.quiz.streak = quiz.streak;
-    quiz.currentSnapshot.quiz.chosenAnswer = chosen;
-    quiz.currentSnapshot.quiz.wasCorrect = ok;
-    quiz.currentSnapshot.session.correct = SESSION.correct;
-    quiz.currentSnapshot.session.total = SESSION.total;
+    quiz.currentSnapshot.chosenAnswer = chosen;
+    quiz.currentSnapshot.wasCorrect = ok;
   }
 
   ['der','die','das'].forEach(a => {
@@ -2513,42 +2576,27 @@ function answer(chosen) {
   nextQuestionTimer = setTimeout(nextQ, 1800);
 }
 
+function siguienteBtn() {
+  if (quiz.future && quiz.future.length > 0) {
+    nextReview();
+  } else {
+    nextQ();
+  }
+}
+
 function nextQ() {
   clearNextQuestionTimer();
-
-  if (quiz.reviewSnapshot) {
-    if (quiz.currentSnapshot) {
-      quiz.history.push(cloneQuizState(quiz.currentSnapshot));
-    }
-    const reviewSnapshot = quiz.future && quiz.future.length ? quiz.future.pop() : null;
-    if (reviewSnapshot) {
-      restoreQuizSnapshot(reviewSnapshot, { reviewOnly: true });
-      renderQuestion();
-      return;
-    }
-    quiz.reviewSnapshot = null;
-    if (quiz.liveResume) {
-      quiz.idx = quiz.liveResume.idx;
-      quiz.correct = quiz.liveResume.correct;
-      quiz.streak = quiz.liveResume.streak;
-      SESSION.correct = quiz.liveResume.sessionCorrect;
-      SESSION.total = quiz.liveResume.sessionTotal;
-      quiz.liveResume = null;
-    }
-    quiz.answered = false;
-    quiz.pendingOutcome = null;
-    quiz.chosenAnswer = null;
-    quiz.wasCorrect = null;
-    renderQuestion();
-    return;
-  }
+  quiz.future = [];
+  quiz.chosenAnswer = null;
+  quiz.wasCorrect = null;
 
   if (quiz.currentSnapshot) {
     quiz.history.push(cloneQuizState(quiz.currentSnapshot));
   }
 
-  if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
-    const nextState = quiz.pendingOutcome === 'known'
+  if (hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
+    const outcome = quiz.pendingOutcome || 'unknown';
+    const nextState = outcome === 'known'
       ? window.FlashcardCore.markKnown(flashcardState)
       : window.FlashcardCore.markUnknown(flashcardState);
     flashcardState = hasValidFlashcardState(nextState) ? nextState : advanceFlashcardState(flashcardState);
@@ -2561,112 +2609,31 @@ function nextQ() {
   }
   quiz.answered = false;
   quiz.pendingOutcome = null;
-  quiz.chosenAnswer = null;
-  quiz.wasCorrect = null;
-  quiz.future = [];
   renderQuestion();
 }
 
 function prevQ() {
   clearNextQuestionTimer();
+  // Review-only: no score/stats penalty when pressing back
   quiz.future = quiz.future || [];
-
-  if (quiz.reviewSnapshot) {
-    if (quiz.currentSnapshot) quiz.future.push(cloneQuizState(quiz.currentSnapshot));
-    const olderSnapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
-    if (!olderSnapshot) {
-      goView('cats');
-      return;
-    }
-    restoreQuizSnapshot(olderSnapshot, { reviewOnly: true });
-    renderQuestion();
-    return;
-  }
-
-  if (!quiz.answered && !quiz.pendingOutcome) {
-    if (hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
-      const nextState = window.FlashcardCore.markUnknown(flashcardState);
-      flashcardState = hasValidFlashcardState(nextState) ? nextState : advanceFlashcardState(flashcardState);
-      if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
-    } else if (hasValidFlashcardState(flashcardState)) {
-      flashcardState = advanceFlashcardState(flashcardState);
-      if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
-    } else {
-      quiz.idx++;
-    }
-    SESSION.total++;
-    quiz.streak = 0;
-    if (quiz.currentSnapshot) {
-      const skippedSnapshot = cloneQuizState(quiz.currentSnapshot);
-      skippedSnapshot.quiz.answered = true;
-      skippedSnapshot.quiz.pendingOutcome = 'unknown';
-      skippedSnapshot.quiz.streak = 0;
-      skippedSnapshot.quiz.chosenAnswer = '';
-      skippedSnapshot.quiz.wasCorrect = false;
-      skippedSnapshot.session.correct = SESSION.correct;
-      skippedSnapshot.session.total = SESSION.total;
-      quiz.future.push(skippedSnapshot);
-    }
-    quiz.answered = false;
-    quiz.pendingOutcome = null;
-    quiz.chosenAnswer = null;
-    quiz.wasCorrect = null;
-  } else {
-    if (quiz.pendingOutcome) {
-      if (hasValidFlashcardState(flashcardState) && hasFlashcardCore()) {
-        const nextState = quiz.pendingOutcome === 'known'
-          ? window.FlashcardCore.markKnown(flashcardState)
-          : window.FlashcardCore.markUnknown(flashcardState);
-        flashcardState = hasValidFlashcardState(nextState) ? nextState : advanceFlashcardState(flashcardState);
-        if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
-      } else if (hasValidFlashcardState(flashcardState)) {
-        flashcardState = advanceFlashcardState(flashcardState);
-        if (hasValidFlashcardState(flashcardState)) quiz.idx = flashcardState.session.currentIndex;
-      } else {
-        quiz.idx++;
-      }
-    }
-    if (quiz.currentSnapshot) quiz.future.push(cloneQuizState(quiz.currentSnapshot));
-    quiz.answered = false;
-    quiz.pendingOutcome = null;
-    quiz.chosenAnswer = null;
-    quiz.wasCorrect = null;
-  }
-
-  if (!quiz.liveResume) {
-    quiz.liveResume = {
-      idx: quiz.idx,
-      correct: quiz.correct,
-      streak: quiz.streak,
-      sessionCorrect: SESSION.correct,
-      sessionTotal: SESSION.total
-    };
-  }
-
+  if (quiz.currentSnapshot) quiz.future.push(cloneQuizState(quiz.currentSnapshot));
   const snapshot = quiz.history && quiz.history.length ? quiz.history.pop() : null;
-  if (!snapshot) {
-    goView('cats');
-    return;
-  }
-  restoreQuizSnapshot(snapshot, { reviewOnly: true });
+  if (!snapshot) { goView('cats'); return; }
+  restoreQuizSnapshot(snapshot);
+  renderQuestion();
+}
+
+function nextReview() {
+  clearNextQuestionTimer();
+  const snapshot = quiz.future && quiz.future.length ? quiz.future.pop() : null;
+  if (!snapshot) return;
+  if (quiz.currentSnapshot) quiz.history.push(cloneQuizState(quiz.currentSnapshot));
+  restoreQuizSnapshot(snapshot);
   renderQuestion();
 }
 
 function finishQuiz() {
   clearNextQuestionTimer();
-  if (quiz.reviewSnapshot && quiz.liveResume) {
-    quiz.reviewSnapshot = null;
-    quiz.idx = quiz.liveResume.idx;
-    quiz.correct = quiz.liveResume.correct;
-    quiz.streak = quiz.liveResume.streak;
-    SESSION.correct = quiz.liveResume.sessionCorrect;
-    SESSION.total = quiz.liveResume.sessionTotal;
-    quiz.liveResume = null;
-    quiz.answered = false;
-    quiz.pendingOutcome = null;
-    quiz.chosenAnswer = null;
-    quiz.wasCorrect = null;
-  }
   if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
     const nextState = quiz.pendingOutcome === 'known'
       ? window.FlashcardCore.markKnown(flashcardState)
@@ -2690,6 +2657,7 @@ function endQuiz() {
   const i = answeredItems.filter(w=>w.a==='die').length;
   const n = answeredItems.filter(w=>w.a==='das').length;
   const nearLimit = !PROMO_UNLIMITED_ACCESS && !USER.isPremium && SESSION.rounds >= 3;
+  const mascotMsg = pct >= 80 ? t('resultMsgHigh') : pct >= 50 ? t('resultMsgMid') : t('resultMsgLow');
   document.getElementById('quizInner').innerHTML = `
     ${nearLimit ? `<div class="upsell-bar">
       <div class="ub-text">
@@ -2699,7 +2667,11 @@ function endQuiz() {
       <button class="ub-btn" onclick="showToast(t('toastPlans'))">${t('statsUpsellButton')}</button>
     </div>` : ''}
     <div class="result-box">
-      <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px">${t('quizCompleted')}</div>
+      <div class="mascot-row">
+        <img class="mascot-img" src="/mascot.png" alt="" width="96" height="96" loading="eager" decoding="async">
+        <div class="mascot-bubble">${mascotMsg}</div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px">${t('quizCompleted')}</div>
       <div class="r-pct">${pct}%</div>
       <div class="r-lbl">${t('resultLabel', { correct: quiz.correct, total: totalWords })}</div>
       <div class="r-arts">
@@ -2709,16 +2681,22 @@ function endQuiz() {
       </div>
       <div class="r-actions">
         <button style="padding:11px 22px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans)" onclick="goView('levels')">${t('quizChangeLevel')}</button>
-        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans)" onclick="goView('cats')">${t('quizOtherCategory')}</button>` : ''}
+        ${!nearLimit ? `<button style="padding:11px 22px;border-radius:10px;background:var(--text);color:var(--white);border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-sans)" onclick="startQuiz('${currentCategory}')">${t('quizRetry')}</button>` : ''}
       </div>
-      <div class="share-panel">
-        <div class="share-title">${t('shareProgressTitle')}</div>
-        <div class="share-actions">
-          <button class="share-btn whatsapp" onclick="shareResultWhatsApp(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareWhatsapp')}</button>
-          <button class="share-btn" onclick="copyResultText(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareCopyResult')}</button>
-          <button class="share-btn" onclick="copyInstagramText(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">${t('shareCopyInstagram')}</button>
-          <button class="share-btn" onclick="copyLevelLink()">${t('shareCopyLevelLink')}</button>
+      ${!nearLimit ? `<div style="text-align:center;margin-bottom:8px"><button style="padding:9px 18px;border-radius:10px;border:1px solid var(--border2);background:none;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:var(--font-sans)" onclick="goView('cats')">${t('quizOtherCategory')}</button></div>` : ''}
+      <div class="ig-share-panel">
+        <div class="ig-share-title">${t('shareProgressTitle')}</div>
+        <div class="ig-share-grid">
+          <button class="ig-story-btn" onclick="shareInstagramStory(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </button>
+          <button class="wa-story-btn" onclick="shareResultWhatsApp(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.95 2C6.456 2 2 6.456 2 11.95c0 1.939.554 3.748 1.512 5.278L2 22l4.878-1.493A9.906 9.906 0 0 0 11.95 22c5.494 0 9.95-4.456 9.95-9.95S17.444 2 11.95 2z"/></svg>
+            WhatsApp
+          </button>
         </div>
+        <button class="share-link-btn" onclick="copyLevelLink()">🔗 ${t('shareCopyLevelLink')}</button>
       </div>
     </div>`;
 }
@@ -2803,10 +2781,6 @@ function advanceFlashcardState(state) {
 }
 
 function getCurrentQuestionState() {
-  if (quiz.reviewSnapshot) {
-    return cloneQuizState(quiz.reviewSnapshot);
-  }
-
   if (hasValidFlashcardState(flashcardState)) {
     const session = flashcardState.session;
     const idx = session.currentIndex;
