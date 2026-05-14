@@ -115,7 +115,8 @@
     var options = config || {};
     var sourceUrl = options.url || "";
     if (!sourceUrl) return "";
-    var levelValue = options.queryValue || options.level || "";
+    var hasOwnQueryValue = Object.prototype.hasOwnProperty.call(options, "queryValue");
+    var levelValue = hasOwnQueryValue ? options.queryValue : options.level || "";
     var queryParam = options.queryParam || "nivel";
     var nextUrl = new URL(sourceUrl, sourceUrl.indexOf("http") === 0 ? undefined : globalScope.location && globalScope.location.href ? globalScope.location.href : "http://localhost/");
     if (levelValue) nextUrl.searchParams.set(queryParam, levelValue);
