@@ -643,9 +643,16 @@ footer{
 
 .art-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
 .a-btn{
-  padding:17px 8px;border-radius:12px;border:1.5px solid;
+  position:relative;padding:17px 8px;border-radius:12px;border:1.5px solid;
   font-size:26px;font-weight:900;cursor:pointer;background:var(--white);
   transition:all .15s;letter-spacing:-.5px;font-family:var(--font-sans)
+}
+.a-btn-key{
+  position:absolute;top:8px;right:8px;
+  min-width:20px;height:20px;padding:0 6px;border-radius:999px;
+  display:none;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;letter-spacing:0;
+  background:rgba(17,17,17,.06);color:currentColor;border:1px solid rgba(17,17,17,.08)
 }
 .a-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:var(--sh2)}
 .a-btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
@@ -667,6 +674,7 @@ footer{
 .btn-next-q:hover{background:var(--white);color:var(--text)}
 
 @media (hover:hover) and (pointer:fine){
+  .quiz-view .a-btn-key{display:inline-flex}
   .quiz-view button:focus-visible{
     outline:none;
     box-shadow:0 0 0 3px rgba(17,17,17,.14),0 0 0 6px rgba(255,255,255,.96);
@@ -2631,9 +2639,9 @@ function renderQuestion() {
       <div class="q-fb" id="qfb"></div>
     </div>
     <div class="art-row">
-      <button class="a-btn der" id="b-der" onclick="answer('der')">der</button>
-      <button class="a-btn die" id="b-die" onclick="answer('die')">die</button>
-      <button class="a-btn das" id="b-das" onclick="answer('das')">das</button>
+      <button class="a-btn der" id="b-der" onclick="answer('der')"><span class="a-btn-key" aria-hidden="true">1</span>der</button>
+      <button class="a-btn die" id="b-die" onclick="answer('die')"><span class="a-btn-key" aria-hidden="true">2</span>die</button>
+      <button class="a-btn das" id="b-das" onclick="answer('das')"><span class="a-btn-key" aria-hidden="true">3</span>das</button>
     </div>
     <div class="review-nav">
       <button class="review-nav-btn" onclick="prevQ()">${t('quizPrev')}</button>

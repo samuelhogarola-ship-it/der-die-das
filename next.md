@@ -1,5 +1,13 @@
 # NEXT — DerDieDas
 
+# CURRENT FOCUS
+
+- validar en dispositivos reales el flujo del quiz en desktop y mobile
+- pulir discoverability de shortcuts sin dañar mobile
+- reforzar feedback visual y navegación del quiz
+
+---
+
 # NOW
 
 ## UI / UX
@@ -16,8 +24,8 @@
 ---
 
 ## RESPONSE SPEED
-- [ ] añadir keyboard shortcuts
-- [ ] añadir auto advance
+- [x] añadir keyboard shortcuts
+- [x] añadir auto advance
 - [ ] eliminar clic siguiente
 - [ ] mejorar velocidad flujo
 - [ ] añadir combo visual
