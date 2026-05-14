@@ -2171,7 +2171,7 @@ function buildResultSharePayload(correct, total, levelId = currentLevel, mode = 
     total,
     url: getBaseAppUrl(),
     queryParam: 'nivel',
-    queryValue: getLevelLabel(levelId) || '',
+    queryValue: '',
     mode,
     textTemplate: mode === 'instagram-result' ? t('shareInstagramMessage') : t('shareResultMessage'),
     clipboardTemplate: mode === 'instagram-result' ? t('shareInstagramMessage') : t('shareResultMessage')
@@ -2855,7 +2855,7 @@ function endQuiz() {
             WhatsApp
           </button>
         </div>
-        <button class="share-link-btn" onclick="copyLevelLink()">🔗 ${t('shareCopyLevelLink')}</button>
+        <button class="share-link-btn" onclick="copyResultText(${quiz.correct}, ${totalWords}, '${currentLevel || ''}')">🔗 ${t('shareCopyResult')}</button>
       </div>
     </div>`;
 }
