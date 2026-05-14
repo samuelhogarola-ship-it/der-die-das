@@ -666,6 +666,30 @@ footer{
 }
 .btn-next-q:hover{background:var(--white);color:var(--text)}
 
+@media (hover:hover) and (pointer:fine){
+  .quiz-view button:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(17,17,17,.14),0 0 0 6px rgba(255,255,255,.96);
+  }
+  .quiz-view .a-btn:focus-visible{
+    transform:translateY(-2px);
+  }
+  .quiz-view .q-back:focus-visible,
+  .quiz-view .q-menu:focus-visible,
+  .quiz-view .review-nav-btn:focus-visible{
+    border-color:var(--text);
+    color:var(--text);
+    background:var(--bg);
+  }
+  .quiz-view .q-finish:focus-visible{
+    border-color:var(--der);
+    background:#FFE7E7;
+  }
+  .quiz-view .a-btn.der:focus-visible{background:#FFF2F2}
+  .quiz-view .a-btn.die:focus-visible{background:#EEF4FC}
+  .quiz-view .a-btn.das:focus-visible{background:#EEF7F2}
+}
+
 /* Limit screen */
 .limit-box{
   text-align:center;padding:48px 32px;
@@ -2817,6 +2841,64 @@ function normalizeFlashcardItem(item, groupId, index) {
     raw: item
   };
 }
+function isEditableTarget(target) {
+  if (!target) return false;
+  const tagName = target.tagName;
+  return (
+    target.isContentEditable ||
+    tagName === 'INPUT' ||
+    tagName === 'TEXTAREA' ||
+    tagName === 'SELECT'
+  );
+}
+
+function isQuizQuestionActive() {
+  const quizView = document.getElementById('v-quiz');
+  if (!quizView || !quizView.classList.contains('on')) return false;
+  if (document.getElementById('reviewOverlay').classList.contains('on')) return false;
+  return !!(
+    document.getElementById('b-der') &&
+    document.getElementById('b-die') &&
+    document.getElementById('b-das') &&
+    getCurrentQuestionState()
+  );
+}
+
+function handleQuizKeyboardShortcut(event) {
+  if (!isQuizQuestionActive() || isEditableTarget(event.target)) return;
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+
+  if (event.key === '1') {
+    event.preventDefault();
+    answer('der');
+    return;
+  }
+  if (event.key === '2') {
+    event.preventDefault();
+    answer('die');
+    return;
+  }
+  if (event.key === '3') {
+    event.preventDefault();
+    answer('das');
+    return;
+  }
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    siguienteBtn();
+  }
+}
+
+document.getElementById('reviewOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeReviewAnswers();
+});
+
+document.addEventListener('keydown', e => {
+  handleQuizKeyboardShortcut(e);
+  if (e.key === 'Escape' && document.getElementById('reviewOverlay').classList.contains('on')) {
+    closeReviewAnswers();
+  }
+});
 </script>
 </body>
 </html>
