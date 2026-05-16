@@ -103,7 +103,7 @@ app.get("/api/health", (req, res) => {
 app.get("/api/leaderboard/:mode", (req, res) => {
   const modeId = String(req.params.mode || "").trim();
 
-  if (!competitionModes.isValidCompetitionMode(modeId)) {
+  if (!competitionModes.isValidCompetitionLeaderboardKey(modeId)) {
     res.status(400).json({ ok: false, error: "Invalid mode" });
     return;
   }
@@ -118,7 +118,7 @@ app.get("/api/leaderboard/:mode", (req, res) => {
 app.post("/api/leaderboard/:mode", (req, res) => {
   const modeId = String(req.params.mode || "").trim();
 
-  if (!competitionModes.isValidCompetitionMode(modeId)) {
+  if (!competitionModes.isValidCompetitionLeaderboardKey(modeId)) {
     res.status(400).json({ ok: false, error: "Invalid mode" });
     return;
   }

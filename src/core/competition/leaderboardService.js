@@ -8,11 +8,7 @@ var MAX_NAME_LENGTH = 20;
 var TOP_LIMIT = 10;
 
 function createEmptyStore() {
-  return {
-    survival: [],
-    "timed-60": [],
-    "timed-180": []
-  };
+  return {};
 }
 
 function sanitizeName(value) {
@@ -24,7 +20,7 @@ function isValidScore(value) {
 }
 
 function validateLeaderboardEntry(modeId, payload) {
-  if (!competitionModesApi.isValidCompetitionMode(modeId)) {
+  if (!competitionModesApi.isValidCompetitionLeaderboardKey(modeId)) {
     return { ok: false, error: "Invalid mode" };
   }
 
@@ -53,10 +49,11 @@ function validateLeaderboardEntry(modeId, payload) {
 }
 
 function normalizeStore(source) {
-  var store = createEmptyStore();
   var input = source && typeof source === "object" ? source : {};
+  var store = createEmptyStore();
 
-  Object.keys(store).forEach(function (modeId) {
+  Object.keys(input).forEach(function (modeId) {
+    if (!competitionModesApi.isValidCompetitionLeaderboardKey(modeId)) return;
     var entries = Array.isArray(input[modeId]) ? input[modeId] : [];
     store[modeId] = sortLeaderboardEntries(entries);
   });
@@ -116,7 +113,7 @@ function createLeaderboardService(options) {
 
   return {
     getLeaderboard: function (modeId) {
-      if (!competitionModesApi.isValidCompetitionMode(modeId)) {
+      if (!competitionModesApi.isValidCompetitionLeaderboardKey(modeId)) {
         throw new Error("Invalid mode");
       }
       var store = readStore(filePath);
