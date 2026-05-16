@@ -14,6 +14,8 @@ const publicDir = fs.existsSync(path.join(rootFrontendDir, "index.html"))
   : legacyFrontendDir;
 const indexFile = path.join(publicDir, "index.html");
 const SHAREABLE_LEVELS = new Set(["a1", "a2", "b1", "b2", "c1", "c2"]);
+// MVP persistence uses a local JSON file. Production should swap this adapter for
+// Supabase or another durable store without changing the competition API surface.
 const leaderboardService = createLeaderboardService({
   filePath: path.join(__dirname, "data", "competition-leaderboards.json")
 });

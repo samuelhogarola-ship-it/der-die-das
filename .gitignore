@@ -10,3 +10,6 @@ dist/
 build/
 coverage/
 .vercel/
+.claude/
+
+.claude/
