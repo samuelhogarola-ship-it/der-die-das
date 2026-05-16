@@ -20,7 +20,7 @@ npm start
 - `/api/health`
 - `/api/leaderboard/:mode`
 
-## Competicion
+## Coliseo
 
 Modos soportados:
 
@@ -30,21 +30,23 @@ Modos soportados:
 
 Persistencia actual:
 
-- `data/competition-leaderboards.json` guarda el Top 10 por modo.
+- `data/competition-leaderboards.json` guarda el Top 10 por clave `modo-pool`, por ejemplo `survival-a1` o `timed-60-all`.
 - Es una solucion simple para arrancar rapido sin auth ni base de datos.
 - En Render u otros hosts con filesystem efimero, este archivo puede no persistir entre deploys o reinicios.
+- En produccion conviene sustituir esta persistencia local por Supabase o un store duradero equivalente.
 
 ## Reutilizacion
 
 Archivos reutilizables:
 
 - `src/core/competition/competitionModes.js`: catalogo de modos validos y metadatos neutrales.
+- `src/core/competition/competitionPools.js`: catalogo de pools validos por nivel y pool global `all`.
 - `src/core/competition/scoreRules.js`: reglas de duracion, fin de partida y calculo de puntuacion.
 - `src/core/competition/leaderboardService.js`: validacion, ordenacion Top 10 y persistencia desacoplada de la UI.
 
 Archivos especificos de esta app:
 
-- `index.html`: navegacion, tarjetas de Competicion, HUD, formulario de nombre y render del Top 10.
+- `index.html`: navegacion, vista `?view=coliseo`, CTAs por nivel, HUD, share y render del Top 10.
 - `server.js`: cableado Express y uso del almacenamiento local JSON.
 
 Para moverlo luego a un repo/core comun:

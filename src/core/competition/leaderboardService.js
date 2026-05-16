@@ -8,11 +8,7 @@ var MAX_NAME_LENGTH = 20;
 var TOP_LIMIT = 10;
 
 function createEmptyStore() {
-  return {
-    survival: [],
-    "timed-60": [],
-    "timed-180": []
-  };
+  return {};
 }
 
 function sanitizeName(value) {
@@ -24,7 +20,7 @@ function isValidScore(value) {
 }
 
 function validateLeaderboardEntry(modeId, payload) {
-  if (!competitionModesApi.isValidCompetitionMode(modeId)) {
+  if (!competitionModesApi.isValidCompetitionLeaderboardKey(modeId)) {
     return { ok: false, error: "Invalid mode" };
   }
 
@@ -52,13 +48,34 @@ function validateLeaderboardEntry(modeId, payload) {
   };
 }
 
-function normalizeStore(source) {
-  var store = createEmptyStore();
-  var input = source && typeof source === "object" ? source : {};
+function getNormalizedLeaderboardKey(value) {
+  var rawValue = String(value || "").trim().toLowerCase();
 
-  Object.keys(store).forEach(function (modeId) {
-    var entries = Array.isArray(input[modeId]) ? input[modeId] : [];
-    store[modeId] = sortLeaderboardEntries(entries);
+  if (competitionModesApi.isValidCompetitionLeaderboardKey(rawValue)) {
+    return rawValue;
+  }
+
+  if (competitionModesApi.isValidCompetitionMode(rawValue)) {
+    return competitionModesApi.createCompetitionLeaderboardKey(rawValue, "all");
+  }
+
+  return null;
+}
+
+function normalizeStore(source) {
+  var input = source && typeof source === "object" ? source : {};
+  var store = createEmptyStore();
+
+  Object.keys(input).forEach(function (key) {
+    var leaderboardKey = getNormalizedLeaderboardKey(key);
+    if (!leaderboardKey) return;
+
+    var entries = Array.isArray(input[key]) ? input[key] : [];
+    store[leaderboardKey] = (store[leaderboardKey] || []).concat(entries);
+  });
+
+  Object.keys(store).forEach(function (leaderboardKey) {
+    store[leaderboardKey] = sortLeaderboardEntries(store[leaderboardKey]);
   });
 
   return store;
@@ -116,7 +133,7 @@ function createLeaderboardService(options) {
 
   return {
     getLeaderboard: function (modeId) {
-      if (!competitionModesApi.isValidCompetitionMode(modeId)) {
+      if (!competitionModesApi.isValidCompetitionLeaderboardKey(modeId)) {
         throw new Error("Invalid mode");
       }
       var store = readStore(filePath);
@@ -150,6 +167,7 @@ module.exports = {
   TOP_LIMIT: TOP_LIMIT,
   createEmptyStore: createEmptyStore,
   createLeaderboardService: createLeaderboardService,
+  getNormalizedLeaderboardKey: getNormalizedLeaderboardKey,
   normalizeStore: normalizeStore,
   sortLeaderboardEntries: sortLeaderboardEntries,
   validateLeaderboardEntry: validateLeaderboardEntry
