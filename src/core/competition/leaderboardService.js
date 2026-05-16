@@ -48,14 +48,34 @@ function validateLeaderboardEntry(modeId, payload) {
   };
 }
 
+function getNormalizedLeaderboardKey(value) {
+  var rawValue = String(value || "").trim().toLowerCase();
+
+  if (competitionModesApi.isValidCompetitionLeaderboardKey(rawValue)) {
+    return rawValue;
+  }
+
+  if (competitionModesApi.isValidCompetitionMode(rawValue)) {
+    return competitionModesApi.createCompetitionLeaderboardKey(rawValue, "all");
+  }
+
+  return null;
+}
+
 function normalizeStore(source) {
   var input = source && typeof source === "object" ? source : {};
   var store = createEmptyStore();
 
-  Object.keys(input).forEach(function (modeId) {
-    if (!competitionModesApi.isValidCompetitionLeaderboardKey(modeId)) return;
-    var entries = Array.isArray(input[modeId]) ? input[modeId] : [];
-    store[modeId] = sortLeaderboardEntries(entries);
+  Object.keys(input).forEach(function (key) {
+    var leaderboardKey = getNormalizedLeaderboardKey(key);
+    if (!leaderboardKey) return;
+
+    var entries = Array.isArray(input[key]) ? input[key] : [];
+    store[leaderboardKey] = (store[leaderboardKey] || []).concat(entries);
+  });
+
+  Object.keys(store).forEach(function (leaderboardKey) {
+    store[leaderboardKey] = sortLeaderboardEntries(store[leaderboardKey]);
   });
 
   return store;
@@ -147,6 +167,7 @@ module.exports = {
   TOP_LIMIT: TOP_LIMIT,
   createEmptyStore: createEmptyStore,
   createLeaderboardService: createLeaderboardService,
+  getNormalizedLeaderboardKey: getNormalizedLeaderboardKey,
   normalizeStore: normalizeStore,
   sortLeaderboardEntries: sortLeaderboardEntries,
   validateLeaderboardEntry: validateLeaderboardEntry

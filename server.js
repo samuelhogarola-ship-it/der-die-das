@@ -101,33 +101,33 @@ app.get("/api/health", (req, res) => {
 });
 
 app.get("/api/leaderboard/:mode", (req, res) => {
-  const modeId = String(req.params.mode || "").trim();
+  const leaderboardKey = String(req.params.mode || "").trim();
 
-  if (!competitionModes.isValidCompetitionLeaderboardKey(modeId)) {
+  if (!competitionModes.isValidCompetitionLeaderboardKey(leaderboardKey)) {
     res.status(400).json({ ok: false, error: "Invalid mode" });
     return;
   }
 
   res.json({
     ok: true,
-    mode: modeId,
-    entries: leaderboardService.getLeaderboard(modeId)
+    mode: leaderboardKey,
+    entries: leaderboardService.getLeaderboard(leaderboardKey)
   });
 });
 
 app.post("/api/leaderboard/:mode", (req, res) => {
-  const modeId = String(req.params.mode || "").trim();
+  const leaderboardKey = String(req.params.mode || "").trim();
 
-  if (!competitionModes.isValidCompetitionLeaderboardKey(modeId)) {
+  if (!competitionModes.isValidCompetitionLeaderboardKey(leaderboardKey)) {
     res.status(400).json({ ok: false, error: "Invalid mode" });
     return;
   }
 
   try {
-    const entries = leaderboardService.saveScore(modeId, req.body || {});
+    const entries = leaderboardService.saveScore(leaderboardKey, req.body || {});
     res.status(201).json({
       ok: true,
-      mode: modeId,
+      mode: leaderboardKey,
       entries
     });
   } catch (error) {
