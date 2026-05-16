@@ -1,8 +1,11 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const competitionModes = require("./src/core/competition/competitionModes");
+const { createLeaderboardService } = require("./src/core/competition/leaderboardService");
 
 const app = express();
+const HOST = process.env.HOST || "0.0.0.0";
 const PORT = process.env.PORT || 3000;
 const rootFrontendDir = __dirname;
 const legacyFrontendDir = path.join(__dirname, "public");
@@ -11,8 +14,14 @@ const publicDir = fs.existsSync(path.join(rootFrontendDir, "index.html"))
   : legacyFrontendDir;
 const indexFile = path.join(publicDir, "index.html");
 const SHAREABLE_LEVELS = new Set(["a1", "a2", "b1", "b2", "c1", "c2"]);
+// MVP persistence uses a local JSON file. Production should swap this adapter for
+// Supabase or another durable store without changing the competition API surface.
+const leaderboardService = createLeaderboardService({
+  filePath: path.join(__dirname, "data", "competition-leaderboards.json")
+});
 
 app.set("trust proxy", true);
+app.use(express.json());
 
 function escapeHtml(value) {
   return String(value)
@@ -86,8 +95,48 @@ app.get("/api/health", (req, res) => {
     app: "der-die-das",
     publicDir,
     indexFile,
-    port: Number(PORT)
+    port: Number(PORT),
+    competitionModes: competitionModes.listCompetitionModes().map((mode) => mode.id)
   });
+});
+
+app.get("/api/leaderboard/:mode", (req, res) => {
+  const modeId = String(req.params.mode || "").trim();
+
+  if (!competitionModes.isValidCompetitionMode(modeId)) {
+    res.status(400).json({ ok: false, error: "Invalid mode" });
+    return;
+  }
+
+  res.json({
+    ok: true,
+    mode: modeId,
+    entries: leaderboardService.getLeaderboard(modeId)
+  });
+});
+
+app.post("/api/leaderboard/:mode", (req, res) => {
+  const modeId = String(req.params.mode || "").trim();
+
+  if (!competitionModes.isValidCompetitionMode(modeId)) {
+    res.status(400).json({ ok: false, error: "Invalid mode" });
+    return;
+  }
+
+  try {
+    const entries = leaderboardService.saveScore(modeId, req.body || {});
+    res.status(201).json({
+      ok: true,
+      mode: modeId,
+      entries
+    });
+  } catch (error) {
+    const statusCode = error && error.statusCode ? error.statusCode : 500;
+    res.status(statusCode).json({
+      ok: false,
+      error: statusCode === 500 ? "Could not save leaderboard entry" : error.message
+    });
+  }
 });
 
 app.get("/derdiedas.html", (req, res) => {
@@ -103,7 +152,7 @@ app.get("*", (req, res) => {
   res.type("html").send(renderIndex(req));
 });
 
-app.listen(PORT, () => {
-  console.log(`DerDieDas ready on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`DerDieDas ready on http://${HOST}:${PORT}`);
   console.log(`Serving frontend from ${publicDir}`);
 });
