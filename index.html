@@ -791,6 +791,71 @@ footer{
 }
 
 /* ══════════════════════════════════════════════
+   VIEW: COMPETITION
+══════════════════════════════════════════════ */
+.competition-view{max-width:1080px;margin:0 auto;padding:48px 28px;width:100%}
+.competition-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:20px;align-items:start}
+.competition-grid{display:grid;gap:16px}
+.competition-card{
+  background:var(--white);border:1px solid var(--border);border-radius:20px;padding:24px;
+  box-shadow:var(--sh);display:grid;gap:14px
+}
+.competition-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.competition-card-label{
+  display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;
+  background:var(--bg);border:1px solid var(--border);font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.3px
+}
+.competition-card h3{font-size:24px;font-weight:900;letter-spacing:-.7px}
+.competition-card p{font-size:14px;color:var(--muted);line-height:1.6}
+.competition-card-meta{display:flex;gap:10px;flex-wrap:wrap}
+.competition-chip{
+  display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;
+  background:#F8F9FB;border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text)
+}
+.competition-card-actions{display:flex;gap:10px;flex-wrap:wrap}
+.competition-panel{
+  background:var(--white);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--sh2)
+}
+.competition-panel h2{font-size:24px;font-weight:900;letter-spacing:-.7px;margin-bottom:6px}
+.competition-panel p{font-size:14px;color:var(--muted);margin-bottom:16px}
+.competition-board-list{display:grid;gap:10px}
+.competition-board-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+  padding:12px 14px;border-radius:14px;background:#F8F9FB;border:1px solid var(--border)
+}
+.competition-rank{
+  width:32px;height:32px;border-radius:10px;background:var(--text);color:var(--white);
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800
+}
+.competition-player{font-size:14px;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.competition-score{font-size:16px;font-weight:900;letter-spacing:-.3px}
+.competition-empty,.competition-error{padding:14px;border-radius:14px;font-size:14px}
+.competition-empty{background:var(--bg);border:1px solid var(--border);color:var(--muted)}
+.competition-error{background:#FFF2F2;border:1px solid #F0CECE;color:var(--error)}
+.competition-hud{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px
+}
+.competition-hud-card{
+  background:#F8F9FB;border:1px solid var(--border);border-radius:16px;padding:14px 16px;text-align:center
+}
+.competition-hud-card .lbl{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px}
+.competition-hud-card .val{font-size:28px;font-weight:900;letter-spacing:-1px}
+.competition-save-box{
+  margin-top:24px;padding:20px;border-radius:18px;background:#F8F9FB;border:1px solid var(--border);text-align:left
+}
+.competition-save-box h3{font-size:18px;font-weight:900;letter-spacing:-.4px;margin-bottom:4px}
+.competition-save-box p{font-size:14px;color:var(--muted);margin-bottom:14px}
+.competition-save-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}
+.competition-save-field label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.competition-save-field input{
+  width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--border2);background:var(--white);
+  font:inherit;color:var(--text)
+}
+.competition-save-note{margin-top:10px;font-size:13px;color:var(--muted)}
+.competition-save-note.error{color:var(--error)}
+.competition-save-note.success{color:var(--das)}
+
+/* ══════════════════════════════════════════════
    VIEW: ESTADÍSTICAS
 ══════════════════════════════════════════════ */
 .stats-view{max-width:960px;margin:0 auto;padding:48px 28px;width:100%}
@@ -935,7 +1000,7 @@ footer{
   .app-nav-right .lang-switch{display:none}
   .app-lang-select{display:block}
   .levels-grid,.cats-grid{grid-template-columns:1fr}
-  .levels-view,.cats-view,.quiz-view,.stats-view{padding:24px 16px}
+  .levels-view,.cats-view,.quiz-view,.competition-view,.stats-view{padding:24px 16px}
   .view-header-top{align-items:stretch}
   .copy-link-btn{width:100%}
   .share-actions{flex-direction:column}
@@ -950,6 +1015,9 @@ footer{
   .review-modal-head,.review-list{padding-inline:16px}
   .review-item{grid-template-columns:1fr;align-items:flex-start}
   .review-status-icon{width:36px;height:36px;border-radius:12px}
+  .competition-layout{grid-template-columns:1fr}
+  .competition-save-form{grid-template-columns:1fr}
+  .competition-hud{grid-template-columns:1fr}
   .feat-grid{grid-template-columns:1fr}
   .how-steps{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr}
@@ -1324,6 +1392,7 @@ footer{
 
     <div style="display:flex;align-items:center;gap:4px">
       <button class="nav-link" onclick="goView('levels')" id="anav-niveles">Niveles</button>
+      <button class="nav-link" onclick="goView('competition')" id="anav-competition">Competición</button>
       <button class="nav-link" onclick="goView('stats')" id="anav-stats">Estadísticas</button>
       <button class="nav-link" onclick="showToast(t('toastPlans'));document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Planes</button>
     </div>
@@ -1386,6 +1455,13 @@ footer{
     <div class="view" id="v-quiz">
       <div class="quiz-view">
         <div id="quizInner"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: COMPETITION -->
+    <div class="view" id="v-competition">
+      <div class="competition-view">
+        <div id="competitionInner"></div>
       </div>
     </div>
 
@@ -1452,6 +1528,8 @@ footer{
 <div class="toast" id="toastEl"></div>
 
 <script src="shared/flashcard-core.js"></script>
+<script src="src/core/competition/competitionModes.js"></script>
+<script src="src/core/competition/scoreRules.js"></script>
 <script>
 // ═══════════════════════════════════════════
 // SUPABASE CONFIG — replace with your keys
@@ -1492,7 +1570,7 @@ const UI = {
     quizRetry:'Nochmal versuchen →', quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
     toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden', copyLink:'Mit Freunden teilen', copiedLink:'Link kopiert', copiedResult:'Ergebnis kopiert', copiedInstagram:'Instagram-Text kopiert', shareFriendsCta:'Mit Freunden teilen', shareLevelTitle:'Dieses Niveau teilen', shareWhatsapp:'WhatsApp', shareCopyLink:'Link kopieren', shareCopyLevelLink:'Level-Link kopieren', shareProgressTitle:'Teile deinen Fortschritt', shareCopyResult:'Ergebnis kopieren', shareCopyInstagram:'Für Instagram kopieren', resultMsgHigh:'Gut gemacht!', resultMsgMid:'Gute Arbeit!', resultMsgLow:'Weiter üben!', quizPrev:'← Vorherige', igStoryScore:'{correct} von {total} richtig', igStoryLevel:'Niveau {level}', igStoryToast:'Bild geladen · In Instagram Story öffnen', shareLevelMessage:'Ich übe deutsche Artikel mit DerDieDas auf Niveau {level}. Machst du mit? {url}', shareAppMessage:'Ich übe deutsche Artikel mit DerDieDas. Machst du mit? {url}', shareResultMessage:'Ich habe {correct}/{total} in DerDieDas geschafft. Machst du mit? {url}', shareInstagramMessage:'Ich habe {correct}/{total} in DerDieDas geschafft.', quizReviewAnswers:'Antworten ansehen', quizKeepPracticing:'Weiter üben', quizPracticeErrors:'Fehler üben', quizReviewTitle:'Antworten der Runde', quizReviewSubtitle:'Sieh dir Wort, Übersetzung, richtigen Artikel und deine Antwort im Überblick an.', quizReviewCorrect:'Richtiger Artikel', quizReviewYourAnswer:'Deine Antwort', quizReviewCorrectBadge:'Richtig', quizReviewIncorrectBadge:'Falsch', quizPracticeErrorsDisabled:'Keine Fehler in dieser Runde', quizPracticeErrorsNote:'Nur deine falschen Antworten'
-    ,appProfileSoon:'Profil bald verfügbar'
+    ,appProfileSoon:'Profil bald verfügbar', appCompetition:'Wettkampf', competitionTitle:'Wettkampf', competitionSubtitle:'Drei Modi, drei getrennte Top-10-Ranglisten.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Jeder Modus hat sein eigenes Online-Ranking.', competitionPlay:'Spielen', competitionBoardButton:'Top 10 ansehen', competitionLabel:'Modus', competitionHudMode:'Modus', competitionHudScore:'Punkte', competitionHudTimer:'Zeit', competitionModeActive:'Aktiver Modus', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'Noch keine Einträge. Sei die erste Person im Ranking.', competitionLoadError:'Ranking konnte nicht geladen werden.', competitionSaveTitle:'Ergebnis speichern', competitionSaveSubtitle:'Trage deinen Namen ein, um im Top 10 dieses Modus zu erscheinen.', competitionNameLabel:'Name', competitionNamePlaceholder:'Dein Name', competitionSaveButton:'Punktzahl speichern', competitionSaveSaving:'Wird gespeichert…', competitionSaveSuccess:'Punktzahl gespeichert.', competitionSaveError:'Punktzahl konnte nicht gespeichert werden.', competitionSavedBadge:'Gespeichert', competitionBack:'Zurück zu Wettkampf', competitionScoreUnit:'Punkte', competitionFinishWrong:'Beim ersten Fehler beendet', competitionFinishTime:'Zeit abgelaufen', competitionFinishManual:'Runde beendet', competitionModeSurvival:'Survival', competitionModeTimed60:'1 Minute', competitionModeTimed180:'3 Minuten', competitionDescSurvival:'Normale Fragen. Beim ersten Fehler endet die Runde. Punktzahl = richtige Antworten in Folge.', competitionDescTimed60:'60 Sekunden. Antworte auf so viele Fragen wie möglich. Fehler beenden die Runde nicht.', competitionDescTimed180:'180 Sekunden. Gleiche Regeln wie im 1-Minuten-Modus mit mehr Zeit fürs Comeback.'
   },
   es: {
     topbarText:'der die das de Vokabel Lab | Domina los artículos',
@@ -1523,7 +1601,7 @@ const UI = {
     quizRetry:'Volver a intentar →', quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
     toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio', copyLink:'Comparte con tus amigos', copiedLink:'Enlace copiado', copiedResult:'Resultado copiado', copiedInstagram:'Texto para Instagram copiado', shareFriendsCta:'Comparte con tus amigos', shareLevelTitle:'Comparte este nivel', shareWhatsapp:'WhatsApp', shareCopyLink:'Copiar link', shareCopyLevelLink:'Copiar enlace del nivel', shareProgressTitle:'Comparte tu progreso', shareCopyResult:'Copiar resultado', shareCopyInstagram:'Copiar para Instagram', resultMsgHigh:'¡Bien hecho!', resultMsgMid:'¡Buen trabajo!', resultMsgLow:'¡Sigue así!', quizPrev:'← Anterior', igStoryScore:'{correct} de {total} correctas', igStoryLevel:'Nivel {level}', igStoryToast:'Imagen descargada · Ábrela en tu story de Instagram', shareLevelMessage:'Estoy practicando artículos alemanes en DerDieDas, nivel {level}. ¿Te animas? {url}', shareAppMessage:'Estoy practicando artículos alemanes en DerDieDas. ¿Te animas? {url}', shareResultMessage:'He sacado {correct}/{total} en DerDieDas. ¿Te animas? {url}', shareInstagramMessage:'He sacado {correct}/{total} en DerDieDas.', quizReviewAnswers:'Ver respuestas', quizKeepPracticing:'Seguir practicando', quizPracticeErrors:'Practicar errores', quizReviewTitle:'Respuestas de la ronda', quizReviewSubtitle:'Revisa palabra, traducción, artículo correcto y tu respuesta de un vistazo.', quizReviewCorrect:'Artículo correcto', quizReviewYourAnswer:'Tu respuesta', quizReviewCorrectBadge:'Correcta', quizReviewIncorrectBadge:'Incorrecta', quizPracticeErrorsDisabled:'Sin errores en esta ronda', quizPracticeErrorsNote:'Mini quiz solo con falladas'
-    ,appProfileSoon:'Perfil próximamente'
+    ,appProfileSoon:'Perfil próximamente', appCompetition:'Competición', competitionTitle:'Competición', competitionSubtitle:'Tres modos, tres rankings Top 10 separados.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Cada modo tiene su propio ranking online.', competitionPlay:'Jugar', competitionBoardButton:'Ver Top 10', competitionLabel:'Modo', competitionHudMode:'Modo', competitionHudScore:'Puntuación', competitionHudTimer:'Tiempo', competitionModeActive:'Modo activo', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'Todavía no hay entradas. Sé la primera persona en entrar.', competitionLoadError:'No se pudo cargar el ranking.', competitionSaveTitle:'Guardar resultado', competitionSaveSubtitle:'Introduce tu nombre para entrar en el Top 10 de este modo.', competitionNameLabel:'Nombre', competitionNamePlaceholder:'Tu nombre', competitionSaveButton:'Guardar puntuación', competitionSaveSaving:'Guardando…', competitionSaveSuccess:'Puntuación guardada.', competitionSaveError:'No se pudo guardar la puntuación.', competitionSavedBadge:'Guardado', competitionBack:'Volver a Competición', competitionScoreUnit:'puntos', competitionFinishWrong:'Termina al primer fallo', competitionFinishTime:'Tiempo agotado', competitionFinishManual:'Partida finalizada', competitionModeSurvival:'Supervivencia', competitionModeTimed60:'1 minuto', competitionModeTimed180:'3 minutos', competitionDescSurvival:'Preguntas normales. Al primer fallo termina la partida. Puntuación = aciertos consecutivos.', competitionDescTimed60:'60 segundos. Responde el máximo número de preguntas posible. Los fallos no terminan la partida.', competitionDescTimed180:'180 segundos. Mismas reglas que 1 minuto, con más tiempo para remontar.'
   },
   en: {
     topbarText:'der die das by Vokabel Lab | Master the articles',
@@ -1554,7 +1632,7 @@ const UI = {
     quizRetry:'Try again →', quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
     toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise', copyLink:'Share with friends', copiedLink:'Link copied', copiedResult:'Result copied', copiedInstagram:'Instagram text copied', shareFriendsCta:'Share with friends', shareLevelTitle:'Share this level', shareWhatsapp:'WhatsApp', shareCopyLink:'Copy link', shareCopyLevelLink:'Copy level link', shareProgressTitle:'Share your progress', shareCopyResult:'Copy result', shareCopyInstagram:'Copy for Instagram', resultMsgHigh:'Well done!', resultMsgMid:'Good job!', resultMsgLow:'Keep it up!', quizPrev:'← Previous', igStoryScore:'{correct} of {total} correct', igStoryLevel:'Level {level}', igStoryToast:'Image downloaded · Open it in your Instagram Story', shareLevelMessage:'I am practicing German articles in DerDieDas at level {level}. Want to try? {url}', shareAppMessage:'I am practicing German articles in DerDieDas. Want to try? {url}', shareResultMessage:'I scored {correct}/{total} in DerDieDas. Want to try? {url}', shareInstagramMessage:'I scored {correct}/{total} in DerDieDas.', quizReviewAnswers:'Review answers', quizKeepPracticing:'Keep practicing', quizPracticeErrors:'Practice mistakes', quizReviewTitle:'Round answers', quizReviewSubtitle:'Review the word, translation, correct article, and your answer at a glance.', quizReviewCorrect:'Correct article', quizReviewYourAnswer:'Your answer', quizReviewCorrectBadge:'Correct', quizReviewIncorrectBadge:'Incorrect', quizPracticeErrorsDisabled:'No mistakes this round', quizPracticeErrorsNote:'Mini quiz with your missed words only'
-    ,appProfileSoon:'Profile coming soon'
+    ,appProfileSoon:'Profile coming soon', appCompetition:'Competition', competitionTitle:'Competition', competitionSubtitle:'Three modes, three separate Top 10 leaderboards.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Each mode has its own online leaderboard.', competitionPlay:'Play', competitionBoardButton:'View Top 10', competitionLabel:'Mode', competitionHudMode:'Mode', competitionHudScore:'Score', competitionHudTimer:'Time', competitionModeActive:'Active mode', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'No entries yet. Be the first to place.', competitionLoadError:'Could not load the leaderboard.', competitionSaveTitle:'Save result', competitionSaveSubtitle:'Enter your name to join this mode leaderboard.', competitionNameLabel:'Name', competitionNamePlaceholder:'Your name', competitionSaveButton:'Save score', competitionSaveSaving:'Saving…', competitionSaveSuccess:'Score saved.', competitionSaveError:'Could not save the score.', competitionSavedBadge:'Saved', competitionBack:'Back to Competition', competitionScoreUnit:'points', competitionFinishWrong:'Ended on first mistake', competitionFinishTime:'Time is up', competitionFinishManual:'Round finished', competitionModeSurvival:'Survival', competitionModeTimed60:'1 minute', competitionModeTimed180:'3 minutes', competitionDescSurvival:'Normal questions. The round ends on your first mistake. Score = consecutive correct answers.', competitionDescTimed60:'60 seconds. Answer as many questions as possible. Mistakes do not end the round.', competitionDescTimed180:'180 seconds. Same rules as 1 minute, with more time to recover.'
   }
 };
 
@@ -1934,6 +2012,12 @@ let currentCategory = null;
 const SHAREABLE_LEVELS = new Set(['a1','a2','b1','b2','c1','c2']);
 let quiz = {words:[],idx:0,correct:0,answered:false};
 let latestQuizResult = null;
+let currentGameContext = {kind:'practice'};
+let competitionSession = null;
+let competitionTimer = null;
+let latestCompetitionResult = null;
+let selectedCompetitionLeaderboardMode = 'survival';
+let competitionSaveState = {saving:false, saved:false, error:''};
 
 function cloneQuizState(value) {
   return value ? JSON.parse(JSON.stringify(value)) : value;
@@ -2077,6 +2161,7 @@ function goView(id) {
   document.getElementById('v-'+id).classList.add('on');
   window.scrollTo(0,0);
   applyTranslations();
+  if (id === 'competition') renderCompetitionHub();
   updateStatsDisplay();
 }
 
@@ -2222,6 +2307,14 @@ function getBaseAppUrl() {
   return window.location.origin + window.location.pathname;
 }
 
+function escapeInlineHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 function buildLevelSharePayload(levelId = currentLevel) {
   const ShareCore = getShareCore();
   const label = getLevelLabel(levelId);
@@ -2339,6 +2432,284 @@ function shareInstagramStory(correct, total, levelId) {
     URL.revokeObjectURL(url);
     showToast(t('igStoryToast'));
   }, 'image/png');
+}
+
+function getCompetitionModesApi() {
+  return window.CompetitionModesCore || {
+    listCompetitionModes() {
+      return [
+        { id: 'survival', durationSeconds: null, endsOnWrongAnswer: true, scoreType: 'streak' },
+        { id: 'timed-60', durationSeconds: 60, endsOnWrongAnswer: false, scoreType: 'correct' },
+        { id: 'timed-180', durationSeconds: 180, endsOnWrongAnswer: false, scoreType: 'correct' }
+      ];
+    },
+    getCompetitionMode(modeId) {
+      return this.listCompetitionModes().find(mode => mode.id === modeId) || null;
+    },
+    isValidCompetitionMode(modeId) {
+      return !!this.getCompetitionMode(modeId);
+    }
+  };
+}
+
+function getCompetitionScoreApi() {
+  return window.CompetitionScoreRules || null;
+}
+
+function isCompetitionGame() {
+  return currentGameContext && currentGameContext.kind === 'competition';
+}
+
+function getCompetitionModeMeta(modeId) {
+  const mode = getCompetitionModesApi().getCompetitionMode(modeId);
+  if (!mode) return null;
+  const mapping = {
+    survival: {
+      title: t('competitionModeSurvival'),
+      description: t('competitionDescSurvival')
+    },
+    'timed-60': {
+      title: t('competitionModeTimed60'),
+      description: t('competitionDescTimed60')
+    },
+    'timed-180': {
+      title: t('competitionModeTimed180'),
+      description: t('competitionDescTimed180')
+    }
+  };
+  return Object.assign({}, mode, mapping[modeId] || {});
+}
+
+function formatCompetitionTime(seconds) {
+  if (seconds === null || seconds === undefined) return '∞';
+  const safeSeconds = Math.max(0, Number(seconds) || 0);
+  const mins = Math.floor(safeSeconds / 60);
+  const secs = safeSeconds % 60;
+  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+function getCompetitionWordPool() {
+  return Object.entries(CATS_BY_LEVEL).flatMap(([levelId, cats]) => {
+    return cats.flatMap((cat) => {
+      return (WORD_POOL[cat.id] || []).map((item) => ({
+        ...item,
+        levelId,
+        categoryId: cat.id
+      }));
+    });
+  });
+}
+
+function stopCompetitionTimer() {
+  if (competitionTimer) {
+    clearInterval(competitionTimer);
+    competitionTimer = null;
+  }
+}
+
+function updateCompetitionHud() {
+  if (!isCompetitionGame() || !competitionSession) return;
+  const scoreApi = getCompetitionScoreApi();
+  if (!scoreApi) return;
+  const progress = scoreApi.getCompetitionProgress(competitionSession);
+  const scoreEl = document.getElementById('competitionScoreValue');
+  const timerEl = document.getElementById('competitionTimerValue');
+  const modeEl = document.getElementById('competitionModeValue');
+
+  if (scoreEl) scoreEl.textContent = String(progress.score);
+  if (timerEl) timerEl.textContent = formatCompetitionTime(progress.remainingSeconds);
+  if (modeEl) modeEl.textContent = getCompetitionModeMeta(competitionSession.mode)?.title || competitionSession.mode;
+}
+
+function handleCompetitionTimerTick() {
+  if (!isCompetitionGame() || !competitionSession) return;
+  const scoreApi = getCompetitionScoreApi();
+  if (!scoreApi) return;
+  if (scoreApi.hasCompetitionTimeExpired(competitionSession)) {
+    competitionSession = scoreApi.finishCompetitionSession(competitionSession, { reason: 'time-up' });
+    stopCompetitionTimer();
+    finishQuiz();
+    return;
+  }
+  updateCompetitionHud();
+}
+
+function startCompetitionTimer() {
+  stopCompetitionTimer();
+  if (!competitionSession || !competitionSession.durationSeconds) return;
+  updateCompetitionHud();
+  competitionTimer = setInterval(handleCompetitionTimerTick, 250);
+}
+
+async function fetchCompetitionLeaderboard(modeId) {
+  const response = await fetch(`/api/leaderboard/${encodeURIComponent(modeId)}`);
+  const payload = await response.json();
+  if (!response.ok || !payload.ok) {
+    throw new Error(payload.error || 'Could not load leaderboard');
+  }
+  return payload.entries || [];
+}
+
+async function saveCompetitionLeaderboard(modeId, entry) {
+  const response = await fetch(`/api/leaderboard/${encodeURIComponent(modeId)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(entry)
+  });
+  const payload = await response.json();
+  if (!response.ok || !payload.ok) {
+    throw new Error(payload.error || 'Could not save leaderboard entry');
+  }
+  return payload.entries || [];
+}
+
+function renderCompetitionLeaderboardRows(entries) {
+  if (!entries.length) {
+    return `<div class="competition-empty">${t('competitionEmpty')}</div>`;
+  }
+
+  return `<div class="competition-board-list">${entries.map((entry, index) => `
+    <div class="competition-board-row">
+      <div class="competition-rank">${index + 1}</div>
+      <div class="competition-player">${entry.name}</div>
+      <div class="competition-score">${entry.score}</div>
+    </div>
+  `).join('')}</div>`;
+}
+
+async function renderCompetitionLeaderboard(modeId, targetId = 'competitionLeaderboardBody') {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  target.innerHTML = `<div class="competition-empty">${t('competitionSaveSaving')}</div>`;
+
+  try {
+    const entries = await fetchCompetitionLeaderboard(modeId);
+    target.innerHTML = renderCompetitionLeaderboardRows(entries);
+  } catch (error) {
+    target.innerHTML = `<div class="competition-error">${t('competitionLoadError')}</div>`;
+  }
+}
+
+function renderCompetitionHub() {
+  const modes = getCompetitionModesApi().listCompetitionModes();
+  const activeModeId = selectedCompetitionLeaderboardMode;
+  document.getElementById('competitionInner').innerHTML = `
+    <div class="view-header">
+      <h1>${t('competitionTitle')}</h1>
+      <p>${t('competitionSubtitle')}</p>
+    </div>
+    <div class="competition-layout">
+      <div class="competition-grid">
+        ${modes.map((mode) => {
+          const meta = getCompetitionModeMeta(mode.id);
+          const durationChip = mode.durationSeconds ? formatCompetitionTime(mode.durationSeconds) : '∞';
+          const finishCopy = mode.endsOnWrongAnswer ? t('competitionFinishWrong') : t('competitionFinishTime');
+          return `
+            <div class="competition-card">
+              <div class="competition-card-top">
+                <div>
+                  <div class="competition-card-label">${t('competitionLabel')}</div>
+                  <h3>${meta.title}</h3>
+                </div>
+                <button class="result-btn soft" type="button" onclick="selectCompetitionLeaderboardMode('${mode.id}')">${t('competitionBoardButton')}</button>
+              </div>
+              <p>${meta.description}</p>
+              <div class="competition-card-meta">
+                <div class="competition-chip">${durationChip}</div>
+                <div class="competition-chip">${finishCopy}</div>
+              </div>
+              <div class="competition-card-actions">
+                <button class="result-btn primary" type="button" onclick="startCompetitionMode('${mode.id}')">${t('competitionPlay')}</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <aside class="competition-panel">
+        <h2>${t('competitionBrowseTitle')}</h2>
+        <p>${t('competitionBrowseSubtitle')}</p>
+        <div class="competition-chip" style="margin-bottom:16px">${t('competitionTop10Title', { mode: getCompetitionModeMeta(activeModeId)?.title || activeModeId })}</div>
+        <div id="competitionLeaderboardBody"></div>
+      </aside>
+    </div>
+  `;
+  renderCompetitionLeaderboard(activeModeId);
+}
+
+function selectCompetitionLeaderboardMode(modeId) {
+  selectedCompetitionLeaderboardMode = modeId;
+  if (document.getElementById('v-competition')?.classList.contains('on')) {
+    renderCompetitionHub();
+  }
+}
+
+function startCompetitionMode(modeId) {
+  const scoreApi = getCompetitionScoreApi();
+  const modesApi = getCompetitionModesApi();
+  if (!scoreApi || !modesApi.isValidCompetitionMode(modeId)) return;
+
+  stopCompetitionTimer();
+  latestCompetitionResult = null;
+  competitionSaveState = { saving: false, saved: false, error: '' };
+  selectedCompetitionLeaderboardMode = modeId;
+  competitionSession = scoreApi.createCompetitionSession(modeId);
+  currentGameContext = { kind: 'competition', modeId };
+  launchQuizRound(`competition-${modeId}`, shuffleArray(getCompetitionWordPool()), {
+    mode: 'competition',
+    competitionMode: modeId,
+    categoryId: null,
+    levelId: null,
+    sessionWordsIncrement: 0
+  });
+  startCompetitionTimer();
+}
+
+function getCompetitionResultMessage() {
+  if (!competitionSession) return t('competitionFinishManual');
+  if (competitionSession.finishReason === 'wrong-answer') return t('competitionFinishWrong');
+  if (competitionSession.finishReason === 'time-up') return t('competitionFinishTime');
+  return t('competitionFinishManual');
+}
+
+async function submitCompetitionScore() {
+  if (!latestCompetitionResult || competitionSaveState.saving || competitionSaveState.saved) return;
+  const input = document.getElementById('competitionNameInput');
+  const saveButton = document.getElementById('competitionSaveButton');
+  const feedback = document.getElementById('competitionSaveFeedback');
+  const name = String(input?.value || '').trim();
+
+  competitionSaveState = { saving: true, saved: false, error: '' };
+  if (saveButton) saveButton.disabled = true;
+  if (feedback) {
+    feedback.className = 'competition-save-note';
+    feedback.textContent = t('competitionSaveSaving');
+  }
+
+  try {
+    const entries = await saveCompetitionLeaderboard(latestCompetitionResult.modeId, {
+      name,
+      score: latestCompetitionResult.score
+    });
+    competitionSaveState = { saving: false, saved: true, error: '' };
+    if (feedback) {
+      feedback.className = 'competition-save-note success';
+      feedback.textContent = t('competitionSaveSuccess');
+    }
+    if (input) input.disabled = true;
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.textContent = t('competitionSavedBadge');
+    }
+    const board = document.getElementById('competitionResultLeaderboard');
+    if (board) board.innerHTML = renderCompetitionLeaderboardRows(entries);
+  } catch (error) {
+    competitionSaveState = { saving: false, saved: false, error: error.message || t('competitionSaveError') };
+    if (saveButton) saveButton.disabled = false;
+    if (feedback) {
+      feedback.className = 'competition-save-note error';
+      feedback.textContent = competitionSaveState.error;
+    }
+  }
 }
 
 function applyLevelFromLocation(options = {}) {
@@ -2472,8 +2843,9 @@ function applyTranslations() {
 
   const appNav = document.querySelectorAll('#s-app .nav-link');
   if (appNav[0]) appNav[0].textContent = t('appLevels');
-  if (appNav[1]) appNav[1].textContent = t('appStats');
-  if (appNav[2]) appNav[2].textContent = t('appPlans');
+  if (appNav[1]) appNav[1].textContent = t('appCompetition');
+  if (appNav[2]) appNav[2].textContent = t('appStats');
+  if (appNav[3]) appNav[3].textContent = t('appPlans');
 
   const levelsHeader = document.querySelector('#v-levels .view-header h1');
   const levelsText = document.querySelector('#v-levels .view-header p');
@@ -2514,6 +2886,10 @@ function applyTranslations() {
   if (statsUpsellText) statsUpsellText.textContent = t('statsUpsellText');
   if (statsUpsellButton) statsUpsellButton.textContent = t('statsUpsellButton');
 
+  if (document.getElementById('v-competition')?.classList.contains('on')) {
+    renderCompetitionHub();
+  }
+
 }
 
 function setLang(lang) {
@@ -2526,6 +2902,9 @@ function setLang(lang) {
   if (document.getElementById('v-quiz').classList.contains('on')) {
     if (quiz.words.length && quiz.idx < quiz.words.length) renderQuestion();
     else if (quiz.words.length) endQuiz();
+  }
+  if (document.getElementById('v-competition').classList.contains('on')) {
+    renderCompetitionHub();
   }
 }
 
@@ -2631,6 +3010,9 @@ function startQuiz(catId) {
     goView('quiz');
     renderLimit(); return;
   }
+  currentGameContext = {kind:'practice'};
+  competitionSession = null;
+  stopCompetitionTimer();
   launchQuizRound(catId, pickRoundWords(catId));
 }
 
@@ -2653,7 +3035,8 @@ function pickRoundWords(catId, options = {}) {
 
 function launchQuizRound(catId, words, options = {}) {
   const flashcardItems = words.map((item, index) => normalizeFlashcardItem(item, catId, index));
-  currentCategory = catId;
+  currentCategory = options.categoryId === undefined ? catId : options.categoryId;
+  currentLevel = options.levelId === undefined ? currentLevel : options.levelId;
 
   clearNextQuestionTimer();
   flashcardState = null;
@@ -2675,7 +3058,7 @@ function launchQuizRound(catId, words, options = {}) {
     words, idx:0, correct:0, answered:false, pendingOutcome:null, streak:0,
     history:[], future:[], currentSnapshot:null, chosenAnswer:null, wasCorrect:null, roundAnswers:[]
   };
-  SESSION.words += words.length;
+  SESSION.words += options.sessionWordsIncrement ?? words.length;
   goView('quiz');
   renderQuestion();
 }
@@ -2688,24 +3071,59 @@ function renderQuestion() {
   const { idx, total, raw: w } = currentQuestion;
   quiz.idx = idx;
   const pct = (idx/total)*100;
-  const levelLabel = LEVELS.find(level => level.id === currentLevel)?.label || currentLevel?.toUpperCase() || 'A1';
-  const categoryLabel = currentCategory ? catName(currentCategory) : '';
+  const competitionMeta = isCompetitionGame() ? getCompetitionModeMeta(currentGameContext.modeId) : null;
+  const competitionProgress = isCompetitionGame() && competitionSession && getCompetitionScoreApi()
+    ? getCompetitionScoreApi().getCompetitionProgress(competitionSession)
+    : null;
+  const headerPct = competitionProgress && competitionSession?.durationSeconds
+    ? ((competitionSession.durationSeconds - competitionProgress.remainingSeconds) / competitionSession.durationSeconds) * 100
+    : pct;
+  const countLabel = isCompetitionGame()
+    ? `${competitionSession?.score || 0} ${t('competitionScoreUnit')}`
+    : `${idx+1} / ${total}`;
+  const levelLabel = competitionMeta
+    ? t('competitionModeActive')
+    : (LEVELS.find(level => level.id === currentLevel)?.label || currentLevel?.toUpperCase() || 'A1');
+  const categoryLabel = competitionMeta ? competitionMeta.title : (currentCategory ? catName(currentCategory) : '');
+  const reviewNav = isCompetitionGame() ? '' : `
+    <div class="review-nav">
+      <button class="review-nav-btn" onclick="prevQ()">${t('quizPrev')}</button>
+      <button class="review-nav-btn review-nav-fwd" onclick="siguienteBtn()">${t('quizNext')}</button>
+    </div>`;
+  const menuAction = isCompetitionGame() ? "goView('competition')" : "goView('levels')";
+  const streakMarkup = isCompetitionGame()
+    ? `
+      <div class="competition-hud">
+        <div class="competition-hud-card">
+          <div class="lbl">${t('competitionHudMode')}</div>
+          <div class="val" id="competitionModeValue">${competitionMeta?.title || ''}</div>
+        </div>
+        <div class="competition-hud-card">
+          <div class="lbl">${t('competitionHudScore')}</div>
+          <div class="val" id="competitionScoreValue">${competitionSession?.score || 0}</div>
+        </div>
+        <div class="competition-hud-card">
+          <div class="lbl">${t('competitionHudTimer')}</div>
+          <div class="val" id="competitionTimerValue">${formatCompetitionTime(competitionSession?.durationSeconds ?? null)}</div>
+        </div>
+      </div>`
+    : `<div class="quiz-streak">🔥 ${quiz.streak} ${t('quizStreak')}</div>`;
   quiz.currentSnapshot = captureQuizSnapshot();
   document.getElementById('quizInner').innerHTML = `
     <div class="quiz-context">
       <div class="quiz-path">${levelLabel}${categoryLabel ? ` · ${categoryLabel}` : ''}</div>
-      <div class="quiz-streak">🔥 ${quiz.streak} ${t('quizStreak')}</div>
+      ${streakMarkup}
     </div>
     <div class="quiz-header">
       <div class="quiz-nav">
-        <button class="q-back" onclick="prevQ()" title="${t('quizBack')}">
+        <button class="q-back" onclick="${isCompetitionGame() ? `goView('competition')` : `prevQ()`}" title="${t('quizBack')}">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
         </button>
-        <button class="q-menu" onclick="goView('levels')">${t('quizMenu')}</button>
+        <button class="q-menu" onclick="${menuAction}">${isCompetitionGame() ? t('competitionBack') : t('quizMenu')}</button>
         <button class="q-finish" onclick="finishQuiz()">${t('quizFinish')}</button>
       </div>
-      <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
-      <span class="qcount">${idx+1} / ${total}</span>
+      <div class="qbar"><div class="qbar-fill" style="width:${Math.max(0, Math.min(100, headerPct))}%"></div></div>
+      <span class="qcount">${countLabel}</span>
     </div>
     <div class="q-card" id="qc">
       <div class="q-prompt">${t('quizPrompt')}</div>
@@ -2718,10 +3136,8 @@ function renderQuestion() {
       <button class="a-btn die" id="b-die" onclick="answer('die')"><span class="a-btn-key" aria-hidden="true">2</span>die</button>
       <button class="a-btn das" id="b-das" onclick="answer('das')"><span class="a-btn-key" aria-hidden="true">3</span>das</button>
     </div>
-    <div class="review-nav">
-      <button class="review-nav-btn" onclick="prevQ()">${t('quizPrev')}</button>
-      <button class="review-nav-btn review-nav-fwd" onclick="siguienteBtn()">${t('quizNext')}</button>
-    </div>`;
+    ${reviewNav}`;
+  if (isCompetitionGame()) updateCompetitionHud();
   if (quiz.chosenAnswer) applyAnswerState();
 }
 
@@ -2780,6 +3196,16 @@ function answer(chosen) {
     quiz.currentSnapshot.wasCorrect = ok;
   }
 
+  if (isCompetitionGame()) {
+    const scoreApi = getCompetitionScoreApi();
+    if (scoreApi) {
+      competitionSession = scoreApi.applyCompetitionAnswer(competitionSession, {
+        isCorrect: ok,
+        answeredAt: Date.now()
+      });
+    }
+  }
+
   ['der','die','das'].forEach(a => {
     const btn = document.getElementById('b-'+a);
     btn.disabled = true;
@@ -2792,11 +3218,19 @@ function answer(chosen) {
     ? `✓ <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`
     : `✗ Era <strong>${w.a} ${w.w}</strong> — ${RULES[w.a]}`;
   document.getElementById('qc').classList.add(ok?'ok':'ko');
+  if (isCompetitionGame()) updateCompetitionHud();
   clearNextQuestionTimer();
-  nextQuestionTimer = setTimeout(nextQ, 1800);
+  nextQuestionTimer = setTimeout(() => {
+    if (isCompetitionGame() && competitionSession?.finishedAt) finishQuiz();
+    else nextQ();
+  }, 1200);
 }
 
 function siguienteBtn() {
+  if (isCompetitionGame()) {
+    nextQ();
+    return;
+  }
   if (quiz.future && quiz.future.length > 0) {
     nextReview();
   } else {
@@ -2806,6 +3240,10 @@ function siguienteBtn() {
 
 function nextQ() {
   clearNextQuestionTimer();
+  if (isCompetitionGame() && competitionSession?.finishedAt) {
+    finishQuiz();
+    return;
+  }
   quiz.future = [];
   quiz.chosenAnswer = null;
   quiz.wasCorrect = null;
@@ -2833,6 +3271,7 @@ function nextQ() {
 }
 
 function prevQ() {
+  if (isCompetitionGame()) return;
   clearNextQuestionTimer();
   // Review-only: no score/stats penalty when pressing back
   quiz.future = quiz.future || [];
@@ -2854,6 +3293,7 @@ function nextReview() {
 
 function finishQuiz() {
   clearNextQuestionTimer();
+  stopCompetitionTimer();
   if (hasValidFlashcardState(flashcardState) && quiz.pendingOutcome && hasFlashcardCore()) {
     const nextState = quiz.pendingOutcome === 'known'
       ? window.FlashcardCore.markKnown(flashcardState)
@@ -2862,12 +3302,55 @@ function finishQuiz() {
     quiz.pendingOutcome = null;
     quiz.answered = false;
   }
+  if (isCompetitionGame() && competitionSession && !competitionSession.finishedAt) {
+    const scoreApi = getCompetitionScoreApi();
+    if (scoreApi) competitionSession = scoreApi.finishCompetitionSession(competitionSession, { reason: 'manual-finish' });
+  }
   endQuiz();
 }
 
 function endQuiz() {
   clearNextQuestionTimer();
   SESSION.rounds++;
+  if (isCompetitionGame()) {
+    const modeId = currentGameContext.modeId;
+    const modeMeta = getCompetitionModeMeta(modeId);
+    latestCompetitionResult = {
+      modeId,
+      score: competitionSession?.score || 0,
+      totalAnswers: competitionSession?.totalAnswers || 0,
+      correctAnswers: competitionSession?.correctAnswers || 0
+    };
+    document.getElementById('quizInner').innerHTML = `
+      <div class="result-box">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px">${modeMeta?.title || modeId}</div>
+        <div class="r-pct">${latestCompetitionResult.score}</div>
+        <div class="r-lbl">${getCompetitionResultMessage()}</div>
+        <div class="competition-save-box">
+          <h3>${t('competitionSaveTitle')}</h3>
+          <p>${t('competitionSaveSubtitle')}</p>
+          <div class="competition-save-form">
+            <div class="competition-save-field">
+              <label for="competitionNameInput">${t('competitionNameLabel')}</label>
+              <input id="competitionNameInput" type="text" maxlength="20" value="${escapeInlineHtml(USER?.name || '')}" placeholder="${t('competitionNamePlaceholder')}">
+            </div>
+            <button class="result-btn primary" id="competitionSaveButton" type="button" onclick="submitCompetitionScore()">${t('competitionSaveButton')}</button>
+          </div>
+          <div class="competition-save-note" id="competitionSaveFeedback"></div>
+        </div>
+        <div class="competition-panel" style="margin-top:20px;text-align:left">
+          <h2>${t('competitionTop10Title', { mode: modeMeta?.title || modeId })}</h2>
+          <p>${t('competitionBrowseSubtitle')}</p>
+          <div id="competitionResultLeaderboard"></div>
+        </div>
+        <div class="result-secondary-actions" style="margin-top:20px">
+          <button class="result-btn soft" type="button" onclick="goView('competition')">${t('competitionBack')}</button>
+          <button class="result-btn accent" type="button" onclick="startCompetitionMode('${modeId}')">${t('competitionPlay')}</button>
+        </div>
+      </div>`;
+    renderCompetitionLeaderboard(modeId, 'competitionResultLeaderboard');
+    return;
+  }
   const answeredItems = (quiz.roundAnswers || []).map(entry => entry.item).filter(Boolean);
   const totalWords = answeredItems.length;
   const pct = totalWords ? Math.round((quiz.correct/totalWords)*100) : 0;
@@ -2969,6 +3452,7 @@ function closeReviewAnswers() {
 
 function continuePracticing() {
   if (!currentCategory) return;
+  currentGameContext = {kind:'practice'};
   const recentWords = latestQuizResult?.recentWords || [];
   launchQuizRound(currentCategory, pickRoundWords(currentCategory, { excludeWords: recentWords }), { mode: 'continue' });
 }
@@ -2976,6 +3460,7 @@ function continuePracticing() {
 function practiceMistakes() {
   const mistakes = (latestQuizResult?.incorrectAnswers || []).map(entry => entry.item).filter(Boolean);
   if (!mistakes.length || !currentCategory) return;
+  currentGameContext = {kind:'practice'};
   launchQuizRound(currentCategory, shuffleArray(mistakes), { mode: 'mistakes' });
 }
 
