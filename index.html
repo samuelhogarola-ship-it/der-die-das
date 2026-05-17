@@ -793,46 +793,52 @@ footer{
 /* ══════════════════════════════════════════════
    VIEW: COMPETITION
 ══════════════════════════════════════════════ */
-.competition-view{max-width:1080px;margin:0 auto;padding:48px 28px;width:100%}
-.competition-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:20px;align-items:start}
-.competition-grid{display:grid;gap:16px}
+.competition-view{max-width:1080px;margin:0 auto;padding:36px 28px 42px;width:100%}
+.competition-view .view-header{margin-bottom:18px}
+.competition-view .view-header h1{font-size:28px;margin-bottom:4px}
+.competition-view .view-header p{font-size:14px;max-width:720px}
+.competition-layout{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+.competition-grid{display:grid;gap:12px}
 .competition-card{
-  background:var(--white);border:1px solid var(--border);border-radius:20px;padding:24px;
-  box-shadow:var(--sh);display:grid;gap:14px
+  background:var(--white);border:1px solid var(--border);border-radius:18px;padding:18px;
+  box-shadow:0 6px 18px rgba(17,17,16,.04);display:grid;gap:12px
 }
 button.competition-card{
   width:100%;text-align:left;cursor:pointer;font-family:var(--font-sans);
   transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease
 }
 button.competition-card:hover{transform:translateY(-1px);box-shadow:var(--sh2)}
-.competition-card.is-active{border-color:var(--text);box-shadow:var(--sh2)}
+.competition-card.is-active{border-color:#C5D9F2;background:#F6FAFF;box-shadow:0 8px 18px rgba(30,79,141,.08)}
 .competition-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .competition-card-label{
-  display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;
-  background:var(--bg);border:1px solid var(--border);font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.3px
+  display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;
+  background:var(--bg);border:1px solid var(--border);font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.3px
 }
-.competition-card h3{font-size:24px;font-weight:900;letter-spacing:-.7px}
-.competition-card p{font-size:14px;color:var(--muted);line-height:1.6}
-.competition-card-meta{display:flex;gap:10px;flex-wrap:wrap}
+.competition-card h3{font-size:22px;font-weight:900;letter-spacing:-.7px}
+.competition-card p{font-size:13px;color:var(--muted);line-height:1.55}
+.competition-card-meta{display:flex;gap:8px;flex-wrap:wrap}
 .competition-chip{
-  display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;
-  background:#F8F9FB;border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text)
+  display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;
+  background:#F8F9FB;border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text)
 }
-.competition-card-actions{display:flex;gap:10px;flex-wrap:wrap}
+.competition-card-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .competition-panel{
-  background:var(--white);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--sh2)
+  background:var(--white);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:0 6px 18px rgba(17,17,16,.04)
 }
-.competition-panel h2{font-size:24px;font-weight:900;letter-spacing:-.7px;margin-bottom:6px}
-.competition-panel p{font-size:14px;color:var(--muted);margin-bottom:16px}
+.competition-panel h2{font-size:20px;font-weight:900;letter-spacing:-.6px;margin-bottom:4px}
+.competition-panel p{font-size:13px;color:var(--muted);margin-bottom:12px}
 .competition-hero{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,320px);gap:20px;align-items:center
+  display:flex;align-items:center;justify-content:space-between;gap:14px
 }
-.competition-hero-copy p{max-width:60ch}
-.competition-hero-art{display:flex;justify-content:flex-end}
+.competition-hero-copy{display:grid;gap:10px}
+.competition-hero-copy p{max-width:56ch;margin-bottom:0}
+.competition-hero-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.competition-hero-head h2{font-size:18px;line-height:1.15;margin:0}
+.competition-hero-art{display:flex;justify-content:flex-end;align-self:start}
 .competition-hero-frame{
-  position:relative;width:min(100%,300px);border-radius:24px;overflow:hidden;
-  border:1px solid #E6D8B3;background:linear-gradient(180deg,#F8F4EA 0%,#EFE4CF 100%);
-  box-shadow:0 22px 40px rgba(17,17,16,.14)
+  position:relative;width:min(100%,112px);border-radius:16px;overflow:hidden;
+  border:1px solid #E6D8B3;background:#F4F1EA;
+  box-shadow:none
 }
 .competition-hero-frame img{
   display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center top
@@ -843,14 +849,59 @@ button.competition-card:hover{transform:translateY(-1px);box-shadow:var(--sh2)}
   color:var(--text);font-size:12px;font-weight:800;backdrop-filter:blur(8px)
 }
 .competition-hero-stamp span{line-height:1}
-.competition-board-list{display:grid;gap:10px}
+.competition-hero-panel{padding:14px 16px;background:#F8F9FB}
+.competition-pool-panel{padding:12px 14px}
+.competition-pool-panel h2{font-size:16px;letter-spacing:-.3px;margin-bottom:4px}
+.competition-pool-panel p{font-size:12px;margin-bottom:10px}
+.competition-modes-grid{margin:12px 0 14px}
+.competition-modes-grid .competition-card{padding:16px}
+.competition-modes-grid .competition-card-top{align-items:center}
+.competition-mode-title{display:grid;gap:6px}
+.competition-play-btn{margin-left:auto;min-width:132px;justify-content:center}
+.competition-board-trigger{
+  border:none;background:none;padding:0;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px
+}
+.competition-board-trigger:hover{color:var(--text)}
+.competition-pool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:8px}
+.competition-pool-card{padding:11px 12px;border-radius:14px;gap:6px;min-height:auto}
+.competition-pool-card h3{font-size:12px;font-weight:700;letter-spacing:-.1px;color:var(--muted)}
+.competition-pool-card p{display:none}
+.competition-pool-card .competition-card-top{align-items:center;gap:8px}
+.competition-pool-accent{display:none}
+.competition-pool-level{font-size:20px;font-weight:900;letter-spacing:-.7px}
+.competition-active-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:12px 14px;border-radius:16px;border:1px solid var(--border);background:#F8F9FB;margin-bottom:12px
+}
+.competition-active-copy{display:grid;gap:4px}
+.competition-active-copy .competition-card-label{width:max-content}
+.competition-active-copy h2{font-size:18px;font-weight:900;letter-spacing:-.5px;margin:0}
+.competition-active-copy p{font-size:12px;color:var(--muted);margin:0;white-space:nowrap}
+.competition-share-footer{padding:12px 16px}
+.competition-share-footer .ig-share-title{font-size:12px;text-align:left;margin-bottom:8px;color:var(--muted)}
+.competition-share-footer .ig-share-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0}
+.competition-share-footer .wa-story-btn,
+.competition-share-footer .ig-story-btn,
+.competition-share-footer .share-link-btn{
+  width:auto;min-width:0;padding:9px 12px;border-radius:999px;font-size:12px;box-shadow:none
+}
+.competition-share-footer .wa-story-btn,
+.competition-share-footer .ig-story-btn{border:1px solid var(--border)}
+.competition-share-footer .ig-story-btn{background:var(--white);color:var(--text)}
+.competition-share-footer .wa-story-btn{background:#F3FBF6;color:#14803C;border-color:#BDE7CC}
+.competition-share-footer .share-link-btn{background:var(--white);color:var(--muted);border:1px solid var(--border)}
+.competition-board-modal{width:min(560px,100%)}
+.competition-board-modal .review-modal-copy h3{margin-bottom:4px}
+.competition-board-modal .review-list{background:var(--white);padding-top:8px}
+.competition-board-list{display:grid;gap:8px}
 .competition-board-row{
   display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
-  padding:12px 14px;border-radius:14px;background:#F8F9FB;border:1px solid var(--border)
+  padding:10px 0;border-radius:0;background:transparent;border:none;border-bottom:1px solid #EFEFEA
 }
 .competition-rank{
-  width:32px;height:32px;border-radius:10px;background:var(--text);color:var(--white);
-  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800
+  width:28px;height:28px;border-radius:999px;background:#F4F5F7;color:var(--text);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800
 }
 .competition-player{font-size:14px;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .competition-score{font-size:16px;font-weight:900;letter-spacing:-.3px}
@@ -932,7 +983,8 @@ button.competition-card:hover{transform:translateY(-1px);box-shadow:var(--sh2)}
   display:flex;align-items:center;gap:28px;flex-wrap:wrap;
   justify-content:space-between
 }
-.app-footer-brand{display:flex;align-items:center;gap:10px}
+.app-footer-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.app-footer-brand:hover .app-footer-name{color:var(--der)}
 .app-footer-logo{
   width:32px;height:32px;border-radius:9px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -1052,11 +1104,26 @@ button.competition-card:hover{transform:translateY(-1px);box-shadow:var(--sh2)}
   .review-modal-head,.review-list{padding-inline:16px}
   .review-item{grid-template-columns:1fr;align-items:flex-start}
   .review-status-icon{width:36px;height:36px;border-radius:12px}
+  .competition-view{padding:24px 16px 32px}
+  .competition-view .view-header{margin-bottom:14px}
+  .competition-view .view-header h1{font-size:24px}
   .competition-layout{grid-template-columns:1fr}
   .competition-save-form{grid-template-columns:1fr}
   .competition-hud{grid-template-columns:1fr}
-  .competition-hero{grid-template-columns:1fr}
-  .competition-hero-art{justify-content:center}
+  .competition-hero{align-items:flex-start}
+  .competition-hero-art{justify-content:flex-end}
+  .competition-hero-head{flex-direction:column;gap:8px}
+  .competition-hero-frame{width:min(100%,88px)}
+  .competition-play-btn{width:100%;margin-left:0}
+  .competition-card-actions{flex-direction:column;align-items:stretch}
+  .competition-pool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .competition-active-banner{padding:10px 12px;gap:10px}
+  .competition-active-copy h2{font-size:16px}
+  .competition-active-copy p{white-space:normal}
+  .competition-share-footer .ig-share-grid{display:grid;grid-template-columns:1fr}
+  .competition-share-footer .wa-story-btn,
+  .competition-share-footer .ig-story-btn,
+  .competition-share-footer .share-link-btn{width:100%;justify-content:center}
   .competition-entry-card{flex-direction:column;align-items:flex-start}
   .competition-entry-actions{width:100%;justify-content:space-between}
   .feat-grid{grid-template-columns:1fr}
@@ -1533,13 +1600,13 @@ button.competition-card:hover{transform:translateY(-1px);box-shadow:var(--sh2)}
   <!-- APP FOOTER -->
   <footer class="app-footer">
     <div class="app-footer-inner">
-      <div class="app-footer-brand">
+      <a class="app-footer-brand" href="#" onclick="showScreen('s-landing');window.scrollTo(0,0);return false">
         <div class="app-footer-logo">
           <img src="./logo-small.png" alt="DerDieDas" width="28" height="28" decoding="async">
         </div>
         <span class="app-footer-name">DerDieDas</span>
         <span class="app-footer-by">by Vokabel Lab</span>
-      </div>
+      </a>
       <div class="app-footer-links">
         <a href="/privacidad" class="app-footer-link" id="afPrivacy">Privacidad</a>
         <a href="/terminos" class="app-footer-link" id="afTerms">Términos</a>
@@ -1562,6 +1629,19 @@ button.competition-card:hover{transform:translateY(-1px);box-shadow:var(--sh2)}
       <button class="review-close" type="button" onclick="closeReviewAnswers()" aria-label="Cerrar">×</button>
     </div>
     <div class="review-list" id="reviewAnswersList"></div>
+  </div>
+</div>
+
+<div class="review-overlay" id="competitionBoardOverlay" aria-hidden="true">
+  <div class="review-modal competition-board-modal" role="dialog" aria-modal="true" aria-labelledby="competitionBoardTitle">
+    <div class="review-modal-head">
+      <div class="review-modal-copy">
+        <h3 id="competitionBoardTitle">Top 10</h3>
+        <p id="competitionBoardSub">Ranking del modo y arena activos.</p>
+      </div>
+      <button class="review-close" type="button" onclick="closeCompetitionLeaderboard()" aria-label="Cerrar">×</button>
+    </div>
+    <div class="review-list" id="competitionBoardBody"></div>
   </div>
 </div>
 
@@ -1612,7 +1692,7 @@ const UI = {
     quizRetry:'Nochmal versuchen →', quizOtherCategory:'Anderes Thema →', limitTitle:'Aktion aktiv', limitText:'Für kurze Zeit hast du kostenlosen unbegrenzten Zugang zu allen Niveaus und Themen.',
     limitButton:'Jetzt üben →', limitBack:'Zurück zu den Niveaus', resultLabel:'{correct} von {total} richtig', toastPremium:'Zeitlich begrenzter Gratiszugang aktiv',
     toastPlans:'Weiter zu den Preisen…', toastPremiumSoon:'Zeitlich begrenzter Gratiszugang', demoName:'Demo', words:'Wörter', categories:'Themen', roundsUsed:'Du hast heute schon {rounds} Runden gespielt', premiumRounds:'Aktion aktiv: unbegrenzte Runden + alle Niveaus', streak:'Tage', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Zurück', quizMenu:'Zum Menü', quizStreak:'Serie', quizFinish:'Übung beenden', copyLink:'Mit Freunden teilen', copiedLink:'Link kopiert', copiedResult:'Ergebnis kopiert', copiedInstagram:'Instagram-Text kopiert', shareFriendsCta:'Mit Freunden teilen', shareLevelTitle:'Dieses Niveau teilen', shareWhatsapp:'WhatsApp', shareCopyLink:'Link kopieren', shareCopyLevelLink:'Level-Link kopieren', shareProgressTitle:'Teile deinen Fortschritt', shareCopyResult:'Ergebnis kopieren', shareCopyInstagram:'Für Instagram kopieren', resultMsgHigh:'Gut gemacht!', resultMsgMid:'Gute Arbeit!', resultMsgLow:'Weiter üben!', quizPrev:'← Vorherige', igStoryScore:'{correct} von {total} richtig', igStoryLevel:'Niveau {level}', igStoryToast:'Bild geladen · In Instagram Story öffnen', shareLevelMessage:'Ich übe deutsche Artikel mit DerDieDas auf Niveau {level}. Machst du mit? {url}', shareAppMessage:'Ich übe deutsche Artikel mit DerDieDas. Machst du mit? {url}', shareResultMessage:'Ich habe {correct}/{total} in DerDieDas geschafft. Machst du mit? {url}', shareInstagramMessage:'Ich habe {correct}/{total} in DerDieDas geschafft.', quizReviewAnswers:'Antworten ansehen', quizKeepPracticing:'Weiter üben', quizPracticeErrors:'Fehler üben', quizReviewTitle:'Antworten der Runde', quizReviewSubtitle:'Sieh dir Wort, Übersetzung, richtigen Artikel und deine Antwort im Überblick an.', quizReviewCorrect:'Richtiger Artikel', quizReviewYourAnswer:'Deine Antwort', quizReviewCorrectBadge:'Richtig', quizReviewIncorrectBadge:'Falsch', quizPracticeErrorsDisabled:'Keine Fehler in dieser Runde', quizPracticeErrorsNote:'Nur deine falschen Antworten'
-    ,appProfileSoon:'Profil bald verfügbar', appCompetition:'Kolosseum', competitionTitle:'Das Kolosseum der Artikel', competitionSubtitle:'Wähle dein Niveau oder alle Niveaus und kämpfe in drei Modi um getrennte Top-10-Ranglisten.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Jeder Modus und jeder Pool hat sein eigenes Online-Ranking.', competitionPlay:'Spielen', competitionBoardButton:'Top 10 ansehen', competitionLabel:'Modus', competitionHudMode:'Modus', competitionHudScore:'Punkte', competitionHudTimer:'Zeit', competitionModeActive:'Kolosseum aktiv', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'Noch keine Einträge. Sei die erste Person im Ranking.', competitionLoadError:'Ranking konnte nicht geladen werden.', competitionSaveTitle:'Ergebnis speichern', competitionSaveSubtitle:'Trage deinen Namen ein, um im Top 10 dieses Modus zu erscheinen.', competitionNameLabel:'Name', competitionNamePlaceholder:'Dein Name', competitionSaveButton:'Punktzahl speichern', competitionSaveSaving:'Wird gespeichert…', competitionSaveSuccess:'Punktzahl gespeichert.', competitionSaveError:'Punktzahl konnte nicht gespeichert werden.', competitionSavedBadge:'Gespeichert', competitionBack:'Zurück zum Kolosseum', competitionScoreUnit:'Punkte', competitionFinishWrong:'Beim ersten Fehler beendet', competitionFinishTime:'Zeit abgelaufen', competitionFinishManual:'Runde beendet', competitionModeSurvival:'Survival', competitionModeTimed60:'1 Minute', competitionModeTimed180:'3 Minuten', competitionDescSurvival:'Normale Fragen. Beim ersten Fehler endet die Runde. Punktzahl = richtige Antworten in Folge.', competitionDescTimed60:'60 Sekunden. Antworte auf so viele Fragen wie möglich. Fehler beenden die Runde nicht.', competitionDescTimed180:'180 Sekunden. Gleiche Regeln wie im 1-Minuten-Modus mit mehr Zeit fürs Comeback.', competitionPoolTitle:'Pools des Kolosseums', competitionPoolSubtitle:'Starte direkt in deinem Niveau oder wirf alles in die Arena.', competitionPoolAll:'Kolosseum aller Niveaus', competitionPoolLabel:'Kolosseum {level}', competitionPoolBadge:'Pool', competitionPoolAllDesc:'Mischt alle verfügbaren Niveaus in einer einzigen Arena.', competitionPoolLevelDesc:'Nur Wörter aus {level}.', competitionThemeBadge:'Arena des Tages', competitionThemeSubtitle:'Fuchsy steht jetzt im Kolosseum bereit.', competitionThemeImageAlt:'Fuchsy als Ritter im Kolosseum', competitionEnterCta:'Ins Kolosseum', competitionEntryBadge:'Kolosseum', competitionEntryTitle:'Das Kolosseum der Artikel', competitionEntryText:'Starte den Wettkampf nur mit Wörtern aus {level} oder teile die Arena mit anderen.', competitionEntryCta:'Ins Kolosseum', competitionShareButton:'Kolosseum teilen', competitionCopyLink:'Link kopieren', competitionShareMessage:'Ich übe deutsche Artikel im Kolosseum {level} von DerDieDas. Traust du dich? {url}'
+    ,appProfileSoon:'Profil bald verfügbar', appCompetition:'Kolosseum', competitionTitle:'Das Kolosseum der Artikel', competitionSubtitle:'Wähle dein Niveau oder alle Niveaus und kämpfe in drei Modi um getrennte Top-10-Ranglisten.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Jeder Modus und jede Arena hat ihr eigenes Online-Ranking.', competitionPlay:'Spielen', competitionBoardButton:'Top 10 ansehen', competitionLabel:'Modus', competitionHudMode:'Modus', competitionHudScore:'Punkte', competitionHudTimer:'Zeit', competitionModeActive:'Kolosseum aktiv', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'Noch keine Champions. Sei die erste Person, die Geschichte schreibt. Meistere die deutschen Artikel.', competitionLoadError:'Ranking konnte nicht geladen werden.', competitionSaveTitle:'Ergebnis speichern', competitionSaveSubtitle:'Trage deinen Namen ein, um im Top 10 dieses Modus zu erscheinen.', competitionNameLabel:'Name', competitionNamePlaceholder:'Dein Name', competitionSaveButton:'Punktzahl speichern', competitionSaveSaving:'Wird gespeichert…', competitionSaveSuccess:'Punktzahl gespeichert.', competitionSaveError:'Punktzahl konnte nicht gespeichert werden.', competitionSavedBadge:'Gespeichert', competitionBack:'Zurück zum Kolosseum', competitionScoreUnit:'Punkte', competitionFinishWrong:'Beim ersten Fehler beendet', competitionFinishTime:'Zeit abgelaufen', competitionFinishManual:'Runde beendet', competitionModeSurvival:'Survival', competitionModeTimed60:'1 Minute', competitionModeTimed180:'3 Minuten', competitionDescSurvival:'Triff so viele Artikel wie möglich und werde zum legendären Champion. Beim ersten Fehler endet die Runde.', competitionDescTimed60:'Triff in 60 Sekunden so viele Artikel wie möglich. Präzision und Tempo.', competitionDescTimed180:'Niemand soll sagen, du hattest nur Glück. Zeig, dass Zeit kein Problem ist.', competitionPoolTitle:'Wähle deine Arena', competitionPoolSubtitle:'Dieser Selector ändert nur die Arena, die ihr eigenes Top 10 teilt.', competitionPoolAll:'Kolosseum aller Niveaus', competitionPoolLabel:'Kolosseum {level}', competitionPoolBadge:'', competitionPoolAllDesc:'Mischt alle verfügbaren Niveaus in einer einzigen Arena.', competitionPoolLevelDesc:'Nur Wörter aus {level}.', competitionThemeBadge:'Aktive Arena', competitionThemeSubtitle:'Die aktuell gewählte Arena steuert Modus und Ranking.', competitionThemeImageAlt:'Fuchsy als Ritter im Kolosseum', competitionEnterCta:'Ins Kolosseum', competitionEntryBadge:'Kolosseum', competitionEntryTitle:'Das Kolosseum der Artikel', competitionEntryText:'Starte den Wettkampf nur mit Wörtern aus {level} oder teile die Arena mit anderen.', competitionEntryCta:'Ins Kolosseum', competitionShareButton:'Kolosseum teilen', competitionCopyLink:'Link kopieren', competitionShareMessage:'Ich übe deutsche Artikel im Kolosseum {level} von DerDieDas. Traust du dich? {url}'
   },
   es: {
     topbarText:'der die das de Vokabel Lab | Domina los artículos',
@@ -1643,7 +1723,7 @@ const UI = {
     quizRetry:'Volver a intentar →', quizOtherCategory:'Otra categoría →', limitTitle:'Promo activa', limitText:'Por tiempo limitado tienes acceso gratuito ilimitado a todos los niveles y categorías.',
     limitButton:'Seguir practicando →', limitBack:'Volver a niveles', resultLabel:'{correct} de {total} correctas', toastPremium:'Acceso gratuito temporal activado',
     toastPlans:'Redirigiendo a planes…', toastPremiumSoon:'Acceso gratuito temporal', demoName:'Demo', words:'palabras', categories:'categorías', roundsUsed:'Ya has jugado {rounds} rondas hoy', premiumRounds:'Promo activa: rondas ilimitadas + todos los niveles', streak:'días', freeChip:'Gratis', proChip:'Gratis+', quizBack:'Volver', quizMenu:'Volver al menú', quizStreak:'Racha', quizFinish:'Finalizar ejercicio', copyLink:'Comparte con tus amigos', copiedLink:'Enlace copiado', copiedResult:'Resultado copiado', copiedInstagram:'Texto para Instagram copiado', shareFriendsCta:'Comparte con tus amigos', shareLevelTitle:'Comparte este nivel', shareWhatsapp:'WhatsApp', shareCopyLink:'Copiar link', shareCopyLevelLink:'Copiar enlace del nivel', shareProgressTitle:'Comparte tu progreso', shareCopyResult:'Copiar resultado', shareCopyInstagram:'Copiar para Instagram', resultMsgHigh:'¡Bien hecho!', resultMsgMid:'¡Buen trabajo!', resultMsgLow:'¡Sigue así!', quizPrev:'← Anterior', igStoryScore:'{correct} de {total} correctas', igStoryLevel:'Nivel {level}', igStoryToast:'Imagen descargada · Ábrela en tu story de Instagram', shareLevelMessage:'Estoy practicando artículos alemanes en DerDieDas, nivel {level}. ¿Te animas? {url}', shareAppMessage:'Estoy practicando artículos alemanes en DerDieDas. ¿Te animas? {url}', shareResultMessage:'He sacado {correct}/{total} en DerDieDas. ¿Te animas? {url}', shareInstagramMessage:'He sacado {correct}/{total} en DerDieDas.', quizReviewAnswers:'Ver respuestas', quizKeepPracticing:'Seguir practicando', quizPracticeErrors:'Practicar errores', quizReviewTitle:'Respuestas de la ronda', quizReviewSubtitle:'Revisa palabra, traducción, artículo correcto y tu respuesta de un vistazo.', quizReviewCorrect:'Artículo correcto', quizReviewYourAnswer:'Tu respuesta', quizReviewCorrectBadge:'Correcta', quizReviewIncorrectBadge:'Incorrecta', quizPracticeErrorsDisabled:'Sin errores en esta ronda', quizPracticeErrorsNote:'Mini quiz solo con falladas'
-    ,appProfileSoon:'Perfil próximamente', appCompetition:'Coliseo', competitionTitle:'El Coliseo de los artículos', competitionSubtitle:'Elige tu nivel o todos los niveles y compite en tres modos con rankings Top 10 separados.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Cada modo y cada pool tienen su propio ranking online.', competitionPlay:'Jugar', competitionBoardButton:'Ver Top 10', competitionLabel:'Modo', competitionHudMode:'Modo', competitionHudScore:'Puntuación', competitionHudTimer:'Tiempo', competitionModeActive:'Coliseo activo', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'Todavía no hay entradas. Sé la primera persona en entrar.', competitionLoadError:'No se pudo cargar el ranking.', competitionSaveTitle:'Guardar resultado', competitionSaveSubtitle:'Introduce tu nombre para entrar en el Top 10 de este modo.', competitionNameLabel:'Nombre', competitionNamePlaceholder:'Tu nombre', competitionSaveButton:'Guardar puntuación', competitionSaveSaving:'Guardando…', competitionSaveSuccess:'Puntuación guardada.', competitionSaveError:'No se pudo guardar la puntuación.', competitionSavedBadge:'Guardado', competitionBack:'Volver al Coliseo', competitionScoreUnit:'puntos', competitionFinishWrong:'Termina al primer fallo', competitionFinishTime:'Tiempo agotado', competitionFinishManual:'Partida finalizada', competitionModeSurvival:'Supervivencia', competitionModeTimed60:'1 minuto', competitionModeTimed180:'3 minutos', competitionDescSurvival:'Preguntas normales. Al primer fallo termina la partida. Puntuación = aciertos consecutivos.', competitionDescTimed60:'60 segundos. Responde el máximo número de preguntas posible. Los fallos no terminan la partida.', competitionDescTimed180:'180 segundos. Mismas reglas que 1 minuto, con más tiempo para remontar.', competitionPoolTitle:'Pools del Coliseo', competitionPoolSubtitle:'Entra en tu nivel o mezcla todos los niveles en una sola arena.', competitionPoolAll:'Coliseo todos los niveles', competitionPoolLabel:'Coliseo {level}', competitionPoolBadge:'Pool', competitionPoolAllDesc:'Mezcla todos los niveles disponibles en una sola arena.', competitionPoolLevelDesc:'Solo palabras del nivel {level}.', competitionThemeBadge:'Arena del día', competitionThemeSubtitle:'Fuchsy ya está listo en la arena del Coliseo.', competitionThemeImageAlt:'Fuchsy con armadura en el Coliseo', competitionEnterCta:'Entrar al Coliseo', competitionEntryBadge:'🏛 Coliseo', competitionEntryTitle:'El Coliseo de los artículos', competitionEntryText:'Entra en una arena premium con palabras solo de {level} y rankings separados por modo.', competitionEntryCta:'Entrar al Coliseo', competitionShareButton:'Compartir Coliseo', competitionCopyLink:'Copiar enlace', competitionShareMessage:'Estoy practicando artículos alemanes en el Coliseo {level} de DerDieDas. ¿Te atreves? {url}'
+    ,appProfileSoon:'Perfil próximamente', appCompetition:'Coliseo', competitionTitle:'El Coliseo de los artículos', competitionSubtitle:'Elige tu nivel o todos los niveles y compite en tres modos con rankings Top 10 separados.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Cada modo y cada arena tienen su propio ranking online.', competitionPlay:'Jugar', competitionBoardButton:'Ver Top 10', competitionLabel:'Modo', competitionHudMode:'Modo', competitionHudScore:'Puntuación', competitionHudTimer:'Tiempo', competitionModeActive:'Coliseo activo', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'Todavía no hay campeones. Sé la primera persona en pasar a la historia. Domina los artículos en alemán.', competitionLoadError:'No se pudo cargar el ranking.', competitionSaveTitle:'Guardar resultado', competitionSaveSubtitle:'Introduce tu nombre para entrar en el Top 10 de este modo.', competitionNameLabel:'Nombre', competitionNamePlaceholder:'Tu nombre', competitionSaveButton:'Guardar puntuación', competitionSaveSaving:'Guardando…', competitionSaveSuccess:'Puntuación guardada.', competitionSaveError:'No se pudo guardar la puntuación.', competitionSavedBadge:'Guardado', competitionBack:'Volver al Coliseo', competitionScoreUnit:'puntos', competitionFinishWrong:'Termina al primer fallo', competitionFinishTime:'Tiempo agotado', competitionFinishManual:'Partida finalizada', competitionModeSurvival:'Supervivencia', competitionModeTimed60:'1 minuto', competitionModeTimed180:'3 minutos', competitionDescSurvival:'Acierta tantos artículos como puedas, conviértete en el campeón legendario. Al primer fallo termina la partida.', competitionDescTimed60:'Acierta tantos artículos como puedas en 60 segundos. Precisión y velocidad.', competitionDescTimed180:'Que nadie diga que tuviste suerte. Demuestra que el tiempo no es un problema.', competitionPoolTitle:'Elige tu Arena', competitionPoolSubtitle:'Este selector solo cambia la arena que comparte su propio Top 10.', competitionPoolAll:'Coliseo todos los niveles', competitionPoolLabel:'Coliseo {level}', competitionPoolBadge:'', competitionPoolAllDesc:'Mezcla todos los niveles disponibles en una sola arena.', competitionPoolLevelDesc:'Solo palabras del nivel {level}.', competitionThemeBadge:'Arena activa', competitionThemeSubtitle:'La arena seleccionada controla los modos y su ranking.', competitionThemeImageAlt:'Fuchsy con armadura en el Coliseo', competitionEnterCta:'Entrar al Coliseo', competitionEntryBadge:'🏛 Coliseo', competitionEntryTitle:'El Coliseo de los artículos', competitionEntryText:'Entra en una arena premium con palabras solo de {level} y rankings separados por modo.', competitionEntryCta:'Entrar al Coliseo', competitionShareButton:'Compartir Coliseo', competitionCopyLink:'Copiar enlace', competitionShareMessage:'Estoy practicando artículos alemanes en el Coliseo {level} de DerDieDas. ¿Te atreves? {url}'
   },
   en: {
     topbarText:'der die das by Vokabel Lab | Master the articles',
@@ -1674,7 +1754,7 @@ const UI = {
     quizRetry:'Try again →', quizOtherCategory:'Another topic →', limitTitle:'Promo live', limitText:'For a limited time, you have unlimited free access to all levels and categories.',
     limitButton:'Keep practicing →', limitBack:'Back to levels', resultLabel:'{correct} of {total} correct', toastPremium:'Temporary free access is active',
     toastPlans:'Taking you to pricing…', toastPremiumSoon:'Temporary free access', demoName:'Demo', words:'words', categories:'topics', roundsUsed:'You have already played {rounds} rounds today', premiumRounds:'Promo live: unlimited rounds + all levels', streak:'days', freeChip:'Free', proChip:'Free+', quizBack:'Back', quizMenu:'Back to menu', quizStreak:'Streak', quizFinish:'Finish exercise', copyLink:'Share with friends', copiedLink:'Link copied', copiedResult:'Result copied', copiedInstagram:'Instagram text copied', shareFriendsCta:'Share with friends', shareLevelTitle:'Share this level', shareWhatsapp:'WhatsApp', shareCopyLink:'Copy link', shareCopyLevelLink:'Copy level link', shareProgressTitle:'Share your progress', shareCopyResult:'Copy result', shareCopyInstagram:'Copy for Instagram', resultMsgHigh:'Well done!', resultMsgMid:'Good job!', resultMsgLow:'Keep it up!', quizPrev:'← Previous', igStoryScore:'{correct} of {total} correct', igStoryLevel:'Level {level}', igStoryToast:'Image downloaded · Open it in your Instagram Story', shareLevelMessage:'I am practicing German articles in DerDieDas at level {level}. Want to try? {url}', shareAppMessage:'I am practicing German articles in DerDieDas. Want to try? {url}', shareResultMessage:'I scored {correct}/{total} in DerDieDas. Want to try? {url}', shareInstagramMessage:'I scored {correct}/{total} in DerDieDas.', quizReviewAnswers:'Review answers', quizKeepPracticing:'Keep practicing', quizPracticeErrors:'Practice mistakes', quizReviewTitle:'Round answers', quizReviewSubtitle:'Review the word, translation, correct article, and your answer at a glance.', quizReviewCorrect:'Correct article', quizReviewYourAnswer:'Your answer', quizReviewCorrectBadge:'Correct', quizReviewIncorrectBadge:'Incorrect', quizPracticeErrorsDisabled:'No mistakes this round', quizPracticeErrorsNote:'Mini quiz with your missed words only'
-    ,appProfileSoon:'Profile coming soon', appCompetition:'Coliseum', competitionTitle:'The Coliseum of Articles', competitionSubtitle:'Choose one level or all levels and compete in three modes with separate Top 10 leaderboards.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Each mode and each pool has its own online leaderboard.', competitionPlay:'Play', competitionBoardButton:'View Top 10', competitionLabel:'Mode', competitionHudMode:'Mode', competitionHudScore:'Score', competitionHudTimer:'Time', competitionModeActive:'Coliseum active', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'No entries yet. Be the first to place.', competitionLoadError:'Could not load the leaderboard.', competitionSaveTitle:'Save result', competitionSaveSubtitle:'Enter your name to join this mode leaderboard.', competitionNameLabel:'Name', competitionNamePlaceholder:'Your name', competitionSaveButton:'Save score', competitionSaveSaving:'Saving…', competitionSaveSuccess:'Score saved.', competitionSaveError:'Could not save the score.', competitionSavedBadge:'Saved', competitionBack:'Back to the Coliseum', competitionScoreUnit:'points', competitionFinishWrong:'Ends on the first mistake', competitionFinishTime:'Time is up', competitionFinishManual:'Round finished', competitionModeSurvival:'Survival', competitionModeTimed60:'1 minute', competitionModeTimed180:'3 minutes', competitionDescSurvival:'Normal questions. The round ends on your first mistake. Score = consecutive correct answers.', competitionDescTimed60:'60 seconds. Answer as many questions as possible. Mistakes do not end the round.', competitionDescTimed180:'180 seconds. Same rules as 1 minute, with more time to recover.', competitionPoolTitle:'Coliseum pools', competitionPoolSubtitle:'Enter your own level or throw every level into one arena.', competitionPoolAll:'Coliseum all levels', competitionPoolLabel:'Coliseum {level}', competitionPoolBadge:'Pool', competitionPoolAllDesc:'Mixes all available levels into one arena.', competitionPoolLevelDesc:'Only words from level {level}.', competitionThemeBadge:'Arena of the day', competitionThemeSubtitle:'Fuchsy is already standing by in the Coliseum arena.', competitionThemeImageAlt:'Fuchsy wearing armor in the Coliseum', competitionEnterCta:'Enter the Coliseum', competitionEntryBadge:'🏛 Coliseum', competitionEntryTitle:'The Coliseum of Articles', competitionEntryText:'Enter a premium arena with words only from {level} and separate leaderboards by mode.', competitionEntryCta:'Enter the Coliseum', competitionShareButton:'Share Coliseum', competitionCopyLink:'Copy link', competitionShareMessage:'I am practicing German articles in the {level} Coliseum of DerDieDas. Dare to enter? {url}'
+    ,appProfileSoon:'Profile coming soon', appCompetition:'Coliseum', competitionTitle:'The Coliseum of Articles', competitionSubtitle:'Choose one level or all levels and compete in three modes with separate Top 10 leaderboards.', competitionBrowseTitle:'Top 10', competitionBrowseSubtitle:'Each mode and each arena has its own online leaderboard.', competitionPlay:'Play', competitionBoardButton:'View Top 10', competitionLabel:'Mode', competitionHudMode:'Mode', competitionHudScore:'Score', competitionHudTimer:'Time', competitionModeActive:'Coliseum active', competitionTop10Title:'Top 10 · {mode}', competitionEmpty:'There are no champions yet. Be the first to make history. Master German articles.', competitionLoadError:'Could not load the leaderboard.', competitionSaveTitle:'Save result', competitionSaveSubtitle:'Enter your name to join this mode leaderboard.', competitionNameLabel:'Name', competitionNamePlaceholder:'Your name', competitionSaveButton:'Save score', competitionSaveSaving:'Saving…', competitionSaveSuccess:'Score saved.', competitionSaveError:'Could not save the score.', competitionSavedBadge:'Saved', competitionBack:'Back to the Coliseum', competitionScoreUnit:'points', competitionFinishWrong:'Ends on the first mistake', competitionFinishTime:'Time is up', competitionFinishManual:'Round finished', competitionModeSurvival:'Survival', competitionModeTimed60:'1 minute', competitionModeTimed180:'3 minutes', competitionDescSurvival:'Hit as many articles as you can and become the legendary champion. The round ends on your first mistake.', competitionDescTimed60:'Hit as many articles as you can in 60 seconds. Precision and speed.', competitionDescTimed180:'Let nobody say you just got lucky. Prove that time is not a problem.', competitionPoolTitle:'Choose your Arena', competitionPoolSubtitle:'This selector only changes which arena shares its own Top 10.', competitionPoolAll:'Coliseum all levels', competitionPoolLabel:'Coliseum {level}', competitionPoolBadge:'', competitionPoolAllDesc:'Mixes all available levels into one arena.', competitionPoolLevelDesc:'Only words from level {level}.', competitionThemeBadge:'Active arena', competitionThemeSubtitle:'The selected arena controls the modes and leaderboard.', competitionThemeImageAlt:'Fuchsy wearing armor in the Coliseum', competitionEnterCta:'Enter the Coliseum', competitionEntryBadge:'🏛 Coliseum', competitionEntryTitle:'The Coliseum of Articles', competitionEntryText:'Enter a premium arena with words only from {level} and separate leaderboards by mode.', competitionEntryCta:'Enter the Coliseum', competitionShareButton:'Share Coliseum', competitionCopyLink:'Copy link', competitionShareMessage:'I am practicing German articles in the {level} Coliseum of DerDieDas. Dare to enter? {url}'
   }
 };
 
@@ -2517,6 +2597,10 @@ function copyColiseoLink(poolId = currentCompetitionPoolId) {
   return copySharePayload({ clipboardText: payload.url }, 'copiedLink');
 }
 
+function copyColiseoInstagramText(poolId = currentCompetitionPoolId) {
+  return copySharePayload(buildColiseoSharePayload(poolId), 'copiedInstagram');
+}
+
 function shareColiseoWhatsApp(poolId = currentCompetitionPoolId) {
   openWhatsAppPayload(buildColiseoSharePayload(poolId));
 }
@@ -2837,10 +2921,8 @@ async function renderCompetitionLeaderboard(leaderboardKey, targetId = 'competit
 
 function renderCompetitionHub() {
   const modes = getCompetitionModesApi().listCompetitionModes();
-  const activeModeId = selectedCompetitionLeaderboardMode;
   const activePoolId = currentCompetitionPoolId || 'all';
   const theme = getColiseoTheme(activePoolId);
-  const competitionKey = getCompetitionLeaderboardKey(activeModeId, activePoolId);
   const pools = LEVELS.map((level) => ({ id: level.id, label: t('competitionPoolLabel', { level: level.label }) }))
     .concat([{ id: 'all', label: t('competitionPoolAll') }]);
   document.getElementById('competitionInner').innerHTML = `
@@ -2848,91 +2930,103 @@ function renderCompetitionHub() {
       <h1>${t('competitionTitle')}</h1>
       <p>${t('competitionSubtitle')}</p>
     </div>
-    <div class="competition-panel" style="margin-bottom:20px">
-      <div class="competition-hero">
-        <div class="competition-hero-copy">
-          <div class="competition-card-label">${theme.eyebrow}</div>
-          <h2 style="margin-top:10px">${theme.title}</h2>
-          <p>${theme.subtitle}</p>
-        </div>
-        <div class="competition-hero-art">
-          <div class="competition-hero-frame">
-            <img src="${theme.imageSrc}" alt="${escapeInlineHtml(theme.imageAlt)}" loading="eager" decoding="async">
-            <div class="competition-hero-stamp">${theme.icon}<span>${theme.eyebrow}</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="competition-card-actions">
-        <button class="result-btn soft" type="button" onclick="shareColiseoWhatsApp('${activePoolId}')">${t('competitionShareButton')}</button>
-        <button class="result-btn soft" type="button" onclick="copyColiseoLink('${activePoolId}')">${t('competitionCopyLink')}</button>
-      </div>
-    </div>
-    <div class="competition-panel" style="margin-bottom:20px">
+    <div class="competition-panel competition-pool-panel">
       <h2>${t('competitionPoolTitle')}</h2>
       <p>${t('competitionPoolSubtitle')}</p>
-      <div class="competition-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div class="competition-pool-grid">
         ${pools.map((pool) => `
-          <button class="competition-card ${pool.id === activePoolId ? 'is-active' : ''}" type="button" onclick="openColiseoView('${pool.id}')">
+          <button class="competition-card competition-pool-card ${pool.id === activePoolId ? 'is-active' : ''}" type="button" onclick="openColiseoView('${pool.id}')">
             <div class="competition-card-top">
               <div>
-                <div class="competition-card-label">${t('competitionPoolBadge')}</div>
+                <div class="competition-pool-level">${pool.id === 'all' ? 'ALL' : (getLevelLabel(pool.id) || pool.id.toUpperCase())}</div>
                 <h3>${pool.label}</h3>
               </div>
-              <div style="font-size:26px">🏛</div>
-            </div>
-            <p>${pool.id === 'all' ? t('competitionPoolAllDesc') : t('competitionPoolLevelDesc', { level: getLevelLabel(pool.id) || pool.id.toUpperCase() })}</p>
-            <div class="competition-card-actions">
-              <span class="competition-chip">${t('competitionEnterCta')}</span>
             </div>
           </button>
         `).join('')}
       </div>
     </div>
-    <div class="competition-layout">
-      <div class="competition-grid">
+    <div class="competition-active-banner">
+      <div class="competition-hero">
+        <div class="competition-hero-copy">
+          <div class="competition-hero-head">
+            <div>
+              <div class="competition-card-label">${theme.eyebrow}</div>
+              <h2>${theme.title}</h2>
+            </div>
+          </div>
+          <p>${theme.subtitle}</p>
+        </div>
+        <div class="competition-hero-art">
+          <div class="competition-hero-frame">
+            <img src="${theme.imageSrc}" alt="${escapeInlineHtml(theme.imageAlt)}" loading="eager" decoding="async">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="competition-grid competition-modes-grid">
         ${modes.map((mode) => {
           const meta = getCompetitionModeMeta(mode.id);
-          const durationChip = mode.durationSeconds ? formatCompetitionTime(mode.durationSeconds) : '∞';
-          const finishCopy = mode.endsOnWrongAnswer ? t('competitionFinishWrong') : t('competitionFinishTime');
           return `
             <div class="competition-card">
               <div class="competition-card-top">
-                <div>
-                  <div class="competition-card-label">${t('competitionLabel')}</div>
+                <div class="competition-mode-title">
+                  <div class="competition-card-label">${t('competitionLabel')} · ${getColiseoPoolLabel(activePoolId, { withPrefix: true })}</div>
                   <h3>${meta.title}</h3>
                 </div>
-                <button class="result-btn soft" type="button" onclick="selectCompetitionLeaderboardMode('${mode.id}')">${t('competitionBoardButton')}</button>
+                <button class="competition-board-trigger" type="button" onclick="selectCompetitionLeaderboardMode('${mode.id}')">↗ ${t('competitionBoardButton')}</button>
               </div>
               <p>${meta.description}</p>
-              <div class="competition-card-meta">
-                <div class="competition-chip">${durationChip}</div>
-                <div class="competition-chip">${finishCopy}</div>
-                <div class="competition-chip">${getColiseoPoolLabel(activePoolId, { withPrefix: true })}</div>
-              </div>
               <div class="competition-card-actions">
-                <button class="result-btn primary" type="button" onclick="startCompetitionMode('${mode.id}')">${t('competitionPlay')}</button>
+                <button class="result-btn primary competition-play-btn" type="button" onclick="startCompetitionMode('${mode.id}')">${t('competitionPlay')}</button>
               </div>
             </div>
           `;
         }).join('')}
+    </div>
+    <div class="competition-panel competition-share-footer">
+      <div class="ig-share-title">${t('competitionShareButton')}</div>
+      <div class="ig-share-grid">
+        <button class="ig-story-btn" type="button" onclick="copyColiseoInstagramText('${activePoolId}')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </button>
+        <button class="wa-story-btn" type="button" onclick="shareColiseoWhatsApp('${activePoolId}')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.95 2C6.456 2 2 6.456 2 11.95c0 1.939.554 3.748 1.512 5.278L2 22l4.878-1.493A9.906 9.906 0 0 0 11.95 22c5.494 0 9.95-4.456 9.95-9.95S17.444 2 11.95 2z"/></svg>
+          WhatsApp
+        </button>
+        <button class="share-link-btn" type="button" onclick="copyColiseoLink('${activePoolId}')">🔗 ${t('competitionCopyLink')}</button>
       </div>
-      <aside class="competition-panel">
-        <h2>${t('competitionBrowseTitle')}</h2>
-        <p>${t('competitionBrowseSubtitle')}</p>
-        <div class="competition-chip" style="margin-bottom:16px">${t('competitionTop10Title', { mode: getCompetitionModeMeta(activeModeId)?.title || activeModeId })}</div>
-        <div class="competition-chip" style="margin-bottom:16px">${getColiseoPoolLabel(activePoolId, { withPrefix: true })}</div>
-        <div id="competitionLeaderboardBody"></div>
-      </aside>
     </div>
   `;
-  renderCompetitionLeaderboard(competitionKey);
 }
 
 function selectCompetitionLeaderboardMode(modeId) {
   selectedCompetitionLeaderboardMode = modeId;
-  if (document.getElementById('v-competition')?.classList.contains('on')) {
-    renderCompetitionHub();
+  openCompetitionLeaderboard(modeId);
+}
+
+function closeCompetitionLeaderboard() {
+  const overlay = document.getElementById('competitionBoardOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('on');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function openCompetitionLeaderboard(modeId = selectedCompetitionLeaderboardMode) {
+  const activePoolId = currentCompetitionPoolId || 'all';
+  const leaderboardKey = getCompetitionLeaderboardKey(modeId, activePoolId);
+  selectedCompetitionLeaderboardMode = modeId;
+  const title = document.getElementById('competitionBoardTitle');
+  const sub = document.getElementById('competitionBoardSub');
+  const overlay = document.getElementById('competitionBoardOverlay');
+  if (title) title.textContent = t('competitionTop10Title', { mode: getCompetitionModeMeta(modeId)?.title || modeId });
+  if (sub) sub.textContent = getColiseoPoolLabel(activePoolId, { withPrefix: true });
+  if (overlay) {
+    overlay.classList.add('on');
+    overlay.setAttribute('aria-hidden', 'false');
   }
+  renderCompetitionLeaderboard(leaderboardKey, 'competitionBoardBody');
 }
 
 function startCompetitionMode(modeId) {
