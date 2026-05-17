@@ -16,7 +16,7 @@ const indexFile = path.join(publicDir, "index.html");
 const SHAREABLE_LEVELS = new Set(["a1", "a2", "b1", "b2", "c1", "c2"]);
 const COMPETITION_SHARE_IMAGE = "/shared/coliseo-fuchsy.webp";
 const COMPETITION_SHARE_TITLE = "El Coliseo de los Artículos · DerDieDas by Vokabel Lab";
-const COMPETITION_SHARE_DESCRIPTION = "¡Hey! Mira mis resultados en “El Coliseo de los Artículos” de DerDieDas by Vokabel Lab. Fuchsy ya está armado. ¿Te atreves?";
+const COMPETITION_SHARE_DESCRIPTION = "¡Hey! Mira mis resultados en “El Coliseo de los Artículos” de DerDieDas by Vokabel Lab. Fuchsy ya está preparado. ¿Te atreves?";
 // MVP persistence uses a local JSON file. Production should swap this adapter for
 // Supabase or another durable store without changing the competition API surface.
 const leaderboardService = createLeaderboardService({
