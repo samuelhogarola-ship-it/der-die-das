@@ -14,6 +14,9 @@ const publicDir = fs.existsSync(path.join(rootFrontendDir, "index.html"))
   : legacyFrontendDir;
 const indexFile = path.join(publicDir, "index.html");
 const SHAREABLE_LEVELS = new Set(["a1", "a2", "b1", "b2", "c1", "c2"]);
+const COMPETITION_SHARE_IMAGE = "/shared/coliseo-fuchsy.webp";
+const COMPETITION_SHARE_TITLE = "El Coliseo de los Artículos · DerDieDas by Vokabel Lab";
+const COMPETITION_SHARE_DESCRIPTION = "¡Hey! Mira mis resultados en “El Coliseo de los Artículos” de DerDieDas by Vokabel Lab. Fuchsy ya está armado. ¿Te atreves?";
 // MVP persistence uses a local JSON file. Production should swap this adapter for
 // Supabase or another durable store without changing the competition API surface.
 const leaderboardService = createLeaderboardService({
@@ -40,8 +43,45 @@ function getLevelLabel(levelId) {
   return levelId ? levelId.toUpperCase() : null;
 }
 
+function getCompetitionViewFromQuery(rawView) {
+  return String(rawView || "").trim().toLowerCase() === "coliseo" ? "coliseo" : null;
+}
+
+function getCompetitionPoolIdFromQuery(rawLevel) {
+  const value = String(rawLevel || "").trim().toLowerCase();
+  return value === "all" || SHAREABLE_LEVELS.has(value) ? value : null;
+}
+
+function buildRequestUrl(req, baseUrl) {
+  return new URL(req.originalUrl || "/", baseUrl);
+}
+
 function buildMetadata(req) {
   const baseUrl = `${req.protocol}://${req.get("host")}`;
+  const requestUrl = buildRequestUrl(req, baseUrl);
+  const competitionView = getCompetitionViewFromQuery(req.query && req.query.view);
+  const competitionPoolId = getCompetitionPoolIdFromQuery(req.query && req.query.level);
+
+  if (competitionView === "coliseo") {
+    requestUrl.searchParams.set("view", "coliseo");
+    if (competitionPoolId) {
+      requestUrl.searchParams.set("level", competitionPoolId);
+    } else {
+      requestUrl.searchParams.delete("level");
+    }
+    requestUrl.searchParams.delete("nivel");
+
+    return {
+      title: COMPETITION_SHARE_TITLE,
+      description: COMPETITION_SHARE_DESCRIPTION,
+      canonicalUrl: requestUrl.toString(),
+      imageUrl: new URL(COMPETITION_SHARE_IMAGE, baseUrl).toString(),
+      imageAlt: "Fuchsy con armadura en el Coliseo",
+      ogType: "website",
+      twitterCard: "summary_large_image"
+    };
+  }
+
   const levelId = getLevelFromQuery(req.query && req.query.nivel);
   const levelLabel = getLevelLabel(levelId);
   const canonicalUrl = levelLabel
@@ -59,7 +99,10 @@ function buildMetadata(req) {
     title,
     description,
     canonicalUrl,
-    imageUrl
+    imageUrl,
+    imageAlt: "Logo de DerDieDas",
+    ogType: "website",
+    twitterCard: "summary_large_image"
   };
 }
 
@@ -71,10 +114,13 @@ function renderIndex(req) {
     .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(meta.title)}</title>`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${escapeHtml(meta.description)}">`)
     .replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${escapeHtml(meta.canonicalUrl)}">`)
+    .replace(/<meta property="og:type" content="[^"]*">/, `<meta property="og:type" content="${escapeHtml(meta.ogType)}">`)
     .replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${escapeHtml(meta.title)}">`)
     .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${escapeHtml(meta.description)}">`)
     .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${escapeHtml(meta.canonicalUrl)}">`)
     .replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${escapeHtml(meta.imageUrl)}">`)
+    .replace(/<meta property="og:image:alt" content="[^"]*">/, `<meta property="og:image:alt" content="${escapeHtml(meta.imageAlt)}">`)
+    .replace(/<meta name="twitter:card" content="[^"]*">/, `<meta name="twitter:card" content="${escapeHtml(meta.twitterCard)}">`)
     .replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${escapeHtml(meta.title)}">`)
     .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${escapeHtml(meta.description)}">`)
     .replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${escapeHtml(meta.imageUrl)}">`);
